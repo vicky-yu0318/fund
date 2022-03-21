@@ -1,0 +1,690 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
+* {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+img {
+    vertical-align: middle;
+}
+:root {
+    /* 淺紫#D0B7CC */
+    /* 深綠#25322B */
+    /* 紫色#9B81AE */
+    /* 銀色#CEB9AC */
+    /* 亮銀#EDE4DF */
+    /* 考慮灰aliceblue */
+    --main-color: #25322B;
+    --side-color: #9B81AE;
+    --side-color-active: #D0B7CC;
+    --third-color: goldenrod;
+    --third-color-active: rgb(224, 192, 7);
+    --light-color: #ccc;
+
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    height: 100%;
+}
+.btn {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: var(--side-color);
+    border-radius: 10px;
+    font-size: 16px;
+    display: inline-block;
+}
+.btn:hover {
+    background-color: var(--side-color-active);
+}
+
+.btn-choose {
+    border-radius: 5px;
+    border: 1px solid var(--light-color);
+    padding: 5px 10px;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.btn-choose i {
+    padding-right: 5px;
+    color: var(--light-color); 
+}
+
+.btn-choose.active {
+    border-color: var(--side-color);
+    color: var(--side-color);
+    font-weight: 600;
+}
+
+.btn-choose.active i {
+    color: var(--side-color);
+}
+.btn-more {
+    cursor: pointer;
+    font-weight: 600;
+    color: #aaa;
+    font-size: 20px;
+    width: 15%;
+    text-align: right;
+}
+.btn-more:hover {
+    color: var(--light-color);
+}
+
+h2 {
+    color: var(--side-color);
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+h2 i {
+    padding-right: 10px;
+}
+
+.section {
+    padding: 50px 0;
+}
+
+/* ========== header ============= */
+.header {
+    /* padding: 10px 0; */
+    height: 70px;
+    background-color: var(--main-color);
+}
+.header .container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .logo {
+    display: inline-block;
+    font-size: 40px;
+    letter-spacing: 8px;
+    color: #fff;
+}
+
+.header .navbar {
+    position: absolute;
+    top: 100%;
+    right: 0; left: 0;
+    font-size: 0;
+}
+.header .navbar.active {
+    position: fixed;
+    right: 0; left: 0;
+    top: 0;
+    /* fixed就會依據視窗給予寬，所以不想跟他一樣，就設定max-width */
+    max-width: 1200px;
+    margin: auto;
+    z-index: 1000;
+    animation: slowDown .3s linear;
+}
+
+@keyframes slowDown {
+    0% {
+        transform: translateY(-80%);
+
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+.header .navbar.active a {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.header .navbar a {
+    background-color: #fff;
+    display: inline-block;
+    width: calc(33.33333333333% - 1.333333px);
+    text-align: center;
+    color: var(--main-color);
+    font-size: 20px;
+    padding: 15px 0;
+    border-right: 1px solid var(--light-color);
+    box-shadow: 0 10px 15px rgba(0,0,0,.1);
+    font-weight: 600;
+}
+.header .navbar a:first-child {
+    border-left: 1px solid var(--light-color);
+}
+.header .navbar a i {
+    padding-right: 5px;
+    transition: .2s linear;
+}
+
+.header .navbar a:hover {
+    box-shadow: 0 10px 15px rgba(0,0,0,.15);
+}
+.header .navbar a:hover i {
+    transform: scaleX(-1);
+}
+.header .assistant {
+    position: fixed;
+    bottom: 0px;
+    right: 25px;
+    z-index: 101;
+}
+
+.header .assistant .btn-assistant {
+    cursor: pointer;
+    font-size: 40px;
+    color: var(--side-color);
+}
+
+.header .assistant .remark {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,.5);
+    padding: 15px;
+    top: -100px;
+    right: 0;
+    width: 150px;
+    border-radius: 30px;
+}
+.header .assistant .remark::after {
+    content: '';
+    position: absolute;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-top: 10px solid #fff;
+    bottom: -10px;
+    left: 50%; right: 0;
+    width: 0;
+    margin: auto;
+}
+.header .assistant .remark::before {
+    content: '';
+    position: absolute;
+    border-right: 20px solid transparent;
+    border-left: 20px solid transparent;
+    border-top: 20px solid rgba(0,0,0,.08);
+    bottom: -20px;
+    left: 50%; right: 0;
+    width: 0;
+    margin: auto;
+}
+
+/* ========== breadcrumb ============ */
+.breadcrumb {
+    padding-top: 100px;
+}
+.breadcrumb .breadcrumb-list li {
+    display: inline-block;
+}
+.breadcrumb .breadcrumb-list li + li::before {
+    content: '>';
+    display: inline-block;
+    padding: 0 8px;
+    color: #aaa;
+}
+
+.breadcrumb .breadcrumb-list li a {
+    color: #aaa;
+}
+.breadcrumb .breadcrumb-list li a:hover {
+    color: var(--side-color);
+    font-weight: 600;
+}
+.breadcrumb .breadcrumb-list li a.active {
+    color: var(--side-color);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+
+/* =========== section-searchFund =========== */
+
+.section-searchFund .searchResult-title {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--light-color);
+}
+
+.section-searchFund .searchResult-title span {
+    font-size: 40px;
+    color: var(--third-color);
+    font-weight: 600;
+    padding-right: 10px;
+}
+.section-searchFund .searchResult-title .btn {
+    margin-left: 20px;
+}
+
+.section-searchFund .notes {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.section-searchFund .notes span {
+    color: var(--light-color);
+}
+.section-searchFund .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.section-searchFund .row::after {
+    content: '';
+    background-color: var(--light-color);
+    width: 100%;
+    height: 1px;
+    display: block;
+    margin: 20px 0;
+}
+.section-searchFund .row .title {
+    width: 15%;
+    font-weight: 600;
+    font-size: 20px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+.section-searchFund .title .title-description {
+    padding: 10px;
+    background-color: rgba(0,0,0,.3);
+    border-radius: 5px;
+    color: #fff;
+    position: absolute;
+    width: 600px;
+    top: 120%; 
+    left: 0;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 2;
+    display: none;
+}
+.section-searchFund .title .title-description::before {
+    content: '';
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    top: -10px; 
+    left: 95px;
+    margin: auto;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom:  10px solid rgba(0,0,0,.3);
+}
+.section-searchFund .title .title-description:hover div,
+.section-searchFund .title .title-description:hover div i {
+    color: var(--third-color-active);
+}
+.section-searchFund .title .title-description div {
+    text-align: right;
+    padding-top: 20px;
+}
+.section-searchFund .row .title i {
+    color: var(--light-color);
+}
+
+.section-searchFund .row .keyword-wrap {
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.section-searchFund .row .keyword-wrap input {
+    padding: 13px;
+    outline: none;
+    border: 1px solid var(--light-color);
+    border-radius: 5px;
+    font-size: 20px;
+}
+.section-searchFund .row .keyword-wrap .input-field {
+    position: relative;
+}
+
+.section-searchFund .row .keyword-wrap input::placeholder {
+    color: var(--light-color);
+}
+.section-searchFund .row .keyword-wrap input:focus::placeholder {
+    color: #000;
+}
+
+.section-searchFund .row .keyword-wrap input:focus {
+    border-color: var(--side-color);
+}
+
+.section-searchFund .row .keyword-wrap .match-list {
+    padding-left: 0;
+    position: absolute;
+    right: 0; left: 0;
+    border: 1px solid var(--side-color);
+    z-index: 100;
+    background-color: #fff;
+}
+
+.section-searchFund .match-item {
+    display: flex;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.section-searchFund .match-item:hover {
+    background-color: var(--side-color);
+    color: #fff;
+}
+.section-searchFund .match-item .code {
+    padding-right: 10px;
+}
+.section-searchFund .match-item .code span {
+    color: var(--third-color);
+}
+
+.section-searchFund .row .keyword-wrap .btn-searchFund {
+    color: #fff;
+    font-size: 30px;
+    background-color: var(--third-color);
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.section-searchFund .row .keyword-wrap .btn-searchFund:hover {
+    background-color: var(--third-color-active);
+}
+
+.section-searchFund .row .content {
+    width: 70%;
+}
+.section-searchFund .content .keyword-wrap {
+    margin-bottom: 20px;
+}
+.section-searchFund .content .btn-more {
+    padding-top: 20px;
+}
+
+.section-searchFund .content .category {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+.section-searchFund .content .category label {
+    padding-right: 25px;
+}
+.section-searchFund .rating {
+    width: 80%;
+}
+.section-searchFund .rating i {
+    cursor: pointer;
+    color: var(--light-color);
+    padding-right: 10px;
+}
+.section-searchFund .rating i.active {
+    color: var(--third-color);
+}
+.section-searchFund .rating .rating-remark {
+    display: inline-block;
+}
+.section-searchFund .rating .rating-remark span {
+    color: var(--third-color);
+    padding-right: 3px;
+    padding-left: 5px;
+    font-weight: 600;
+}
+
+.section-searchFund .asset-block .content {
+    display: flex;
+    align-items: center;
+}
+.section-searchFund .asset-block .content .btn-asset-choose {
+    margin-right: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+ 
+/* =========== section-searchResult =========== */
+.section-searchResult .search-condition {
+    padding-bottom: 30px;
+}
+.section-searchResult .condition-item {
+    background-color: var(--light-color);
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 30px;
+    margin-right: 10px;
+}
+.section-searchResult .condition-item i {
+    padding-left: 8px;
+    cursor: pointer;
+}
+.section-searchResult .condition-item i:hover {
+    color: #fff;
+}
+
+.section-searchResult .searchResult {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    /* 這邊padding和li百分比寬度無關 */
+    gap: 6px;
+    position: relative;
+
+}
+.section-searchResult .searchResult::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--side-color);
+    /* 使用絕對定位就可以不受padding影響 */
+}
+
+.section-searchResult .searchResult li {
+    background-color: var(--light-color);
+    width: calc(33.3333333% - 4px);
+    text-align: center;
+    color: #000;
+    font-size: 20px;
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section-searchResult .searchResult li.active {
+    background-color: var(--side-color);
+    color: #fff;
+}
+
+.section-searchResult .content {
+    padding-top: 30px;
+}
+
+.section-searchResult .content .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.section-searchResult .content .row li {
+    width: calc(20% - 2px);
+    border: 1px solid var(--light-color);
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-searchResult .btn-compare,
+.section-searchResult .btn-heart {
+    display: block;
+    border-radius: 5px;
+    background-color: var(--side-color);
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.section-searchResult .btn-compare i {
+    padding-right: 7px;
+}
+.section-searchResult .btn-heart i {
+    padding-right: 5px;
+}
+
+.section-searchResult .btn-compare:hover,
+.section-searchResult .btn-heart:hover {
+    background-color: var(--side-color-active);
+}
+
+.section-searchResult .btn-buy {
+    border-radius: 30px;
+    background-color: var(--third-color);
+    color: #fff;
+    padding: 5px 30px;
+}
+.section-searchResult .btn-buy:hover {
+    background-color: var(--third-color-active);
+}
+
+/* ============ .compare-fixed ============== */
+/* 調整成一樣大，就不怕蓋到其他 */
+.compare-fixed .container {
+    position: fixed;
+    right: 0;
+    left: 0;
+    margin: auto;
+    /* left: calc(600px + 400px);  */
+    bottom: 0;
+    width: 40%;
+    max-width: 400px;
+    z-index: 100;
+    height: 40px;
+    
+    /* 前面有吃到 */
+    /* width: 100%; */
+    /* max-width: 1200px; */
+    /* margin: auto; */
+}
+.compare-window {
+    position: absolute;
+    right: 0; bottom: 0;
+    border: 1px solid var(--side-color);
+    border-radius: 5px;
+    z-index: 101;
+    background-color: #fff;
+    /* padding-bottom: 40px; */
+    width: 100%;
+}
+
+.compare-window .window-head {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background-color: var(--side-color);
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+    /* opacity: 0; */
+}
+.compare-window .window-head.active {
+    display: flex;
+    animation: show .2s linear
+}
+.compare-window .window-head .title {
+    margin: auto;
+}
+.compare-window .window-head .fas {
+    font-size: 18px;
+}
+.compare-window .compare-list {
+    background-color: #fff;
+    padding: 10px 20px;
+}
+.compare-window  .window-body {
+    display: none;
+    margin-bottom: 70px;
+    /* opacity: 0; */
+}
+.compare-window  .window-body.active {
+    display: block;
+    animation: show .2s linear
+}
+@keyframes show {
+    0% {
+       opacity: 0;
+
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.compare-window .compare-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 15px;
+}
+.compare-window .compare-item::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: var(--side-color);
+    bottom: -5px; left: 0;
+}
+.compare-window .compare-item .fund span {
+    display: block;
+    color: #aaa;
+}
+.compare-window .compare-item .btn-close {
+    font-size: 20px;
+    cursor: pointer;
+}
+.compare-window .compare-item .btn-close:hover {
+    color: var(--light-color);
+}
+/* 本先天inline變block 寬並不會因此滿版 */
+.compare-window .btn {
+    display: block;
+    margin: 20px auto;
+}
+.compare-window .compare-window-footer {
+    position: absolute;
+    right: 0; left: 0;
+    bottom: 0;
+    z-index: 101;
+}
+.compare-window .compare-window-footer .btn-list {
+    display: flex;
+}
+.compare-window .compare-window-footer .btn-list div {
+    width: 50%;
+    background-color: #fff;
+    border: 1px solid var(--side-color);
+    border-radius: 3px;
+    padding: 5px 0;
+    text-align: center;
+    color: var(--side-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+.compare-window .compare-window-footer .btn-list div.active {
+    background-color:  var(--side-color);
+    color: #fff;
+}
+.compare-window .compare-window-footer .btn-list div span {
+    margin-left: 5px;
+    background-color: var(--third-color);
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}

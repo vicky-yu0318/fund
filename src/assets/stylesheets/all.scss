@@ -1,0 +1,6 @@
+// 為了樣式分離，將他貼到reset.scss
+@import "~bootstrap/scss/functions";
+@import "./helpers/variables";
+@import "~bootstrap/scss/bootstrap";
+
+@import './custom/custom';
