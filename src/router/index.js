@@ -10,6 +10,14 @@ const routes = [
         component: () => import('@/views/front/fundResearch.vue')
       },
       {
+        path: '/compare',
+        component: () => import('@/views/front/Compare.vue')
+      },
+      {
+        path: '/mainchart',
+        component: () => import('@/views/front/mainchart.vue')
+      },
+      {
         path: '',
         component: () => import('@/views/front/Index.vue')
       },

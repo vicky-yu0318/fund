@@ -5,7 +5,7 @@
 
 <style lang="scss">
 // @import 'bootstrap';
-@import './assets/stylesheets/all'
+// @import './assets/stylesheets/all'
 </style>
 <script>
 

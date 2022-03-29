@@ -8,8 +8,15 @@
 a {
     text-decoration: none;
 }
+ul {
+    margin-bottom: 0;
+    padding-left: 0;
+}
 img {
     vertical-align: middle;
+}
+h2 {
+    margin-bottom: 0;
 }
 :root {
     /* 淺紫#D0B7CC */
@@ -44,6 +51,7 @@ img {
 }
 .btn:hover {
     background-color: var(--side-color-active);
+    color: var(--main-color);
 }
 
 .btn-choose {
@@ -52,7 +60,12 @@ img {
     padding: 5px 10px;
     display: inline-block;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 10px 10px 0 0;
+}
+.btn-choose.disabled {
+    pointer-events: none;
+    background-color: #eee;
+    color: #ccc;
 }
 .btn-choose i {
     padding-right: 5px;
@@ -74,23 +87,28 @@ img {
     color: #aaa;
     font-size: 20px;
     width: 15%;
-    text-align: right;
+    text-align: center;
 }
 .btn-more:hover {
     color: var(--light-color);
 }
-
-h2 {
+.block-main-title {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
     color: var(--side-color);
+}
+.main-title {
+    padding-left: 10px;
+    padding-bottom: 0;
     font-size: 30px;
-    padding-bottom: 20px;
+    font-weight: 600;
 }
-h2 i {
-    padding-right: 10px;
+.block-main-title i {
+    font-size: 25px;
 }
-
 .section {
-    padding: 50px 0;
+    padding: 60px 0;
 }
 
 /* ========== header ============= */
@@ -126,6 +144,7 @@ h2 i {
     max-width: 1200px;
     margin: auto;
     z-index: 1000;
+    padding: 0;
     animation: slowDown .3s linear;
 }
 
@@ -244,12 +263,24 @@ h2 i {
 
 
 /* =========== section-searchFund =========== */
+.section-searchFund {
+    padding-top: 100px;
+}
 
 .section-searchFund .searchResult-title {
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
+    padding: 20px 0;
     border-bottom: 1px solid var(--light-color);
+}
+.section-searchFund .searchResult-title.active {
+    position: fixed;
+    left: 0; right: 0; top: 60px;
+    z-index: 999;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #fff;
+    animation: slowDown .8s linear
 }
 
 .section-searchFund .searchResult-title span {
@@ -303,7 +334,7 @@ h2 i {
     cursor: pointer;
     font-size: 18px;
     line-height: 2;
-    display: none;
+    /* display: none; */
 }
 .section-searchFund .title .title-description::before {
     content: '';
@@ -384,7 +415,7 @@ h2 i {
 
 .section-searchFund .row .keyword-wrap .btn-searchFund {
     color: #fff;
-    font-size: 30px;
+    font-size: 20px;
     background-color: var(--third-color);
     border-radius: 50%;
     padding: 10px;
@@ -439,9 +470,10 @@ h2 i {
     align-items: center;
 }
 .section-searchFund .asset-block .content .btn-asset-choose {
-    margin-right: 10px;
+    margin-right: 50px;
     cursor: pointer;
     font-weight: 600;
+    color: var(--side-color);
 }
 
  
@@ -464,16 +496,12 @@ h2 i {
     color: #fff;
 }
 
-.section-searchResult .searchResult {
-    display: flex;
-    flex-wrap: wrap;
+.section-searchResult .search-category {
     padding: 0 20px;
     /* 這邊padding和li百分比寬度無關 */
-    gap: 6px;
     position: relative;
-
 }
-.section-searchResult .searchResult::after {
+.section-searchResult .search-category::after {
     content: '';
     position: absolute;
     height: 2px;
@@ -484,7 +512,12 @@ h2 i {
     /* 使用絕對定位就可以不受padding影響 */
 }
 
-.section-searchResult .searchResult li {
+.section-searchResult .search-category .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.section-searchResult .search-category li {
     background-color: var(--light-color);
     width: calc(33.3333333% - 4px);
     text-align: center;
@@ -495,26 +528,48 @@ h2 i {
     cursor: pointer;
 }
 
-.section-searchResult .searchResult li.active {
+.section-searchResult .search-category li.active {
     background-color: var(--side-color);
     color: #fff;
 }
-
+/* 共用 */
 .section-searchResult .content {
     padding-top: 30px;
 }
-
-.section-searchResult .content .row {
+.section-searchResult .content .result-tr {
     display: flex;
     flex-wrap: wrap;
+    border-top: 1px solid var(--light-color);
 }
-.section-searchResult .content .row li {
-    width: calc(20% - 2px);
-    border: 1px solid var(--light-color);
-    padding: 10px 0;
+.section-searchResult .content .result-tr:last-child {
+    border-bottom: 1px solid var(--light-color);
+}
+.section-searchResult .content li {
+    border-right: 1px solid var(--light-color);
+    padding: 10px 8px;
+    box-sizing: border-box;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.section-searchResult .content li:first-child {
+    border-left: 1px solid var(--light-color);
+}
+/* 基本資料類別 */
+.section-searchResult .content.basic-content  li {
+    /* width: calc(20% - 1.5px); */
+    width: 20%;
+}
+/* 報酬率類別 */
+.section-searchResult .content.performance-content li {
+    /* width: calc(14.286% - 1.143px); */
+    width: 14.285714%;
+}
+/* 風險類別 */
+.section-searchResult .content.risk-content li {
+    /* width: calc(14.286% - 1.143px); */
+    width: 16.667%;
 }
 
 .section-searchResult .btn-compare,
@@ -536,18 +591,18 @@ h2 i {
     padding-right: 5px;
 }
 
-.section-searchResult .btn-compare:hover,
-.section-searchResult .btn-heart:hover {
+.section-searchResult .btn-compare.active,
+.section-searchResult .btn-heart.active {
     background-color: var(--side-color-active);
 }
 
-.section-searchResult .btn-buy {
+.btn-buy {
     border-radius: 30px;
     background-color: var(--third-color);
     color: #fff;
     padding: 5px 30px;
 }
-.section-searchResult .btn-buy:hover {
+.btn-buy:hover {
     background-color: var(--third-color-active);
 }
 
@@ -555,9 +610,9 @@ h2 i {
 /* 調整成一樣大，就不怕蓋到其他 */
 .compare-fixed .container {
     position: fixed;
+    left: 50%;
     right: 0;
-    left: 0;
-    margin: auto;
+    /* margin: auto; */
     /* left: calc(600px + 400px);  */
     bottom: 0;
     width: 40%;
@@ -573,14 +628,16 @@ h2 i {
 .compare-window {
     position: absolute;
     right: 0; bottom: 0;
-    border: 1px solid var(--side-color);
+    /* border: 1px solid var(--side-color); */
     border-radius: 5px;
     z-index: 101;
     background-color: #fff;
     /* padding-bottom: 40px; */
     width: 100%;
 }
-
+.compare-window.show {
+    border: 1px solid var(--side-color);
+}
 .compare-window .window-head {
     display: flex;
     align-items: center;
@@ -590,7 +647,10 @@ h2 i {
     text-align: center;
     cursor: pointer;
     display: none;
-    /* opacity: 0; */
+    opacity: 0;
+}
+.compare-window .window-head.show {
+    opacity: 1;
 }
 .compare-window .window-head.active {
     display: flex;
@@ -609,11 +669,16 @@ h2 i {
 .compare-window  .window-body {
     display: none;
     margin-bottom: 70px;
+    min-height: 300px;
     /* opacity: 0; */
 }
 .compare-window  .window-body.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
     animation: show .2s linear
+}
+.compare-window  .window-body .btn-starCompare {
+    margin-top: auto;
 }
 @keyframes show {
     0% {
@@ -660,13 +725,17 @@ h2 i {
     right: 0; left: 0;
     bottom: 0;
     z-index: 101;
+    opacity: 0;
+}
+.compare-window .compare-window-footer.show {
+    opacity: 1;
 }
 .compare-window .compare-window-footer .btn-list {
     display: flex;
 }
 .compare-window .compare-window-footer .btn-list div {
     width: 50%;
-    background-color: #fff;
+    background-color: transparent;
     border: 1px solid var(--side-color);
     border-radius: 3px;
     padding: 5px 0;
@@ -679,6 +748,11 @@ h2 i {
     background-color:  var(--side-color);
     color: #fff;
 }
+.compare-window .compare-window-footer .btn-list div.disabled {
+    pointer-events: none;
+    background-color: var(--light-color);
+    border: 1px solid #ccc;
+}
 .compare-window .compare-window-footer .btn-list div span {
     margin-left: 5px;
     background-color: var(--third-color);
@@ -687,4 +761,211 @@ h2 i {
     height: 25px;
     border-radius: 50%;
     display: inline-block;
+}
+
+.btnsmall {
+    background-color: #eee;
+    outline: none;
+    border: 1px solid #25322B;
+    margin: 0 15px;
+}
+.btnsmall.active {
+    background-color: #fa0;
+    color: #fff;
+}
+.btnDetail {
+    background-color: #eee;
+    outline: none;
+    border: 1px solid #0f0f0f;
+    margin: 0 15px;
+}
+.btnDetail.active {
+    background-color: #9B81AE;
+    color: #fff;
+}
+
+/* ============= section-compare =============== */
+/* 共用 */
+.section-compare .block-compare-items {
+    padding: 0 10px;
+}
+.section-compare .compare-items {
+    display: flex;
+    flex-wrap: wrap;
+}
+.section-compare .compare-items li {
+    padding: 35px 0 30px;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid var(--light-color);
+    position: relative;
+}
+ /* <!-- 2種比較基金 --> */
+.section-compare .block_two_items .compare-items li {
+    width: 50%;
+}
+.section-compare .block_three_items .compare-items li {
+    width: 33.3333333%;
+}
+.section-compare .compare-items li::after {
+    content: '';
+    position: absolute;
+    height: 5px;
+    bottom: 0; right: 0; left: 0;
+}
+.section-compare .compare-items li:first-child::after {
+    /* background-color: #D2BD7A; */
+    background-color: goldenrod;
+}
+.section-compare .compare-items li:nth-child(2)::after {
+    background-color: #5D04B1;
+}
+.section-compare .compare-items li:nth-child(3)::after {
+    background-color: #0459B1;
+}
+.section-compare .compare-items li h3 {
+    padding-bottom: 20px;
+}
+.section-compare .compare-items li .btn-delete {
+    font-size: 28px;
+    color: var(--main-color);
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    cursor: pointer;
+}
+.section-compare .compare-items li .btn-delete:hover {
+    color: var(--light-color);
+}
+.section-compare .block-btn-more {
+    text-align: right;
+    padding: 30px 0 50px;
+}
+.section-compare .btn-more {
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    border-radius: 30px;
+    padding: 5px 13px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+}
+.section-compare .btn-more:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+/* .block-accordion {
+    overflow: hidden;
+} */
+  
+.block-accordion .accordion-header {
+    color: var(--main-color);
+    font-size: 22px;
+    padding: 15px 20px;
+    font-weight: 600;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,.08);
+    position: relative;
+    /* z-index: 10; */
+}
+/* active header*/
+.block-accordion.active .accordion-header {
+    background-color: var(--side-color);
+    color: #fff;
+}
+.block-accordion .accordion-header::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    background-color: var(--light-color);
+    bottom: 0; right: 0; left: 0;
+}
+/* active header::after*/
+.block-accordion.active .accordion-header::after {
+    display: none;
+}
+.block-accordion .accordion-header span {
+    color: var(--main-color);
+    font-size: 22px;
+}
+/* active span*/
+.block-accordion.active .accordion-header span {
+    color: #fff;
+}
+.block-accordion .accordion-header i {
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+    background-color: var(--side-color);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #fff;
+}
+/* active i*/
+.block-accordion.active .accordion-header i {
+    background-color: #fff;
+    color:  var(--side-color);
+}
+.block-accordion .accordion-body {
+    background-color: #eee;
+    padding: 30px;
+    display: none;
+    animation: extend .3s linear;
+}
+/* active body*/
+.block-accordion.active .accordion-body {
+    display: block;
+}
+@keyframes extend {
+    0% {
+        opacity: 0;
+    }
+    /* 100% {
+        translateY scaleY都不適合
+        transform: translateY(0);
+    } */
+}
+.section-compare .accordion-body .compare-table {
+    text-align: center;
+    background-color: #fff;
+}
+.section-compare .accordion-body .compare-tr {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--light-color);
+    border-right: 1px solid var(--light-color);
+    border-left: 1px solid var(--light-color);
+}
+.section-compare .accordion-body .compare-tr:last-child {
+    border-bottom: 1px solid var(--light-color);
+}
+.section-compare .accordion-body .compare-th {
+    width: 20%;
+    font-weight: 600;
+    font-size: 20px;
+    /* 不能下在tr  分別於th td下*/
+    padding: 15px 0; 
+}
+.section-compare .accordion-body .compare-td {
+    border-left: 1px solid var(--light-color);
+    font-size: 18px;
+    padding: 15px 0; 
+}
+/* 負報酬 => 紅色 */
+.section-compare .accordion-body .compare-td.mark {
+    color: red;
+}
+/* 2項資料 */
+.section-compare .accordion-body .compare-td_two_items {
+    width: calc(40% - 2px);
+}
+/* 3項資料 */
+.section-compare .accordion-body .compare-td_three_items {
+    width: calc(26.667% - 5px);
 }

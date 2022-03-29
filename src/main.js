@@ -24,11 +24,14 @@ import 'bootstrap'
 // 寫完可去mounted測試
 import $ from 'jquery'
 
-import { toCurrency, date } from './methods/filters'
+import { toPercent, date, toDate } from './methods/filters'
 
 // sweetalert2套件
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+
+// c3.js套件
+// import VueC3 from 'vue-c3'
 
 // 自己寫的放後方
 import App from './App.vue'
@@ -61,11 +64,14 @@ app.use(VueAxios, axios)
 // jquery啟用
 window.$ = $
 
+// app.component('VueC3', VueC3)
+
 // 加到全域屬性下
 // app.config.globalProperties.foo = 'bar'
 app.config.globalProperties.$filters = {
-  toCurrency,
-  date
+  toPercent,
+  date,
+  toDate
 }
 
 // Sweetalert啟用(全域樣式調整)
