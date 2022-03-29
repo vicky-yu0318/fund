@@ -248,7 +248,7 @@
             </button>
           </li>
           <li>{{ item.fund }}</li>
-          <li> {{ $filters.toDate(item.established) }} </li>
+          <li> {{ $filters.toFormalDate(item.established) }} </li>
           <template v-for="(detail, key) in item.asset" :key="detail">
             <li>{{ key }} - {{ detail[0] }} </li>
           </template>
@@ -977,6 +977,7 @@ export default {
       })
     },
     clickRating (item) {
+      // console.log(item)
       // (3) 刪除 原始 fixConditions 星星評等
       // console.log(this.beforeStarSring)
       if (this.beforeStarSring) {
@@ -989,13 +990,17 @@ export default {
       // 如果按下click 就給全域一個狀態，不要讓他觸發hover
       this.isRating = true
       const domRatingStars = this.$refs.ratingStar
-      domRatingStars.forEach((domRatingStar) => {
+      domRatingStars.forEach((domRatingStar, index) => {
         domRatingStar.removeEventListener('mouseout', this.leaveRating)
         // 再按一次星星時，會把所有加active的星星拿掉active
         domRatingStar.classList.remove('active')
-        if (item >= domRatingStar.__vnode.key) {
-          domRatingStars[domRatingStar.__vnode.key - 1].classList.add('active')
+        if (item > index) {
+          // console.log(domRatingStar)
+          domRatingStar.classList.add('active')
         }
+        // if (item >= domRatingStar.__vnode.key) {
+        //   domRatingStars[domRatingStar.__vnode.key - 1].classList.add('active')
+        // }
       })
       this.isRatingRemark = true
       // 因為此顯示範圍不在v-for內，需另外將變數值放於data，再取用

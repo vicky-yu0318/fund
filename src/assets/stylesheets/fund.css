@@ -81,6 +81,29 @@ h2 {
 .btn-choose.active i {
     color: var(--side-color);
 }
+.btn-compare,
+.btn-heart {
+    display: block;
+    border-radius: 5px;
+    background-color: var(--side-color);
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.btn-compare i {
+    padding-right: 7px;
+}
+.btn-heart i {
+    padding-right: 5px;
+}
+
+.btn-compare.active,
+.btn-heart.active {
+    background-color: var(--side-color-active);
+}
 .btn-more {
     cursor: pointer;
     font-weight: 600;
@@ -572,30 +595,6 @@ h2 {
     width: 16.667%;
 }
 
-.section-searchResult .btn-compare,
-.section-searchResult .btn-heart {
-    display: block;
-    border-radius: 5px;
-    background-color: var(--side-color);
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    margin: 0 5px;
-}
-.section-searchResult .btn-compare i {
-    padding-right: 7px;
-}
-.section-searchResult .btn-heart i {
-    padding-right: 5px;
-}
-
-.section-searchResult .btn-compare.active,
-.section-searchResult .btn-heart.active {
-    background-color: var(--side-color-active);
-}
-
 .btn-buy {
     border-radius: 30px;
     background-color: var(--third-color);
@@ -789,11 +788,20 @@ h2 {
 .section-compare .block-compare-items {
     padding: 0 10px;
 }
+/* 共用  觸發置頂*/
+.section-compare .block-compare-items.active {
+    position: fixed;
+    top: 60px; right: 0; left: 0;
+    max-width: 1200px;
+    margin: auto;
+    z-index: 1000;
+}
 .section-compare .compare-items {
     display: flex;
     flex-wrap: wrap;
 }
 .section-compare .compare-items li {
+    background-color: #fff;
     padding: 35px 0 30px;
     box-sizing: border-box;
     text-align: center;
@@ -815,13 +823,13 @@ h2 {
 }
 .section-compare .compare-items li:first-child::after {
     /* background-color: #D2BD7A; */
-    background-color: goldenrod;
+    background-color: #FEC77C;
 }
 .section-compare .compare-items li:nth-child(2)::after {
-    background-color: #5D04B1;
+    background-color: #914DA0;
 }
 .section-compare .compare-items li:nth-child(3)::after {
-    background-color: #0459B1;
+    background-color: #FE9494;
 }
 .section-compare .compare-items li h3 {
     padding-bottom: 20px;

@@ -24,7 +24,7 @@ import 'bootstrap'
 // 寫完可去mounted測試
 import $ from 'jquery'
 
-import { toPercent, date, toDate } from './methods/filters'
+import { toPercent, date, toDate, toFormalDate } from './methods/filters'
 
 // sweetalert2套件
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -71,7 +71,8 @@ window.$ = $
 app.config.globalProperties.$filters = {
   toPercent,
   date,
-  toDate
+  toDate,
+  toFormalDate
 }
 
 // Sweetalert啟用(全域樣式調整)

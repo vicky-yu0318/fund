@@ -1,4 +1,5 @@
 <template>
+
 <!-- <div id="app">
     父元件切換資料內容，並重新渲染圖表
     <select
@@ -23,9 +24,10 @@
   </div> -->
   <section class="section-compare section" id="section-compare">
         <div class="container">
+           {{ compareGroup }}
             <div class="block-main-title">
                 <i class="fa-solid fa-copy"></i>
-                <h2 class="main-title">基金比較</h2>
+                <h2 class="main-title">基金比較 </h2>
             </div>
             <!-- 2種比較基金 -->
             <div class="block-compare-items block_two_items"
@@ -42,6 +44,7 @@
             </div>
             <!-- 3種比較基金 -->
             <div class="block-compare-items block_three_items"
+             :class="{ active: isFixTop}"
              v-if="compareGroup.length === 3">
                 <ul class="compare-items">
                     <li v-for="item in compareGroup" :key="item">
@@ -70,7 +73,7 @@
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <div class="accordion-body">
-                    chart.js
+                    chart.js {{ hello }}
                 </div>
             </div>
             <!-- 績效表現 -->
@@ -84,7 +87,7 @@
                     </i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
-                <!-- 2項資料呈現方式 -->
+                <!-- 績效表現-2項資料呈現方式 -->
                 <div class="accordion-body" v-if="compareGroup.length === 2">
                     <div class="compare-table">
                         <div class="compare-tr" >
@@ -121,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- 3項資料呈現方式 -->
+                <!-- 績效表現-3項資料呈現方式 -->
                 <div class="accordion-body" v-if="compareGroup.length === 3">
                     <div class="compare-table">
                         <div class="compare-tr" >
@@ -172,17 +175,24 @@
                     </i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
-                <div class="accordion-body">
+                <!-- 基本資料- 2種比較基金 -->
+                <div class="accordion-body" v-if="compareGroup.length === 2">
                     <div class="compare-table">
                         <div class="compare-tr">
                             <div class="compare-th">成立時間</div>
-                            <div class="compare-td compare-td_two_items">2010/01/06</div>
-                            <div class="compare-td compare-td_two_items">2010/01/06</div>
+                            <div class="compare-td compare-td_two_items"
+                             v-for="item in compareGroup" :key="item">
+                              {{ $filters.toFormalDate(item.established) }}
+                            </div>
+                            <!-- <div class="compare-td compare-td_two_items">2010/01/06</div> -->
                         </div>
                         <div class="compare-tr">
                             <div class="compare-th">基金類型</div>
-                            <div class="compare-td compare-td_two_items">巴西股票</div>
-                            <div class="compare-td compare-td_two_items">巴西股票</div>
+                            <div class="compare-td compare-td_two_items"
+                              v-for="item in compareGroup" :key="item">
+                              <template v-for="(category, key) in item.asset">{{ key }}</template>
+                            </div>
+                            <!-- <div class="compare-td compare-td_two_items">巴西股票</div> -->
                         </div>
                         <div class="compare-tr">
                             <div class="compare-th">風險屬性</div>
@@ -193,8 +203,45 @@
                         </div>
                         <div class="compare-tr">
                             <div class="compare-th">基金規模</div>
-                            <div class="compare-td compare-td_two_items">930百萬</div>
-                            <div class="compare-td compare-td_two_items">930百萬</div>
+                            <div class="compare-td compare-td_two_items"
+                              v-for="item in compareGroup" :key="item">
+                               {{ item.scaleMillion }} 百萬</div>
+                            <!-- <div class="compare-td compare-td_two_items">930百萬</div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 基本資料- 3種比較基金 -->
+                <div class="accordion-body" v-if="compareGroup.length === 3">
+                    <div class="compare-table">
+                        <div class="compare-tr">
+                            <div class="compare-th">成立時間</div>
+                            <div class="compare-td compare-td_three_items"
+                             v-for="item in compareGroup" :key="item">
+                              {{ $filters.toFormalDate(item.established) }}
+                            </div>
+                            <!-- <div class="compare-td compare-td_two_items">2010/01/06</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">基金類型</div>
+                            <div class="compare-td compare-td_three_items"
+                              v-for="item in compareGroup" :key="item">
+                              <template v-for="(category, key) in item.asset">{{ key }}</template>
+                            </div>
+                            <!-- <div class="compare-td compare-td_two_items">巴西股票</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">風險屬性</div>
+                            <div class="compare-td compare-td_three_items"
+                            v-for="item in compareGroup" :key="item">
+                            {{ item.risk }}</div>
+                            <!-- <div class="compare-td compare-td_two_items">risk</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">基金規模</div>
+                            <div class="compare-td compare-td_three_items"
+                              v-for="item in compareGroup" :key="item">
+                               {{ item.scaleMillion }} 百萬</div>
+                            <!-- <div class="compare-td compare-td_two_items">930百萬</div> -->
                         </div>
                     </div>
                 </div>
@@ -216,40 +263,40 @@ export default {
     //   currentBreadCrumb: this.$route.name
     //   <breadCrumb  :currentBreadCrumb="currentBreadCrumb"></breadCrumb>
       compareGroup: [
-        {
-          fund: '富蘭克林基金',
-          company: '富邦投顧',
-          code: '00400000',
-          asset: { 大宗商品: ['天然資源股票'] },
-          currency: '台幣',
-          rating: '4',
-          established: 667785600000,
-          risk: '保守型',
-          scaleMillion: 2000,
-          performance: {
-            three_month_year: -0.3,
-            one_year: 0.12,
-            three_year: 0.5,
-            establishToNow: 0.2
-          }
-        },
-        {
-          fund: '摩根新興35基金',
-          company: '富邦投顧',
-          code: '00200000',
-          asset: { 大宗商品: ['天然資源股票'] },
-          currency: '台幣',
-          rating: '4',
-          established: 667785600000,
-          risk: '保守型',
-          scaleMillion: 2000,
-          performance: {
-            three_month_year: 0.3,
-            one_year: 0.12,
-            three_year: 0.5,
-            establishToNow: 0.2
-          }
-        }
+        // {
+        //   fund: '富蘭克林基金',
+        //   company: '富邦投顧',
+        //   code: '00400000',
+        //   asset: { 大宗商品: ['天然資源股票'] },
+        //   currency: '台幣',
+        //   rating: '4',
+        //   established: 667785600000,
+        //   risk: '保守型',
+        //   scaleMillion: 2000,
+        //   performance: {
+        //     three_month_year: -0.3,
+        //     one_year: 0.12,
+        //     three_year: 0.5,
+        //     establishToNow: 0.2
+        //   }
+        // },
+        // {
+        //   fund: '摩根新興35基金',
+        //   company: '富邦投顧',
+        //   code: '00200000',
+        //   asset: { 大宗商品: ['天然資源股票'] },
+        //   currency: '台幣',
+        //   rating: '4',
+        //   established: 667785600000,
+        //   risk: '保守型',
+        //   scaleMillion: 2000,
+        //   performance: {
+        //     three_month_year: 0.3,
+        //     one_year: 0.12,
+        //     three_year: 0.5,
+        //     establishToNow: 0.2
+        //   }
+        // },
         // {
         //   fund: '33',
         //   company: '富邦投顧',
@@ -270,6 +317,11 @@ export default {
       ],
       currentAccordion: '',
       openAccordionGroup: [],
+      isFixTop: '',
+      // hello: this.openAccordionGroup,
+      hello: function () {
+        return this.openAccordionGroup
+      },
       chart_loaded: true, /* 圖表讀取 */
       chartdataloaded: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -318,17 +370,27 @@ export default {
     // Chart
     //   breadCrumb
   },
+  // watch: {
+  //   compareGroup: {
+  //     handler () {
+  //       this.getSearchData()
+  //       console.log(this.compareGroup)
+  //     },
+  //     deep: true
+  //   }
+  // },
   mounted () {
     goTop()
     emitter.on('getSearchData', (compareGroup) => {
-      //  this.compareGroup = compareGroup
-      //  console.log(this.compareGroup)
+      this.compareGroup = compareGroup
+      console.log(this.compareGroup)
       this.getSearchData()
     })
+    window.addEventListener('scroll', this.scroll)
   },
   methods: {
     getSearchData () {
-    //   console.log('yy')
+      console.log('yy')
     },
     updateOpenAccordionGroup (category) {
       // 打開 => 關閉,  -變+
@@ -338,6 +400,13 @@ export default {
       } else {
         // 關閉 => 打開, +變-
         this.openAccordionGroup.push(category)
+      }
+    },
+    scroll () {
+      if (window.scrollY > 100) {
+        this.isFixTop = true
+      } else {
+        this.isFixTop = false
       }
     }
   }
