@@ -1,5 +1,4 @@
 <template>
-
 <!-- <div id="app">
     父元件切換資料內容，並重新渲染圖表
     <select
@@ -24,11 +23,12 @@
   </div> -->
   <section class="section-compare section" id="section-compare">
         <div class="container">
-           {{ compareGroup }}
             <div class="block-main-title">
                 <i class="fa-solid fa-copy"></i>
                 <h2 class="main-title">基金比較 </h2>
             </div>
+            <Chart :chartData="compareGroup"
+            :options="chartjsOptions"></Chart>
             <!-- 2種比較基金 -->
             <div class="block-compare-items block_two_items"
              v-if="compareGroup.length === 2">
@@ -73,7 +73,7 @@
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <div class="accordion-body">
-                    chart.js {{ hello }}
+                    chart.jsssss
                 </div>
             </div>
             <!-- 績效表現 -->
@@ -253,7 +253,7 @@
 </template>
 <script>
 import goTop from '@/methods/goTop.js'
-// import Chart from '@/components/Chart.vue'
+import Chart from '@/components/Chart.vue'
 import emitter from '@/methods/eventBus'
 
 export default {
@@ -263,111 +263,114 @@ export default {
     //   currentBreadCrumb: this.$route.name
     //   <breadCrumb  :currentBreadCrumb="currentBreadCrumb"></breadCrumb>
       compareGroup: [
-        // {
-        //   fund: '富蘭克林基金',
-        //   company: '富邦投顧',
-        //   code: '00400000',
-        //   asset: { 大宗商品: ['天然資源股票'] },
-        //   currency: '台幣',
-        //   rating: '4',
-        //   established: 667785600000,
-        //   risk: '保守型',
-        //   scaleMillion: 2000,
-        //   performance: {
-        //     three_month_year: -0.3,
-        //     one_year: 0.12,
-        //     three_year: 0.5,
-        //     establishToNow: 0.2
-        //   }
-        // },
-        // {
-        //   fund: '摩根新興35基金',
-        //   company: '富邦投顧',
-        //   code: '00200000',
-        //   asset: { 大宗商品: ['天然資源股票'] },
-        //   currency: '台幣',
-        //   rating: '4',
-        //   established: 667785600000,
-        //   risk: '保守型',
-        //   scaleMillion: 2000,
-        //   performance: {
-        //     three_month_year: 0.3,
-        //     one_year: 0.12,
-        //     three_year: 0.5,
-        //     establishToNow: 0.2
-        //   }
-        // },
-        // {
-        //   fund: '33',
-        //   company: '富邦投顧',
-        //   code: '00200000',
-        //   asset: { 大宗商品: ['天然資源股票'] },
-        //   currency: '台幣',
-        //   rating: '4',
-        //   established: 667785600000,
-        //   risk: '保守型',
-        //   scaleMillion: 2000,
-        //   performance: {
-        //     three_month_year: 0.3,
-        //     one_year: 0.12,
-        //     three_year: 0.5,
-        //     establishToNow: 0.2
-        //   }
-        // }
+        {
+          fund: '富蘭克林基金',
+          company: '富邦投顧',
+          code: '00400000',
+          asset: { 大宗商品: ['天然資源股票'] },
+          currency: '台幣',
+          rating: '4',
+          established: 667785600000,
+          risk: '保守型',
+          scaleMillion: 2000,
+          performance: {
+            three_month_year: -0.3,
+            one_year: 0.12,
+            three_year: 0.5,
+            establishToNow: 0.2
+          }
+        },
+        {
+          fund: '摩根新興35基金',
+          company: '富邦投顧',
+          code: '00200000',
+          asset: { 大宗商品: ['天然資源股票'] },
+          currency: '台幣',
+          rating: '4',
+          established: 667785600000,
+          risk: '保守型',
+          scaleMillion: 2000,
+          performance: {
+            three_month_year: 0.3,
+            one_year: 0.12,
+            three_year: 0.5,
+            establishToNow: 0.2
+          }
+        },
+        {
+          fund: '33',
+          company: '富邦投顧',
+          code: '00200000',
+          asset: { 大宗商品: ['天然資源股票'] },
+          currency: '台幣',
+          rating: '4',
+          established: 667785600000,
+          risk: '保守型',
+          scaleMillion: 2000,
+          performance: {
+            three_month_year: 0.3,
+            one_year: 0.12,
+            three_year: 0.5,
+            establishToNow: 0.2
+          }
+        }
       ],
+      chartjsOptions: {
+        responsive: true
+      },
       currentAccordion: '',
       openAccordionGroup: [],
       isFixTop: '',
       // hello: this.openAccordionGroup,
       hello: function () {
         return this.openAccordionGroup
-      },
-      chart_loaded: true, /* 圖表讀取 */
-      chartdataloaded: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: '測試1',
-            borderColor: 'red',
-            pointBackgroundColor: 'red',
-            borderWidth: 1,
-            pointBorderColor: 'white',
-            data: [40, 35, 10, 40, 39, 80, 40]
-          }
-        ]
-      },
-      test: [
-        {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-            {
-              label: '測試1',
-              borderColor: 'red',
-              pointBackgroundColor: 'red',
-              borderWidth: 1,
-              pointBorderColor: 'white',
-              data: [40, 35, 10, 40, 39, 80, 40]
-            }
-          ]
-        },
-        {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-            {
-              label: '測試2',
-              borderColor: 'skyblue',
-              pointBackgroundColor: 'skyblue',
-              borderWidth: 1,
-              pointBorderColor: 'white',
-              data: [50, 45, 20, 50, 35, 70, 50]
-            }
-          ]
-        }
-      ]
+      }
+      // chart_loaded: true, /* 圖表讀取 */
+      // chartdataloaded: {
+      //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      //   datasets: [
+      //     {
+      //       label: '測試1',
+      //       borderColor: 'red',
+      //       pointBackgroundColor: 'red',
+      //       borderWidth: 1,
+      //       pointBorderColor: 'white',
+      //       data: [40, 35, 10, 40, 39, 80, 40]
+      //     }
+      //   ]
+      // },
+      // test: [
+      //   {
+      //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      //     datasets: [
+      //       {
+      //         label: '測試1',
+      //         borderColor: 'red',
+      //         pointBackgroundColor: 'red',
+      //         borderWidth: 1,
+      //         pointBorderColor: 'white',
+      //         data: [40, 35, 10, 40, 39, 80, 40]
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      //     datasets: [
+      //       {
+      //         label: '測試2',
+      //         borderColor: 'skyblue',
+      //         pointBackgroundColor: 'skyblue',
+      //         borderWidth: 1,
+      //         pointBorderColor: 'white',
+      //         data: [50, 45, 20, 50, 35, 70, 50]
+      //       }
+      //     ]
+      //   }
+      // ]
     }
   },
   components: {
-    // Chart
+    Chart
     //   breadCrumb
   },
   // watch: {
