@@ -1,3 +1,3 @@
 <template>
-  前台-首頁
+  首頁做在index
 </template>

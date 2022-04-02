@@ -1,4 +1,10 @@
 <template>
+<!-- <div class="container">
+    <line-chart
+      v-if="loaded"
+      :chartdata="chartdata">
+    </line-chart>
+</div> -->
 <!-- <div id="app">
     父元件切換資料內容，並重新渲染圖表
     <select
@@ -27,8 +33,6 @@
                 <i class="fa-solid fa-copy"></i>
                 <h2 class="main-title">基金比較 </h2>
             </div>
-            <Chart :chartData="compareGroup"
-            :options="chartjsOptions"></Chart>
             <!-- 2種比較基金 -->
             <div class="block-compare-items block_two_items"
              v-if="compareGroup.length === 2">
@@ -57,7 +61,8 @@
                 </ul>
             </div>
             <div class="block-btn-more">
-                <a class="btn-more">加入更多基金比較</a>
+                <router-link class="btn-more"
+                to="/fundResearch">加入更多基金比較</router-link>
             </div>
             <!-- 績效走勢圖 -->
             <div class="block-accordion block_chart active"
@@ -73,7 +78,8 @@
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <div class="accordion-body">
-                    chart.jsssss
+                  <!-- <BarChart></BarChart> -->
+                  <!-- <Chart :chartdata="chartData" :options="chartOptions"/> -->
                 </div>
             </div>
             <!-- 績效表現 -->
@@ -253,126 +259,182 @@
 </template>
 <script>
 import goTop from '@/methods/goTop.js'
-import Chart from '@/components/Chart.vue'
-import emitter from '@/methods/eventBus'
+// import emitter from '@/methods/eventBus'
+import Compare from '@/methods/localStorage-compare.js'
+// import LineChart from '@/components/Chart.vue'
 
 export default {
+  // name: 'LineChartContainer',
+  // components: { LineChart },
   data () {
     return {
-    //   compareGroup: []
-    //   currentBreadCrumb: this.$route.name
-    //   <breadCrumb  :currentBreadCrumb="currentBreadCrumb"></breadCrumb>
-      compareGroup: [
-        {
-          fund: '富蘭克林基金',
-          company: '富邦投顧',
-          code: '00400000',
-          asset: { 大宗商品: ['天然資源股票'] },
-          currency: '台幣',
-          rating: '4',
-          established: 667785600000,
-          risk: '保守型',
-          scaleMillion: 2000,
-          performance: {
-            three_month_year: -0.3,
-            one_year: 0.12,
-            three_year: 0.5,
-            establishToNow: 0.2
-          }
-        },
-        {
-          fund: '摩根新興35基金',
-          company: '富邦投顧',
-          code: '00200000',
-          asset: { 大宗商品: ['天然資源股票'] },
-          currency: '台幣',
-          rating: '4',
-          established: 667785600000,
-          risk: '保守型',
-          scaleMillion: 2000,
-          performance: {
-            three_month_year: 0.3,
-            one_year: 0.12,
-            three_year: 0.5,
-            establishToNow: 0.2
-          }
-        },
-        {
-          fund: '33',
-          company: '富邦投顧',
-          code: '00200000',
-          asset: { 大宗商品: ['天然資源股票'] },
-          currency: '台幣',
-          rating: '4',
-          established: 667785600000,
-          risk: '保守型',
-          scaleMillion: 2000,
-          performance: {
-            three_month_year: 0.3,
-            one_year: 0.12,
-            three_year: 0.5,
-            establishToNow: 0.2
-          }
-        }
-      ],
-      chartjsOptions: {
-        responsive: true
-      },
-      currentAccordion: '',
+      compareGroup: this.getCompare() || [],
+      currentAccordion: 'chart',
       openAccordionGroup: [],
-      isFixTop: '',
-      // hello: this.openAccordionGroup,
-      hello: function () {
-        return this.openAccordionGroup
-      }
-      // chart_loaded: true, /* 圖表讀取 */
-      // chartdataloaded: {
-      //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      //   datasets: [
-      //     {
-      //       label: '測試1',
-      //       borderColor: 'red',
-      //       pointBackgroundColor: 'red',
-      //       borderWidth: 1,
-      //       pointBorderColor: 'white',
-      //       data: [40, 35, 10, 40, 39, 80, 40]
-      //     }
-      //   ]
-      // },
-      // test: [
-      //   {
-      //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      //     datasets: [
-      //       {
-      //         label: '測試1',
-      //         borderColor: 'red',
-      //         pointBackgroundColor: 'red',
-      //         borderWidth: 1,
-      //         pointBorderColor: 'white',
-      //         data: [40, 35, 10, 40, 39, 80, 40]
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      //     datasets: [
-      //       {
-      //         label: '測試2',
-      //         borderColor: 'skyblue',
-      //         pointBackgroundColor: 'skyblue',
-      //         borderWidth: 1,
-      //         pointBorderColor: 'white',
-      //         data: [50, 45, 20, 50, 35, 70, 50]
-      //       }
-      //     ]
-      //   }
-      // ]
+      isFixTop: ''
     }
   },
-  components: {
-    Chart
-    //   breadCrumb
-  },
+  mixins: [Compare],
+  // data: () => ({
+  //   loaded: false,
+  //   chartdata: null,
+  //   compareGroup: [
+  //     {
+  //       fund: '富蘭克林基金',
+  //       company: '富邦投顧',
+  //       code: '00400000',
+  //       asset: { 大宗商品: ['天然資源股票'] },
+  //       currency: '台幣',
+  //       rating: '4',
+  //       established: 667785600000,
+  //       risk: '保守型',
+  //       scaleMillion: 2000,
+  //       performance: {
+  //         three_month_year: -0.3,
+  //         one_year: 0.12,
+  //         three_year: 0.5,
+  //         establishToNow: 0.2
+  //       }
+  //     },
+  //     {
+  //       fund: '摩根新興35基金',
+  //       company: '富邦投顧',
+  //       code: '00200000',
+  //       asset: { 大宗商品: ['天然資源股票'] },
+  //       currency: '台幣',
+  //       rating: '4',
+  //       established: 667785600000,
+  //       risk: '保守型',
+  //       scaleMillion: 2000,
+  //       performance: {
+  //         three_month_year: 0.3,
+  //         one_year: 0.12,
+  //         three_year: 0.5,
+  //         establishToNow: 0.2
+  //       }
+  //     }
+  //   ]
+  // }),
+  // async mounted () {
+  //   this.loaded = false
+  //   try {
+  //     const { userlist } = await fetch('/api/userlist')
+  //     this.chartdata = userlist
+  //     this.loaded = true
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // },
+  // data () {
+  //   return {
+  //     compareGroup: this.get() || [],
+  //     //   currentBreadCrumb: this.$route.name
+  //     //   <breadCrumb  :currentBreadCrumb="currentBreadCrumb"></breadCrumb>
+  //     // compareGroup: [
+  //     //   {
+  //     //     fund: '富蘭克林基金',
+  //     //     company: '富邦投顧',
+  //     //     code: '00400000',
+  //     //     asset: { 大宗商品: ['天然資源股票'] },
+  //     //     currency: '台幣',
+  //     //     rating: '4',
+  //     //     established: 667785600000,
+  //     //     risk: '保守型',
+  //     //     scaleMillion: 2000,
+  //     //     performance: {
+  //     //       three_month_year: -0.3,
+  //     //       one_year: 0.12,
+  //     //       three_year: 0.5,
+  //     //       establishToNow: 0.2
+  //     //     }
+  //     //   },
+  //     //   {
+  //     //     fund: '摩根新興35基金',
+  //     //     company: '富邦投顧',
+  //     //     code: '00200000',
+  //     //     asset: { 大宗商品: ['天然資源股票'] },
+  //     //     currency: '台幣',
+  //     //     rating: '4',
+  //     //     established: 667785600000,
+  //     //     risk: '保守型',
+  //     //     scaleMillion: 2000,
+  //     //     performance: {
+  //     //       three_month_year: 0.3,
+  //     //       one_year: 0.12,
+  //     //       three_year: 0.5,
+  //     //       establishToNow: 0.2
+  //     //     }
+  //     //   },
+  //     //   {
+  //     //     fund: '33',
+  //     //     company: '富邦投顧',
+  //     //     code: '00200000',
+  //     //     asset: { 大宗商品: ['天然資源股票'] },
+  //     //     currency: '台幣',
+  //     //     rating: '4',
+  //     //     established: 667785600000,
+  //     //     risk: '保守型',
+  //     //     scaleMillion: 2000,
+  //     //     performance: {
+  //     //       three_month_year: 0.3,
+  //     //       one_year: 0.12,
+  //     //       three_year: 0.5,
+  //     //       establishToNow: 0.2
+  //     //     }
+  //     //   }
+  //     // ],
+  //     currentAccordion: '',
+  //     openAccordionGroup: [],
+  //     isFixTop: ''
+  //     // chart_loaded: true, /* 圖表讀取 */
+  //     // chartdataloaded: {
+  //     //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //     //   datasets: [
+  //     //     {
+  //     //       label: '測試1',
+  //     //       borderColor: 'red',
+  //     //       pointBackgroundColor: 'red',
+  //     //       borderWidth: 1,
+  //     //       pointBorderColor: 'white',
+  //     //       data: [40, 35, 10, 40, 39, 80, 40]
+  //     //     }
+  //     //   ]
+  //     // },
+  //     // test: [
+  //     //   {
+  //     //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //     //     datasets: [
+  //     //       {
+  //     //         label: '測試1',
+  //     //         borderColor: 'red',
+  //     //         pointBackgroundColor: 'red',
+  //     //         borderWidth: 1,
+  //     //         pointBorderColor: 'white',
+  //     //         data: [40, 35, 10, 40, 39, 80, 40]
+  //     //       }
+  //     //     ]
+  //     //   },
+  //     //   {
+  //     //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //     //     datasets: [
+  //     //       {
+  //     //         label: '測試2',
+  //     //         borderColor: 'skyblue',
+  //     //         pointBackgroundColor: 'skyblue',
+  //     //         borderWidth: 1,
+  //     //         pointBorderColor: 'white',
+  //     //         data: [50, 45, 20, 50, 35, 70, 50]
+  //     //       }
+  //     //     ]
+  //     //   }
+  //     // ]
+  //   }
+  // },
+  // components: {
+  //   // LineChart
+  //   // BarChart
+  //   //   breadCrumb
+  // },
   // watch: {
   //   compareGroup: {
   //     handler () {
@@ -384,17 +446,11 @@ export default {
   // },
   mounted () {
     goTop()
-    emitter.on('getSearchData', (compareGroup) => {
-      this.compareGroup = compareGroup
-      console.log(this.compareGroup)
-      this.getSearchData()
-    })
+    // emitter.on('getSearchData', (aa) => {
+    // })
     window.addEventListener('scroll', this.scroll)
   },
   methods: {
-    getSearchData () {
-      console.log('yy')
-    },
     updateOpenAccordionGroup (category) {
       // 打開 => 關閉,  -變+
       if (this.openAccordionGroup.includes(category)) {

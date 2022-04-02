@@ -77,7 +77,7 @@ app.config.globalProperties.$filters = {
 
 // Sweetalert啟用(全域樣式調整)
 const options = {
-  confirmButtonColor: '#aaa',
+  confirmButtonColor: 'var(--third-color)',
   cancelButtonColor: '#fff',
   icon: 'info'
 }

@@ -7,14 +7,16 @@
       </a>
 
       <nav class="navbar" :class="{active: isFixTop}">
-        <a href="javascript:;"> <i class="fas fa-search"></i> 基金搜尋</a>
-        <a href="javascript:;">
-          <i class="fa-solid fa-arrow-up-wide-short"></i> 基金排行榜</a
+        <router-link to="/fundResearch"> <i class="fas fa-search"></i> 基金搜尋</router-link>
+        <router-link to="/compare">
+          <i class="fa-solid fa-arrow-up-wide-short"></i> 基金比較表</router-link>
         >
-        <a href="javascript:;"> <i class="fas fa-heart"></i> 基金觀察清單</a>
+        <router-link to="/favorite"> <i class="fas fa-heart"></i> 基金觀察清單</router-link>
       </nav>
 
-      <div class="btn-login btn">登入網銀</div>
+      <router-link to="/login" class="btn-login btn" v-if="!loginStatus">登入網銀</router-link>
+      <div class="btn-login btn" v-else
+       @click="logout">登出</div>
     </div>
     <div class="assistant">
       <div class="remark">我是智能客服，有問題可以敲我</div>
@@ -31,6 +33,12 @@ export default {
       isFixTop: false
     }
   },
+  props: {
+    loginStatus: {
+      required: true,
+      type: Boolean
+    }
+  },
   methods: {
     fixTop () {
       if (window.scrollY > 100) {
@@ -38,6 +46,16 @@ export default {
       } else {
         this.isFixTop = false
       }
+    },
+    sweetAlert (message) {
+      this.$swal(message)
+    },
+    logout () {
+      const message = { title: '登出成功', icon: 'success' }
+      this.sweetAlert(message)
+      // setTimeout(() => {
+      // }, 3000)
+      this.$router.push('/favorite')
     }
   },
   mounted () {

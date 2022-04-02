@@ -10,8 +10,20 @@ const routes = [
         component: () => import('@/views/front/fundResearch.vue')
       },
       {
+        path: '/container',
+        component: () => import('@/views/front/Container.vue')
+      },
+      {
         path: '/compare',
         component: () => import('@/views/front/Compare.vue')
+      },
+      {
+        path: '/favorite',
+        component: () => import('@/views/front/Favorite.vue')
+      },
+      {
+        path: '/favorite-login',
+        component: () => import('@/views/front/Favorite-login.vue')
       },
       {
         path: '/mainchart',
@@ -20,10 +32,6 @@ const routes = [
       {
         path: '',
         component: () => import('@/views/front/Index.vue')
-      },
-      {
-        path: '/login',
-        component: () => import('@/views/front/Login.vue')
       }
     ]
   },
@@ -43,6 +51,10 @@ const routes = [
         component: () => import('@/views/admin/DashboardOrders')
       }
     ]
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/:pathMatch(.*)*',

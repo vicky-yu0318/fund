@@ -676,9 +676,15 @@ h2 {
     flex-direction: column;
     animation: show .2s linear
 }
-.compare-window  .window-body .btn-starCompare {
+.compare-window  .window-body .btn-group {
+    display: flex;
+    justify-content: center;
     margin-top: auto;
 }
+.compare-window  .window-body .btn-group .btn {
+    margin: 0 10px;
+}
+
 @keyframes show {
     0% {
        opacity: 0;
@@ -715,10 +721,10 @@ h2 {
     color: var(--light-color);
 }
 /* 本先天inline變block 寬並不會因此滿版 */
-.compare-window .btn {
+/* .compare-window .btn {
     display: block;
     margin: 20px auto;
-}
+} */
 .compare-window .compare-window-footer {
     position: absolute;
     right: 0; left: 0;
@@ -976,4 +982,184 @@ h2 {
 /* 3項資料 */
 .section-compare .accordion-body .compare-td_three_items {
     width: calc(26.667% - 5px);
+}
+/* ========== section-favorite =========== */
+.section-favorite .block-btn-more {
+    text-align: right;
+    padding: 30px 0 50px;
+}
+.section-favorite .btn-more {
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    border-radius: 30px;
+    padding: 5px 13px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+}
+.section-favorite .btn-more:hover {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.section-favorite .btn-goLogin {
+    border: 1px solid var(--third-color);
+    background-color: var(--third-color);
+    color: #fff;
+    border-radius: 30px;
+    padding: 5px 13px;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.section-favorite .btn-goLogin:hover {
+    border-color: var(--third-color-active);
+    background-color: var(--third-color-active);
+}
+.section-favorite .block-favorite {
+    padding: 0 30px;
+}
+.section-favorite .favorite-tr {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    border-top: 1px solid var(--light-color);
+}
+.section-favorite .favorite-tr:first-child {
+    background-color: var(--light-color);
+}
+.section-favorite .favorite-tr:last-child {
+    border-bottom: 1px solid var(--light-color);
+}
+.section-favorite .favorite-tr:nth-child(n+4).dark {
+    position: relative;
+    border-top: 1px solid var(--main-color);
+}
+.section-favorite .favorite-tr:nth-child(n+4).dark::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0; top: 0;
+    background-color: var(--main-color);
+}
+.section-favorite .btn-goLogin-dark {
+    text-align: center;
+    margin-top: -100px;
+    position: relative;
+    z-index: 10;
+}
+.section-favorite .btn-goLogin-dark p {
+    color: #fff;
+    padding-bottom: 20px;
+}
+
+.section-favorite .favorite-tr .favorite-th.name-th,
+.section-favorite .favorite-tr .favorite-td.name-td,
+.section-favorite .favorite-tr .favorite-th.btns-th,
+.section-favorite .favorite-tr .favorite-td.btns-td {
+    width: 14%;
+}
+
+.section-favorite .favorite-tr .favorite-th:first-child,
+.section-favorite .favorite-tr .favorite-td:first-child {
+    border-left: 1px solid var(--light-color);
+}
+.section-favorite .favorite-tr .favorite-th,
+.section-favorite .favorite-tr .favorite-td  {
+    width: calc(12% - 1.5px);
+    border-right: 1px solid var(--light-color);
+    padding: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* ========= section-login ========== */
+.section-login {
+    background-color: #FDFBEF;
+    min-height: calc(100vh - 70px);
+}
+.section-login .container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.section-login .title {
+    text-align: center;
+    letter-spacing: 2px;
+    color: var(--main-color);
+    font-weight: 600;
+    font-size: 45px;
+    padding: 30px 0 15px;
+}
+.section-login .form-login {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.3);
+    width: 90%;
+    max-width: 550px;
+    padding: 60px;
+    box-sizing: border-box;
+}
+.section-login .form-login .input-field {
+    padding-bottom: 30px;
+    font-size: 20px;
+}
+.section-login .input-field label {
+    display: block;
+    padding-bottom: 5px;
+}
+.section-login .input-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid var(--light-color);
+    font-size: 18px;
+}
+.section-login .input-field input:hover {
+    border-color: var(--side-color);
+}
+
+.section-login .input-field .input-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--light-color);
+    border-radius: 10px;
+}
+.section-login .input-field .input-box:hover {
+    border-color: var(--side-color);
+}
+.section-login .input-field .input-box .input-password {
+    border: none;
+}
+.section-login .input-field .input-box .btn-eye {
+    cursor: pointer;
+    color: var(--light-color);
+    padding-right: 10px;
+}
+.section-login .btn-login {
+    margin-top: 30px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 10px 0;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    background-color: var(--side-color);
+}
+.section-login .btn-login:hover {
+    box-shadow: 0 8px 10px rgba(0,0,0,.2);
 }

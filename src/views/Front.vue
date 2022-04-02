@@ -4,7 +4,6 @@
 </template>
 
 <style lang="scss">
-// 因為使用@ 就要加lang="scss"
 @import '../assets/stylesheets/fund.css';
 </style>
 

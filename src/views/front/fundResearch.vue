@@ -237,7 +237,7 @@
             v-for="item in finalData" :key="item">
           <li>
             <button class="btn-compare" id="btn-compare"
-            @click="toCompareList(item)"
+            @click="updateCompare(item)"
             :class="{active: compareGroup.includes(item)}">
               <i class="fas fa-plus"></i>比較
             </button>
@@ -274,7 +274,7 @@
             v-for="item in finalData" :key="item">
           <li>
             <button class="btn-compare" id="btn-compare"
-            @click="toCompareList(item)"
+            @click="updateCompare(item)"
             :class="{active: compareGroup.includes(item)}">
               <i class="fas fa-plus"></i>比較
             </button>
@@ -308,7 +308,7 @@
         <ul class="result-tr" v-for="item in finalData" :key="item">
           <li>
             <button class="btn-compare" id="btn-compare"
-            @click="toCompareList(item)"
+            @click="updateCompare(item)"
             :class="{active: compareGroup.includes(item)}">
               <i class="fas fa-plus"></i>比較
             </button>
@@ -352,6 +352,7 @@
           <span>( {{myFavoriteGroup.length}} )</span></div>
           <div class="fas fa-angle-down"></div>
         </div>
+        <!-- 比較清單-內容 -->
         <div class="window-body" v-if="compareStatus"
         :class="{active: compareGroup.length>0 && showCompareBody}">
           <ul class="compare-list">
@@ -363,9 +364,12 @@
               <div class="btn-close" @click="deleteCompare(item)"></div>
             </li>
           </ul>
-          <button class="btn btn-starCompare"
-          @click="toComparePage">開始比較</button>
+          <div class="btn-group">
+            <button class="btn"
+            @click="toComparePage">開始比較</button>
+          </div>
         </div>
+        <!-- 觀察清單-內容 -->
         <div class="window-body" v-else
         :class="{active: myFavoriteGroup.length>0 && showFavoriteBody}">
           <ul class="compare-list">
@@ -378,6 +382,10 @@
               @click="deletemyFavorite(item)"></div>
             </li>
           </ul>
+          <div class="btn-group">
+            <button class="btn" @click="toFavoritePage">前往觀察</button>
+            <button class="btn" @click="toLogin">登入網銀</button>
+          </div>
         </div>
         <div class="compare-window-footer"
         :class="{show: compareGroup.length > 0 ||
@@ -412,7 +420,8 @@ import fundData from '@/json/fundData.json'
 // import fundData from '@/json/fundData.js'
 // import getFundData from '@/methods/getFundData'
 import localStorage from '@/methods/localStorage.js'
-import emitter from '@/methods/eventBus'
+import localStorageCompare from '@/methods/localStorage-compare.js'
+// import emitter from '@/methods/eventBus'
 
 export default {
   data () {
@@ -477,7 +486,7 @@ export default {
   components: {
     Breadcrumb
   },
-  mixins: [localStorage],
+  mixins: [localStorage, localStorageCompare],
   watch: {
     conditions: {
       handler (n, o) {
@@ -485,12 +494,12 @@ export default {
       },
       deep: true
     },
-    compareGroup: {
-      handler () {
-        this.quantityControl()
-      },
-      deep: true
-    },
+    // compareGroup: {
+    //   handler () {
+    //     this.quantityControl()
+    //   },
+    //   deep: true
+    // },
     finalData: {
       handler () {
         if (this.finalData.size === 0) {
@@ -528,7 +537,8 @@ export default {
     addFundCondition () {
       this.isSearchFund = ''
       if (this.keyword === '') {
-        alert('請輸入基金名稱/代號')
+        const message = { title: '請輸入基金名稱/代號', icon: 'info' }
+        this.sweetAlert(message)
         return
       }
       // 如果input裡面的值有符合資料庫的fund值
@@ -1100,22 +1110,23 @@ export default {
         behavior: 'smooth'
       })
     },
-    toCompareList (item) {
-      this.compareStatus = true
-      // 狀況一: 沒加過
-      // 畫面
-      if (!this.compareGroup.includes(item)) {
-        this.compareGroup.push(item)
-      } else {
-        // 狀況二: 加過
-        // 畫面
-        const index = this.compareGroup.indexOf(item)
-        this.compareGroup.splice(index, 1)
-      }
-    },
+    // toCompareList (item) {
+    //   this.compareStatus = true
+    //   // 狀況一: 沒加過
+    //   // 畫面
+    //   if (!this.compareGroup.includes(item)) {
+    //     this.compareGroup.push(item)
+    //   } else {
+    //     // 狀況二: 加過
+    //     // 畫面
+    //     const index = this.compareGroup.indexOf(item)
+    //     this.compareGroup.splice(index, 1)
+    //   }
+    // },
     quantityControl () {
       if (this.compareGroup.length > 3) {
-        alert('比較基金不得超過3隻')
+        const message = { title: '比較基金不得超過3隻', icon: 'error' }
+        this.sweeAlert(message)
         this.compareGroup.pop()
         console.log(this.compareGroup)
       }
@@ -1129,8 +1140,17 @@ export default {
       this.myFavoriteGroup.splice(index, 1)
     },
     toComparePage () {
+      // emitter.emit('getSearchData', this.compareGroup)
       this.$router.push('/compare')
-      emitter.emit('getSearchData', this.compareGroup)
+    },
+    toFavoritePage () {
+      this.$router.push('/favorite')
+    },
+    toLogin () {
+      this.$router.push('/login')
+    },
+    sweetAlert (message) {
+      this.$swal(message)
     }
   },
   mounted () {
