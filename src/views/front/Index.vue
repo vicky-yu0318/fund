@@ -1,6 +1,6 @@
 <template>
   <Navbar :currentPage="currentPage"></Navbar>
-    <section class="section section-home" id="section-home">
+    <!-- <section class="section section-home" id="section-home">
         <div class="container">
             <div class="home-slider">
                 <div class="slide active">
@@ -30,8 +30,8 @@
             <div id="home-slide-next" class="fas fa-angle-right" onClick="nextPage()"></div>
             <div id="home-slide-prev" class="fas fa-angle-left" onClick="prePage()"></div>
         </div>
-    </section>
-    <section class="section section-topic" id="section-home">
+    </section> -->
+    <!-- <section class="section section-topic" id="section-home">
         <div class="container">
             <div class="item-group">
                 <a class="item">
@@ -52,7 +52,6 @@
                         <div class="btn">了解更多</div>
                     </div>
                 </a>
-                <!-- style="background: url('/image/007.jpg'); background-size: cover" -->
                 <a class="item">
                     <span class="new">New</span>
                     <i class="fa-solid fa-comment-dots"></i>
@@ -64,8 +63,8 @@
                 </a>
             </div>
         </div>
-    </section>
-    <section class="section section-service" id="section-service">
+    </section> -->
+    <!-- <section class="section section-service" id="section-service">
         <div class="container">
             <Swiper class="service-slider swiper"
               :pagination="{ clickable: true }"
@@ -76,8 +75,6 @@
               loop
               :centeredSlides="true"
               >
-                <!-- <div class="swiper-wrapper"> -->
-                    <!-- data-swiper-autoplay="4500" -->
                     <SwiperSlide class="slide swiper-slide"
                       >
                         <img src="https://upload.cc/i1/2022/04/04/JyBMX0.jpg" alt="">
@@ -113,45 +110,44 @@
                             </div>
                         </div>
                     </SwiperSlide>
-                <!-- </div> -->
                 <div class="swiper-pagination"></div>
             </Swiper>
         </div>
-    </section>
+    </section> -->
 </template>
 <script>
-import Navbar from '@/components/Navbar.vue'
-import goTop from '@/methods/goTop'
-// swiper core
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper'
-// swiper vue
-import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue'
-// swiper css
-import 'swiper/swiper-bundle.css'
+// import Navbar from '@/components/Navbar.vue'
+// import goTop from '@/methods/goTop'
+// // swiper core
+// import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper'
+// // swiper vue
+// import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue'
+// // swiper css
+// import 'swiper/swiper-bundle.css'
 
-SwiperCore.use([Navigation, Pagination, Autoplay])
+// SwiperCore.use([Navigation, Pagination, Autoplay])
 
-export default {
-  data () {
-    return {
-      currentPage: this.$route.fullPath,
-      swiperOptions: {
-        breakpoints: {
-          0: { slidesPerView: 1, spaceBetween: 30 },
-          768: { slidesPerView: 2, spaceBetween: 30 },
-          1200: { slidesPerView: 3, spaceBetween: 30 }
-        }
-      }
-    }
-  },
-  components: {
-    Navbar,
-    Swiper,
-    SwiperSlide
-  },
-  mounted () {
-    goTop()
-    // console.log(this.$route)
-  }
-}
-</script>
+// export default {
+//   data () {
+//     return {
+//       currentPage: this.$route.fullPath,
+//       swiperOptions: {
+//         breakpoints: {
+//           0: { slidesPerView: 1, spaceBetween: 30 },
+//           768: { slidesPerView: 2, spaceBetween: 30 },
+//           1200: { slidesPerView: 3, spaceBetween: 30 }
+//         }
+//       }
+//     }
+//   },
+//   components: {
+//     Navbar,
+//     Swiper,
+//     SwiperSlide
+//   },
+//   mounted () {
+//     goTop()
+//     // console.log(this.$route)
+//   }
+// }
+// </script>
