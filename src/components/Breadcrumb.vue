@@ -3,9 +3,26 @@
     <div class="container">
       <ul class="breadcrumb-list">
         <li><a href="">首頁</a></li>
-        <li><a href="">基金</a></li>
-        <li><a href="" class="active">基金搜尋</a></li>
+        <li v-if="currentPage === 'search'"><a href="" class="active" >基金搜尋</a></li>
+        <li v-if="currentPage === 'compare'"><a href="" class="active" >基金比較表</a></li>
+        <li v-if="currentPage === 'favorite'"><a href="" class="active" >基金觀察清單</a></li>
       </ul>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  props: {
+    currentPage: {
+      required: true
+    }
+  },
+  mounted () {
+    // console.log(this.currentPage)
+  }
+}
+</script>

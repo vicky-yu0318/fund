@@ -1,4 +1,6 @@
 <template>
+    <Navbar :currentPage="currentPage"></Navbar>
+    <Breadcrumb :currentPage="currentPage"></Breadcrumb>
   <section class="section section-favorite" id="section-favorite">
         <div class="container">
             <div class="block-main-title">
@@ -7,7 +9,7 @@
             </div>
             <p>建議您先登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
             <div class="block-btn-more">
-                <router-link to="/fundResearch" class="btn-more">加入更多基金觀察</router-link>
+                <router-link to="/search" class="btn-more">加入更多基金觀察</router-link>
                 <router-link to="/login" class="btn-goLogin">前往網銀</router-link>
             </div>
             <div class="block-favorite">
@@ -28,12 +30,14 @@
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
+                                     @click="updateCompare(item)"
+                                     :class="{active: compareGroup.includes(item)}"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
                                     <button class="btn-heart" id="btn-heart"
                                      :class="{ active: myFavoriteGroup.includes(item)}"
-                                     @click="updateFavorite(item)">
+                                     @click="deleteFavorite(item)">
                                         <i class="fas fa-heart"></i>刪除
                                     </button>
                                 </div>
@@ -55,18 +59,19 @@
                         </div>
                     </template>
 
-                    <!-- 3個以下觀察基金 樣板 -->
+                    <!-- 3個以上觀察基金 樣板 -->
                     <template v-if="myFavoriteGroup.length > 2">
                         <div class="favorite-tr dark"
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
+                                    @click="updateCompare(item)"
+                                    :class="{active: compareGroup.includes(item)}"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
-                                    <button class="btn-heart" id="btn-heart"
-                                     :class="{ active: myFavoriteGroup.includes(item)}"
-                                     @click="updateFavorite(item)">
+                                    <button class="btn-heart disabled" id="btn-heart"
+                                     @click="deleteFavorite(item)">
                                         <i class="fas fa-heart"></i>刪除
                                     </button>
                                 </div>
@@ -87,7 +92,7 @@
                                 </div>
                         </div>
                         <div class="btn-goLogin-dark">
-                            <p>若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
+                            <p>若未登入，最多僅觀察2筆，無法管理名單，且該清單無法與網路銀行同步。</p>
                             <router-link to="/login"
                             class="btn-goLogin"
                             >前往網銀</router-link>
@@ -100,19 +105,33 @@
 </template>
 <script>
 import Favorite from '@/methods/localStorage.js'
+import Compare from '@/methods/localStorage-compare.js'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 import goTop from '@/methods/goTop.js'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   data () {
     return {
-      myFavoriteGroup: this.getFavorite() || []
+      currentPage: this.$route.name,
+      myFavoriteGroup: this.getFavorite() || [],
+      compareGroup: this.getCompare() || []
     }
   },
+  components: {
+    Navbar,
+    Breadcrumb
+  },
   // 裡面有2個以上方法，無法像goTop() 直接運行，要mixins
-  mixins: [Favorite],
+  mixins: [Favorite, Compare],
   mounted () {
     goTop()
   }
 }
 
 </script>
+<style>
+  .footer {
+    background: linear-gradient(to right, #544a5c, #4a3d53 );
+  }
+</style>

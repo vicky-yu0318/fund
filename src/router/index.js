@@ -4,10 +4,12 @@ const routes = [
   {
     path: '/',
     component: () => import('@/views/Front.vue'),
+    name: 'index',
     children: [
       {
-        path: '/fundResearch',
-        component: () => import('@/views/front/fundResearch.vue')
+        path: '/search',
+        component: () => import('@/views/front/Search.vue'),
+        name: 'search'
       },
       {
         path: '/container',
@@ -15,15 +17,13 @@ const routes = [
       },
       {
         path: '/compare',
-        component: () => import('@/views/front/Compare.vue')
+        component: () => import('@/views/front/Compare.vue'),
+        name: 'compare'
       },
       {
         path: '/favorite',
-        component: () => import('@/views/front/Favorite.vue')
-      },
-      {
-        path: '/favorite-login',
-        component: () => import('@/views/front/Favorite-login.vue')
+        component: () => import('@/views/front/Favorite.vue'),
+        name: 'favorite'
       },
       {
         path: '/mainchart',
@@ -36,9 +36,9 @@ const routes = [
     ]
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: () => import('@/views/Dashboard.vue'),
+    path: '/memberFavorite',
+    name: 'memberFavorite',
+    component: () => import('@/views/MemberFavorite.vue'),
     children: [
       {
         path: 'products',

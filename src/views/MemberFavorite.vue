@@ -1,5 +1,8 @@
 <template>
-  <section class="section section-favorite" id="section-favorite">
+  <!-- <router-view v-if="loginData">00</router-view> -->
+  <Navbar :loginStatus="loginStatus" :currentPage="currentPage"></Navbar>
+  <section v-if="loginData"
+  class="section section-favorite" id="section-favorite">
         <div class="container">
             <div class="block-main-title">
                 <i class="fa-solid fa-heart"></i>
@@ -7,7 +10,8 @@
             </div>
             <p>建議您先登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
             <div class="block-btn-more">
-                <router-link to="/" class="btn-more">加入更多基金觀察</router-link>
+                <router-link to="/search"
+                class="btn-more">加入更多基金觀察</router-link>
                 <!-- <a class="btn-goLogin">前往網銀</a> -->
             </div>
             <div class="block-favorite">
@@ -97,22 +101,40 @@
             </div>
         </div>
     </section>
+
 </template>
+
+<style lang="scss">
+@import '../assets/stylesheets/fund.css';
+</style>
+
 <script>
 import Favorite from '@/methods/localStorage.js'
 import goTop from '@/methods/goTop.js'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   data () {
     return {
+      currentPage: this.$route.name,
+      loginData: '',
       myFavoriteGroup: this.getFavorite() || []
     }
   },
-  // 裡面有2個以上方法，無法像goTop() 直接運行，要mixins
+  components: {
+    Navbar
+  },
   mixins: [Favorite],
   mounted () {
+    this.loginData = this.getUser()
     goTop()
+    console.log(this.loginData)
+  },
+  methods: {
+    getUser () {
+      // 讀檔get:
+      return JSON.parse(localStorage.getItem('loginUser'))
+    }
   }
 }
-
 </script>

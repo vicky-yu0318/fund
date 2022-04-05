@@ -6,7 +6,7 @@
         <h1 class="sr-only">playfund</h1>
       </a>
 
-      <router-link to="/" class="btn">回首頁</router-link>
+      <div class="btn">回首頁</div>
     </div>
   </header>
 
@@ -71,7 +71,7 @@ export default {
         const message = { title: '登入成功', icon: 'success' }
         this.sweetAlert(message)
         this.saveLogin(correctData)
-        this.$router.push('/admin')
+        this.$router.push('/memberFavorite')
       } else {
         const message = { title: '身分 / 代號 / 密碼有誤', icon: 'error' }
         this.sweetAlert(message)

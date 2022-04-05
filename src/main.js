@@ -32,6 +32,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 // c3.js套件
 // import VueC3 from 'vue-c3'
+// import VueGoogleCharts from 'vue-google-charts'
 
 // 自己寫的放後方
 import App from './App.vue'
@@ -83,6 +84,7 @@ const options = {
 }
 
 app.use(VueSweetalert2, options)
+// app.use(VueGoogleCharts)
 
 app.use(router)
 app.mount('#app')

@@ -1,4 +1,6 @@
 <template>
+<Navbar :currentPage="currentPage"></Navbar>
+<Breadcrumb :currentPage="currentPage"></Breadcrumb>
 <!-- <div class="container">
     <line-chart
       v-if="loaded"
@@ -62,7 +64,7 @@
             </div>
             <div class="block-btn-more">
                 <router-link class="btn-more"
-                to="/fundResearch">加入更多基金比較</router-link>
+                to="/search">加入更多基金比較</router-link>
             </div>
             <!-- 績效走勢圖 -->
             <div class="block-accordion block_chart active"
@@ -258,6 +260,8 @@
 
 </template>
 <script>
+import Navbar from '@/components/Navbar.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 import goTop from '@/methods/goTop.js'
 // import emitter from '@/methods/eventBus'
 import Compare from '@/methods/localStorage-compare.js'
@@ -265,9 +269,13 @@ import Compare from '@/methods/localStorage-compare.js'
 
 export default {
   // name: 'LineChartContainer',
-  // components: { LineChart },
+  components: {
+    Navbar,
+    Breadcrumb
+  },
   data () {
     return {
+      currentPage: this.$route.name,
       compareGroup: this.getCompare() || [],
       currentAccordion: 'chart',
       openAccordionGroup: [],

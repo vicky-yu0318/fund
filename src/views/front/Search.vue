@@ -1,15 +1,15 @@
 <template>
-  <Breadcrumb></Breadcrumb>
-  <section class="section section-searchFund" id="section-searchFund"
-  >
-  <!-- @click.stop="removeDescription -->
+  <Navbar :currentPage="currentPage"></Navbar>
+  <Breadcrumb :currentPage="currentPage"></Breadcrumb>
+  <section class="section section-searchFund" id="section-searchFund">
+    <!-- @click.stop="removeDescription -->
     <div class="container">
       <div class="block-main-title">
-          <i class="fas fa-search"></i>
-          <h2 class="main-title">基金搜尋</h2>
+        <i class="fas fa-search"></i>
+        <h2 class="main-title">基金搜尋</h2>
       </div>
       <!-- <h2><i class="fas fa-search"></i>基金搜尋</h2> -->
-      <div class="searchResult-title" :class="{active: isFixTop}">
+      <div class="searchResult-title" :class="{ active: isFixTop }">
         <div>
           <span>{{ finalData.size }}</span
           >個結果
@@ -33,8 +33,11 @@
               @keyup.enter="addFundCondition"
             />
             <!-- keyup的觸發=> 於input 非button -->
-            <ul class="match-list" v-if="matchList.length > 0 && isMatchList"
-              ref="refMatchList">
+            <ul
+              class="match-list"
+              v-if="matchList.length > 0 && isMatchList"
+              ref="refMatchList"
+            >
               <li
                 class="match-item"
                 @click="chooseFundCondition(item)"
@@ -79,7 +82,10 @@
               v-for="item in pointCompanyCategory"
               :key="item"
               @click="updateCompanyCondition(item)"
-              :class="{ active: chooseCompanyItems.includes(item) && fixConditions.has(item) }"
+              :class="{
+                active:
+                  chooseCompanyItems.includes(item) && fixConditions.has(item)
+              }"
             >
               <i class="fas fa-star"></i> {{ item }}
             </div>
@@ -94,55 +100,70 @@
       <div class="row asset-block">
         <div class="title">資產類別</div>
         <div class="content">
-          <div class="btn-asset-choose" v-if="isAssetDetail"
-          @click="backAsset">
+          <div class="btn-asset-choose" v-if="isAssetDetail" @click="backAsset">
             <i class="fas fa-angle-left"></i>
             繼續選擇
           </div>
           <div class="btn-choose-group">
             <!-- 主類按鈕=> 只要有勾"全" 或 "細項" 有勾選任一，就active -->
             <template v-for="item in assetCategory" :key="item">
-              <div class="btn-choose"
-                  v-if="currentAsset === item || !isAssetOption"
-                  :class="{ disabled: isAssetDetail,
-                  active: (showAllDetail.includes(item) || chooseSingleDetailGroup.size > 0)
-                   && fixConditions.has(item) }"
-                  @click="addAssetCondition(item)"
-                  > {{ item }}
+              <div
+                class="btn-choose"
+                v-if="currentAsset === item || !isAssetOption"
+                :class="{
+                  disabled: isAssetDetail,
+                  active:
+                    (showAllDetail.includes(item) ||
+                      chooseSingleDetailGroup.size > 0) &&
+                    fixConditions.has(item)
+                }"
+                @click="addAssetCondition(item)"
+              >
+                {{ item }}
               </div>
             </template>
           </div>
-          <div class="category" v-if="isAssetDetail">
-            <!-- https://tools.wingzero.tw/article/sn/196 -->
-            <!-- 這樣就不需要ID了 -->
+          <div class="detail-check">
+            <label>
+              <input type="checkbox" value="全"
+              @click="checkAllAssetDetail"/>
+              <span>全部</span>
+            </label>
+            <label v-for="item in AssetDetailSet" :key="item">
+              <input type="checkbox" :value="item" v-model="checkDetailGroup"/>
+              <span>{{ item }}</span>
+            </label>
+            {{checkDetailGroup}}
+          </div>
+          <!-- <div class="category" v-if="isAssetDetail">
             <template v-for="item in assetCategory" :key="item">
-              <button type="button" class="btnsmall" @click="checkAllAssetDetail"
-              :class="{ 'active': showAllDetail.includes(item)
-              && fixConditions.has(item)}"
-              v-if="currentAsset === item"
-              >全選
+              <button
+                type="button"
+                class="btnsmall"
+                @click="checkAllAssetDetail"
+                :class="{
+                  active:
+                    showAllDetail.includes(item) && fixConditions.has(item)
+                }"
+                v-if="currentAsset === item"
+              >
+                全選
               </button>
             </template>
-            <button type="button"  class="btnDetail"
-            v-for="item in AssetDetailSet" :key="item"
-            @click="checkSingleAssetDetail(item)"
-            :class="{active: chooseSingleDetailGroup.has(item)
-            && fixConditions.has(item) }">{{ item }}</button>
-            <!-- <label>
-              <input type="checkbox" value=""
-              @click="checkAllAssetDetail"
-              :checked="showAllDetail.isShow"
-              >
-              <span> 全部 </span>
-            </label> -->
-            <!-- <label v-for="item in AssetDetailSet" :key="item">
-              <input type="checkbox" value="${item}"
+            <button
+              type="button"
+              class="btnDetail"
+              v-for="item in AssetDetailSet"
+              :key="item"
               @click="checkSingleAssetDetail(item)"
-              :checked="fixConditions.has(item)"
-              >
-              <span> {{ item }} </span>
-            </label> -->
-          </div>
+              :class="{
+                active:
+                  chooseSingleDetailGroup.has(item) && fixConditions.has(item)
+              }"
+            >
+              {{ item }}
+            </button>
+          </div> -->
         </div>
       </div>
 
@@ -150,11 +171,17 @@
         <div class="title">計價幣別</div>
         <div class="content">
           <div class="btn-choose-group">
-            <div class="btn-choose"
-            v-for="item in currencyCategory" :key="item"
-            @click="updateCurrencyCondition(item)"
-            :class="{active:chooseCurrencyItems.includes(item) && fixConditions.has(item)}">
-            {{ item }}
+            <div
+              class="btn-choose"
+              v-for="item in currencyCategory"
+              :key="item"
+              @click="updateCurrencyCondition(item)"
+              :class="{
+                active:
+                  chooseCurrencyItems.includes(item) && fixConditions.has(item)
+              }"
+            >
+              {{ item }}
             </div>
           </div>
         </div>
@@ -165,8 +192,10 @@
       </div>
 
       <div class="row">
-        <div class="title"
-        @click="isShowratingDesription = !isShowratingDesription">
+        <div
+          class="title"
+          @click="isShowratingDesription = !isShowratingDesription"
+        >
           基金評等
           <a href="javascript:;">
             <i class="fa-solid fa-circle-question"></i>
@@ -197,70 +226,83 @@
   <section class="section section-searchResult" id="section-searchResult">
     <div class="container">
       <div class="block-main-title" ref="titleResult">
-          <i class="fas fa-search"></i>
-          <h2 class="main-title">搜尋結果</h2>
+        <i class="fas fa-search"></i>
+        <h2 class="main-title">搜尋結果</h2>
       </div>
       <div class="search-condition">
         <div class="condition-item" v-for="item in fixConditions" :key="item">
-          {{ item }} <i class="fas fa-times"  @click="deleteCondition(item)"></i>
+          {{ item }} <i class="fas fa-times" @click="deleteCondition(item)"></i>
         </div>
       </div>
       <!-- 搜尋結果主分類 -->
       <div class="search-category">
         <ul class="row">
-          <li :class="{active: currentSearchCatagory === 'basic'}"
-            @click="currentSearchCatagory = 'basic'"  >
+          <li
+            :class="{ active: currentSearchCatagory === 'basic' }"
+            @click="currentSearchCatagory = 'basic'"
+          >
             基本資料
           </li>
-          <li :class="{active: currentSearchCatagory === 'performance'}"
-            @click="currentSearchCatagory = 'performance'"  >
+          <li
+            :class="{ active: currentSearchCatagory === 'performance' }"
+            @click="currentSearchCatagory = 'performance'"
+          >
             報酬率
           </li>
-          <li :class="{active: currentSearchCatagory === 'risk'}"
-            @click="currentSearchCatagory = 'risk'"  >
+          <li
+            :class="{ active: currentSearchCatagory === 'risk' }"
+            @click="currentSearchCatagory = 'risk'"
+          >
             風險
           </li>
         </ul>
       </div>
       <!-- 一類: 基本資料 -->
-      <div class="content basic-content"
-      v-if="currentSearchCatagory === 'basic'">
-        <ul class="result-tr"
-          v-if="finalData.size > 0">
+      <div
+        class="content basic-content"
+        v-if="currentSearchCatagory === 'basic'"
+      >
+        <ul class="result-tr" v-if="finalData.size > 0">
           <li></li>
           <li>基金名稱</li>
           <li>幣別</li>
           <li>基金類型</li>
           <li></li>
         </ul>
-        <ul class="result-tr"
-            v-for="item in finalData" :key="item">
+        <ul class="result-tr" v-for="item in finalData" :key="item">
           <li>
-            <button class="btn-compare" id="btn-compare"
-            @click="updateCompare(item)"
-            :class="{active: compareGroup.includes(item)}">
+            <button
+              class="btn-compare"
+              id="btn-compare"
+              @click="updateCompare(item)"
+              :class="{ active: compareGroup.includes(item) }"
+            >
               <i class="fas fa-plus"></i>比較
             </button>
-            <button class="btn-heart" id="btn-heart"
+            <button
+              class="btn-heart"
+              id="btn-heart"
               @click="updateFavorite(item)"
-              :class="{active: myFavoriteGroup.includes(item)}">
+              :class="{ active: myFavoriteGroup.includes(item) }"
+            >
               <i class="fas fa-heart"></i>觀察
             </button>
           </li>
           <li>{{ item.fund }}</li>
-          <li> {{ $filters.toFormalDate(item.established) }} </li>
+          <li>{{ $filters.toFormalDate(item.established) }}</li>
           <template v-for="(detail, key) in item.asset" :key="detail">
-            <li>{{ key }} - {{ detail[0] }} </li>
+            <li>{{ key }} - {{ detail[0] }}</li>
           </template>
           <li><a href="javascript:;" class="btn-buy">申購</a></li>
         </ul>
       </div>
 
       <!-- 二類: 報酬率 -->
-      <div class="content performance-content"
-      v-if="currentSearchCatagory === 'performance'">
-        <ul class="result-tr"
-          v-if="finalData.size > 0">
+      <div
+        class="content performance-content"
+        v-if="currentSearchCatagory === 'performance'"
+      >
+        <ul class="result-tr" v-if="finalData.size > 0">
           <li></li>
           <li>基金名稱</li>
           <li>三個月</li>
@@ -270,17 +312,22 @@
           <li></li>
         </ul>
 
-        <ul class="result-tr"
-            v-for="item in finalData" :key="item">
+        <ul class="result-tr" v-for="item in finalData" :key="item">
           <li>
-            <button class="btn-compare" id="btn-compare"
-            @click="updateCompare(item)"
-            :class="{active: compareGroup.includes(item)}">
+            <button
+              class="btn-compare"
+              id="btn-compare"
+              @click="updateCompare(item)"
+              :class="{ active: compareGroup.includes(item) }"
+            >
               <i class="fas fa-plus"></i>比較
             </button>
-            <button class="btn-heart" id="btn-heart"
+            <button
+              class="btn-heart"
+              id="btn-heart"
               @click="updateFavorite(item)"
-              :class="{active: myFavoriteGroup.includes(item)}">
+              :class="{ active: myFavoriteGroup.includes(item) }"
+            >
               <i class="fas fa-heart"></i>觀察
             </button>
           </li>
@@ -294,10 +341,8 @@
       </div>
 
       <!-- 三類: 風險 -->
-      <div class="content risk-content"
-        v-if="currentSearchCatagory === 'risk'">
-        <ul class="result-tr"
-          v-if="finalData.size > 0">
+      <div class="content risk-content" v-if="currentSearchCatagory === 'risk'">
+        <ul class="result-tr" v-if="finalData.size > 0">
           <li></li>
           <li>基金名稱</li>
           <li>晨星評等</li>
@@ -307,112 +352,143 @@
         </ul>
         <ul class="result-tr" v-for="item in finalData" :key="item">
           <li>
-            <button class="btn-compare" id="btn-compare"
-            @click="updateCompare(item)"
-            :class="{active: compareGroup.includes(item)}">
+            <button
+              class="btn-compare"
+              id="btn-compare"
+              @click="updateCompare(item)"
+              :class="{ active: compareGroup.includes(item) }"
+            >
               <i class="fas fa-plus"></i>比較
             </button>
-            <button class="btn-heart" id="btn-heart"
+            <button
+              class="btn-heart"
+              id="btn-heart"
               @click="updateFavorite(item)"
-              :class="{active: myFavoriteGroup.includes(item)}">
+              :class="{ active: myFavoriteGroup.includes(item) }"
+            >
               <i class="fas fa-heart"></i>觀察
             </button>
           </li>
-          <li> {{item.fund}} </li>
-          <li>{{item.rating}}</li>
-          <li>{{item.risk}}</li>
-          <li>{{item.scaleMillion}}</li>
+          <li>{{ item.fund }}</li>
+          <li>{{ item.rating }}</li>
+          <li>{{ item.risk }}</li>
+          <li>{{ item.scaleMillion }}</li>
           <li><a href="javascript:;" class="btn-buy">申購</a></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <div class="compare-fixed">
-    <div class="container">
-      <!-- <section class="section-compare" id="section-compare"> -->
-      <!-- <div class="container"> -->
-      <div class="compare-window"
-          :class="{show: compareGroup.length > 0}">
-          <!-- v-if="showCompareBody"不用此控 他是flex 非block-->
-          <!-- 兩種狀態: 比較 & 觀察 -->
-        <div class="window-head" v-if="compareStatus"
-            :class="{active: showCompareBody, show: compareGroup.length > 0}"
-            @click="showCompareBody = false">
-          <div class="title" id="btn-zoomout"
-          >比較清單
-          <span>( {{compareGroup.length}} )</span></div>
-          <div class="fas fa-angle-down"></div>
+  <div class="window">
+    <!-- 情境1: 比較清單 -->
+    <div class="window-upper" :class="{ active: showUpperBody === 'compare' }">
+      <div class="window-head" @click="showUpperBody = ''">
+        <div class="title">
+          比較清單
+          <span v-if="compareGroup.length > 0"
+            >({{ compareGroup.length }})</span
+          >
         </div>
-        <div class="window-head" v-else
-            :class="{active: showFavoriteBody, show: myFavoriteGroup.length > 0}"
-            @click="showFavoriteBody = false">
-          <div class="title" id="btn-zoomout"
-          >觀察清單
-          <span>( {{myFavoriteGroup.length}} )</span></div>
-          <div class="fas fa-angle-down"></div>
-        </div>
-        <!-- 比較清單-內容 -->
-        <div class="window-body" v-if="compareStatus"
-        :class="{active: compareGroup.length>0 && showCompareBody}">
-          <ul class="compare-list">
-            <li class="compare-item"
-            v-for="item in compareGroup" :key="item" >
-              <div class="fund">
-                {{ item.fund }}<span>{{ item.code }}</span>
-              </div>
-              <div class="btn-close" @click="deleteCompare(item)"></div>
-            </li>
-          </ul>
-          <div class="btn-group">
-            <button class="btn"
-            @click="toComparePage">開始比較</button>
-          </div>
-        </div>
-        <!-- 觀察清單-內容 -->
-        <div class="window-body" v-else
-        :class="{active: myFavoriteGroup.length>0 && showFavoriteBody}">
-          <ul class="compare-list">
-            <li class="compare-item"
-            v-for="item in myFavoriteGroup" :key="item" >
-              <div class="fund">
-                {{ item.fund }}<span>{{ item.code }}</span>
-              </div>
-              <div class="btn-close"
-              @click="deletemyFavorite(item)"></div>
-            </li>
-          </ul>
-          <div class="btn-group">
-            <button class="btn" @click="toFavoritePage">前往觀察</button>
-            <button class="btn" @click="toLogin">登入網銀</button>
-          </div>
-        </div>
-        <div class="compare-window-footer"
-        :class="{show: compareGroup.length > 0 ||
-                myFavoriteGroup.length > 0}">
-          <div class="btn-list">
-            <div
-              :class="{active: compareStatus, disabled: compareGroup.length < 1}"
-              id="btn-compareList"
-              @click="showCompareBody = true, compareStatus = true">
-              比較清單
-                <span>{{ compareGroup.length }}</span>
+        <div class="fas fa-angle-down"></div>
+      </div>
+      <!-- body 有資料 -->
+      <div class="window-body" v-if="compareGroup.length > 0">
+        <ul class="body-list">
+          <li class="fund-item" v-for="item in compareGroup" :key="item">
+            <div class="name">
+              {{ item.fund }}<span>({{ item.code }})</span>
             </div>
-            <div id="btn-favoriteList"
-              @click="showFavoriteBody = true, compareStatus = false"
-              :class="{active: !compareStatus, disabled: myFavoriteGroup.length < 1 }">
-              觀察清單
-              <span> {{myFavoriteGroup.length}} </span></div>
-          </div>
+            <div
+              class="btn-close fas fa-times"
+              @click="updateCompare(item)"
+            ></div>
+          </li>
+        </ul>
+        <div class="block-btn">
+          <router-link to="/compare" class="btn">開始比較</router-link>
         </div>
       </div>
-      <!-- </div> -->
-      <!-- </section> -->
+      <!-- body 無資料 -->
+      <div class="window-body" v-else>
+        <p class="empty-item">
+          目前無比較項目，請添加
+          <i class="fa-solid fa-angles-down"></i>
+        </p>
+        <div class="block-btn">
+          <a class="btn">新增比較項目</a>
+        </div>
+      </div>
+    </div>
+    <!-- 情境2: 觀察清單 -->
+    <div class="window-upper" :class="{ active: showUpperBody === 'favorite' }">
+      <div class="window-head" @click="showUpperBody = ''">
+        <div class="title">
+          觀察清單
+          <span v-if="myFavoriteGroup.length > 0"
+            >({{ myFavoriteGroup.length }})</span
+          >
+        </div>
+        <div class="fas fa-angle-down"></div>
+      </div>
+      <!-- body 有資料 -->
+      <div class="window-body" v-if="myFavoriteGroup.length > 0">
+        <ul class="body-list">
+          <li class="fund-item" v-for="item in myFavoriteGroup" :key="item">
+            <div class="name">
+              {{ item.fund }}<span>{{ item.code }}</span>
+            </div>
+            <div
+              class="btn-close fas fa-times"
+              @click="updateFavorite(item)"
+            ></div>
+          </li>
+        </ul>
+        <div class="block-btn">
+          <a class="btn" @click="toResultSection, (showUpperBody = '')"
+            >新增觀察項目</a
+          >
+          <router-link to="/login" class="btn">前往網銀</router-link>
+        </div>
+      </div>
+      <!-- body 無資料 -->
+      <div class="window-body" v-else>
+        <p class="empty-item">
+          目前無觀察項目，請添加
+          <i class="fa-solid fa-angles-down"></i>
+        </p>
+        <div class="block-btn">
+          <a class="btn" @click="toResultSection, (showUpperBody = '')"
+            >新增觀察項目</a
+          >
+          <router-link to="/login" class="btn">前往網銀</router-link>
+        </div>
+      </div>
+    </div>
+    <div class="window-footer" :class="{ active: showWindowFooter }">
+      <div class="btn-list">
+        <div
+          class="btn-compare-list"
+          @click="showUpperBody = 'compare'"
+          :class="{
+            active: showUpperBody === 'compare' || showUpperBody === ''
+          }"
+        >
+          比較清單 <span> {{ compareGroup.length }} </span>
+        </div>
+        <div
+          class="btn-favorite-list"
+          @click="showUpperBody = 'favorite'"
+          :class="{ active: showUpperBody === 'favorite' }"
+        >
+          觀察清單 <span> {{ myFavoriteGroup.length }} </span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 // 如果不是vue檔，不用componensts 直接放入data就可以使用
 // https://www.796t.com/post/MWI1eGs=.html
@@ -426,6 +502,7 @@ import localStorageCompare from '@/methods/localStorage-compare.js'
 export default {
   data () {
     return {
+      currentPage: this.$route.name,
       finalData: '',
       funds: fundData,
       keyword: '',
@@ -480,11 +557,16 @@ export default {
       myFavoriteGroup: [],
       compareStatus: '',
       isFixTop: false,
-      currentSearchCatagory: 'basic'
+      currentSearchCatagory: 'basic',
+      showUpperBody: '',
+      showWindowFooter: false,
+      checkDetailGroup: [],
+      allChooseAsset: ''
     }
   },
   components: {
-    Breadcrumb
+    Breadcrumb,
+    Navbar
   },
   mixins: [localStorage, localStorageCompare],
   watch: {
@@ -575,6 +657,8 @@ export default {
       this.currentAsset = item
       // OK 畫面- 資產主類別是否 選擇 (選擇才會讓其他的2個主類消失)
       this.isAssetOption = true
+      // 畫面
+      this.checkAllAssetDetail = item
       // 畫面- '現在點選的主類'  中的"有全選按鈕" 丟入showAllDetail名單中
       // if (!this.showAllDetail.includes(item)) {
       //   this.showAllDetail.push(this.currentAsset)
@@ -591,7 +675,7 @@ export default {
       this.AssetDetailSet = new Set()
       this.funds.forEach((fund) => {
         const details = fund.asset[item]
-        if (typeof (details) !== 'undefined') {
+        if (typeof details !== 'undefined') {
           details.forEach((detail) => {
             this.AssetDetailSet.add(detail)
           })
@@ -643,7 +727,7 @@ export default {
           }
         })
         // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項
-        delete (this.conditions.asset[this.currentAsset])
+        delete this.conditions.asset[this.currentAsset]
         // (2) OK刪除- fixConditions- 主項
         this.fixConditions.forEach((fix) => {
           if (fix === this.currentAsset) {
@@ -767,7 +851,8 @@ export default {
         // (1) 刪除- fixCondtions
         this.fixConditions.delete(item)
         // (2) 刪除- 最終條件式
-        const conditionIndex = this.conditions.asset[this.currentAsset].indexOf(item)
+        const conditionIndex =
+          this.conditions.asset[this.currentAsset].indexOf(item)
         this.conditions.asset[this.currentAsset].splice(conditionIndex, 1)
         // console.log(this.conditions)
       }
@@ -874,7 +959,7 @@ export default {
           if (obj[key] === undefined) {
             obj[key] = JSON.parse(JSON.stringify(item.asset[key]))
           } else {
-          // 狀況二: 在物件裡有此屬性了
+            // 狀況二: 在物件裡有此屬性了
             // 細分 (把重複屬性值拿掉)
             // forEach 裡item (陣列)有傳參考(傳陣列)特性，需要深拷
             // console.log(obj[key].includes(item.asset[key][0]))
@@ -968,9 +1053,9 @@ export default {
       if (!this.isRating) {
         const ratingStars = document.querySelectorAll('.rating-star')
         ratingStars.forEach((ratingStar) => {
-        // console.dir(ratingStar.__vnode.key)
-        // console.log(ratingStar.getAttribute('key'))
-        // 如果目前hover的星星位置大於等於其他星星，給這些其他星星變色
+          // console.dir(ratingStar.__vnode.key)
+          // console.log(ratingStar.getAttribute('key'))
+          // 如果目前hover的星星位置大於等於其他星星，給這些其他星星變色
           if (item >= ratingStar.__vnode.key) {
             ratingStars[ratingStar.__vnode.key - 1].classList.add('active')
           }
@@ -1042,7 +1127,10 @@ export default {
         // 情況 (1)>0 (空值) (2)小於基金群的都要顯示
         // console.log(this.conditions.rating > 0)
         // console.log(this.conditions.rating <= item.rating)
-        if (this.conditions.rating > 0 && this.conditions.rating <= item.rating) {
+        if (
+          this.conditions.rating > 0 &&
+          this.conditions.rating <= item.rating
+        ) {
           this.finalData.add(item)
           // console.log(this.finalData)
         }
