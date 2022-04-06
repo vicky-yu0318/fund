@@ -33,16 +33,16 @@
               @keyup.enter="addFundCondition"
             />
             <!-- keyup的觸發=> 於input 非button -->
+            <!-- 裡面要輸入任何資料 & 資料相似才會出現清單 -->
             <ul
               class="match-list"
-              v-if="matchList.length > 0 && isMatchList"
+              v-if="matchList.length > 0 && isMatchList && keyword"
               ref="refMatchList"
             >
               <li
                 class="match-item"
                 @click="chooseFundCondition(item)"
-                v-for="item in matchList"
-                :key="item"
+                v-for="item in matchList" :key="item"
               >
                 <div class="code">{{ item.code }}-</div>
                 <div class="name">{{ item.fund }}</div>
@@ -54,16 +54,41 @@
             id="btn-searchFund"
             @click="addFundCondition"
           ></div>
+          <!-- addFundCondition於搜尋按鈕和input都有綁定 -->
         </div>
       </div>
       <div class="row">
         <div class="title">基金公司</div>
         <div class="content">
           <!-- 顯示全部 -->
-          <div class="keyword-wrap" v-if="isCompanyMore">
-            <input type="text" placeholder="請輸入基金公司關鍵字" />
+          <!-- v-if="isCompanyMore" -->
+          <div class="keyword-wrap keyword-wrap-company" v-if="isCompanyMore" >
+            <div class="input-field">
+              <input
+                type="text"
+                placeholder="請輸入基金公司關鍵字"
+                v-model="companyKeyword"
+                @input="enterCompanyData"
+                @keyup.enter="addCompanyCondition"
+              />
+              <ul class="match-list"
+                v-if="matchCompanyList.length > 0 && companyKeyword
+                && showCompanyList"
+              >
+                <li class="match-item match-item-company"
+                  v-for="item in matchCompanyList" :key="item"
+                  @click="chooseCompanyCondition(item)">
+                  <div class="name">{{ item }}</div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="fas fa-search btn-searchFund"
+              @click="addCompanyCondition"
+          ></div>
           </div>
-          <div class="btn-choose-group" v-if="isCompanyMore">
+          <div class="btn-choose-group btn-choose-group-company"
+             v-if="isCompanyMore">
             <div
               class="btn-choose"
               v-for="item in companyCategory"
@@ -76,7 +101,7 @@
           </div>
           <!-- 顯示全部 -->
           <!-- 簡約版 -->
-          <div class="btn-choose-group" v-if="!isCompanyMore">
+          <div class="btn-choose-group btn-choose-group-company" v-if="!isCompanyMore">
             <div
               class="btn-choose"
               v-for="item in pointCompanyCategory"
@@ -124,22 +149,24 @@
             </template>
           </div>
           <div class="detail-check" v-if="showAssetDetail">
-            <label>
-              <input
-                type="checkbox"
-                value="全"
-                @click="checkAllAsset"
-                :checked="checkDetailLen === currentAssetdetailLen &&
-                !isDetailStatus"
-              />
-              <span>全部</span>
-            </label>
+            <template v-for="item in assetCategory" :key="item">
+              <label v-if="item === currentAsset">
+                <input
+                  type="checkbox"
+                  value="全"
+                  @click="checkAllAsset"
+                  :checked="fixConditions.has(item)"
+                />
+                <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
+                <span>全部 {{ item }} </span>
+              </label>
+            </template>
             <label v-for="item in AssetDetailSet" :key="item">
               <input type="checkbox" :value="item" v-model="checkDetailGroup" />
               <span>{{ item }}</span>
             </label>
             {{ checkDetailGroup }}
-            點選:{{ checkDetailLen }},  總長: {{ currentAssetdetailLen }}
+            點選:{{ checkDetailLen }}, 總長: {{ currentAssetdetailLen }}
           </div>
           <!-- <div class="category" v-if="isAssetDetail">
             <template v-for="item in assetCategory" :key="item">
@@ -508,8 +535,11 @@ export default {
       finalData: '',
       funds: fundData,
       keyword: '',
+      companyKeyword: '',
       matchList: [],
+      matchCompanyList: [],
       isMatchList: false,
+      showCompanyList: false,
       tempCondition: {},
       conditions: {
         fund: [],
@@ -565,7 +595,8 @@ export default {
       checkDetailLen: '',
       currentAssetdetailLen: '',
       isDetailStatus: '',
-      cancel: ''
+      cancel: '',
+      fixChangetoAll: ''
     }
   },
   components: {
@@ -582,11 +613,7 @@ export default {
     },
     checkDetailGroup: {
       handler () {
-        if (this.checkDetailGroup.length === 0) {
-          // console.log('按全選')
-        } else {
-          this.updateDetail()
-        }
+        this.updateDetail()
       },
       deep: true
     },
@@ -601,6 +628,12 @@ export default {
   },
   methods: {
     updateDetail () {
+      // 現在是由單選改勾選 全選的狀況 且實際上有點擊拳選按鈕 或等刪資料跑回圈
+      if (this.checkDetailGroup.length === 0 && !this.isDetailStatus) {
+        console.log('all.now')
+        this.checkAllAssetPrepareData()
+        return
+      }
       // 畫面-狀態- 點選單選 不是全部，就算選取全部的細項，全選也不能勾起
       this.isDetailStatus = true
       // 更新前先清空
@@ -637,11 +670,32 @@ export default {
         this.changekeywordColor()
       }
     },
+    enterCompanyData () {
+      // this.matchCompanyList = this.funds.filter((fund) => {
+      //   return fund.company.match(this.companyKeyword)
+      // })
+      this.matchCompanyList = this.companyCategory.filter((cate) => {
+        return cate.match(this.companyKeyword)
+      })
+      console.log(this.matchCompanyList)
+      // this.matchCompanyList = matchCompanyListTemp.filter((match, index, arr) => {
+      //   console.log(match, index, arr)
+      //   return arr.indexOf(match) =
+      // })
+      // 打開list
+      if (this.matchCompanyList.length > 0) {
+        this.showCompanyList = true
+      }
+    },
     chooseFundCondition (item) {
       this.keyword = item.code
       this.isMatchList = false
       this.tempCondition = item
       // console.log(this.tempCondition)
+    },
+    chooseCompanyCondition (item) {
+      this.companyKeyword = item.company
+      this.showCompanyList = false
     },
     changekeywordColor () {
       // 關鍵字綁定
@@ -669,6 +723,20 @@ export default {
           this.prepareFundCondition()
         }
       })
+    },
+    addCompanyCondition () {
+      if (this.companyKeyword === '') {
+        const message = { title: '請輸入您要搜尋的基金公司名稱', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      this.funds.forEach((item) => {
+        if (item.company === this.companyKeyword) {
+          // console.log(this.companyKeyword)
+          this.updateCompanyCondition(item.company)
+        }
+      })
+      this.companyKeyword = ''
     },
     addAssetCondition (item) {
       // OK 畫面- 細項是否呈現
@@ -712,11 +780,31 @@ export default {
     checkAllAsset () {
       // 畫面- 區隔按全選還是 單選
       this.isDetailStatus = false
-      // 畫面- 清空所有細項 (觸發深層監聽)
+      // 畫面- 清空所有細項 (觸發深層監聽) ps只能刪此總類的
       this.checkDetailGroup = []
+      // const currentDetails = this.assetDetailCategories[this.currentAsset]
+      // this.checkDetailGroup.forEach((check) => {
+      //   currentDetails.forEach((detail) => {
+      //     if (check === detail) {
+      //       console.log('跑第一次')
+      //       const index = this.checkDetailGroup.indexOf(check)
+      //       console.log(index)
+      //       // 為了要跑回圈
+      //       this.fixChangetoAll = true
+      //       console.log('打回來')
+      //       this.checkDetailGroup.splice(index, 1)
+      //       console.log(this.checkDetailGroup)
+      //       this.checkAllAsset()
+      //     } else {
+      //       console.log('end')
+      //     }
+      //   })
+      // })
+      this.fixChangetoAll = false
+    },
+    checkAllAssetPrepareData () {
       // 判斷情境- 預設是"全選" 再按一次，變成"不選"
       this.isChooseAllDetail = !this.isChooseAllDetail
-      console.log('click')
       // 先備好個別資產細項this.AssetDetailSet
       const currentDetail = this.assetDetailCategories[this.currentAsset]
       if (this.conditions.asset[this.currentAsset]) {
@@ -819,7 +907,7 @@ export default {
     //       this.conditions.asset[this.currentAsset].splice(conditionIndex, 1)
     //     }
     //   }
-    // },
+    // }
     deleteCondition (item) {
       // 共用 刪除 fixConditions
       this.fixConditions.delete(item)
@@ -948,34 +1036,29 @@ export default {
       })
     },
     updateCompanyCondition (item) {
-      // 原本就有在條件中 (-- 刪除)
-      // set不能用included可改用has / 但不能delete，雖然item看起來一樣，但這些item產出來源是來自不同陣列
-      // if (this.fixConditions.has(item)) {
-      // this.fixConditions.delete(item)
+      // ▲ 狀況一：原本就有在條件中 (-- 刪除)
       if (this.chooseCompanyItems.includes(item)) {
-        // (1) 先讓畫面active 轉換
+        // 畫面- active 轉換
         const companyIndex = this.chooseCompanyItems.indexOf(item)
         this.chooseCompanyItems.splice(companyIndex, 1)
-        // (2) 再讓fix陣列刪除
+        // 資料- fix陣列刪除
         // Array.from(this.fixConditions)
         // https://www.html.cn/qa/javascript/10339.html  set轉arry
         const arry = [...this.fixConditions]
         const fixConditionIndex = arry.indexOf(item)
         arry.splice(fixConditionIndex, 1)
         this.fixConditions = new Set(arry)
-        // 沒有在條件中 (++ 新增)
+        // 資料- 刪除conditions
+        this.conditions.company = this.chooseCompanyItems
       } else {
-        // 目前觸發的item = 點選的基金公司名稱
-        // (1) 創一個陣列 放基金公司名稱
+        // ▲ 狀況二： 新增
+        // 畫面-
         this.chooseCompanyItems.push(item)
-        // console.log(this.chooseCompanyItems)
+        // 資料- 將陣列塞入conditions的company屬性值 (!!一整包最新的基金公司推到此屬性)
+        this.conditions.company = this.chooseCompanyItems
+        // 資料- 將公司名稱一個一個塞入fixConditions
+        this.fixConditions.add(item)
       }
-      // (2) 將陣列塞入conditions的company屬性值 (!!一整包最新的基金公司推到此屬性)
-      this.conditions.company = this.chooseCompanyItems
-      // console.log(this.conditions.company)
-      // console.log(this.conditions)
-      // (3) 將公司名稱一個一個塞入fixConditions
-      this.prepareCompanyCondition()
     },
     updateCurrencyCondition (item) {
       // 狀況一: 尚未按過
@@ -1004,13 +1087,6 @@ export default {
       this.conditions.fund.forEach((item) => {
         this.fixConditions.add(item)
       })
-    },
-    prepareCompanyCondition () {
-      // console.log(this.conditions.company)
-      this.conditions.company.forEach((item) => {
-        this.fixConditions.add(item)
-      })
-      // console.log(this.fixConditions)
     },
     hoverRating (item) {
       if (!this.isRating) {

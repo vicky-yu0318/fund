@@ -770,7 +770,6 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .row .keyword-wrap input:focus::placeholder {
     color: #000;
 }
-
 .section-searchFund .row .keyword-wrap input:focus {
     border-color: var(--side-color);
 }
@@ -783,7 +782,6 @@ html::-webkit-scrollbar-thumb {
     z-index: 100;
     background-color: #fff;
 }
-
 .section-searchFund .match-item {
     display: flex;
     padding: 5px 10px;
@@ -799,7 +797,6 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .match-item .code span {
     color: var(--third-color);
 }
-
 .section-searchFund .row .keyword-wrap .btn-searchFund {
     color: #fff;
     font-size: 20px;
@@ -812,6 +809,20 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .row .keyword-wrap .btn-searchFund:hover {
     background-color: var(--third-color-active);
 }
+
+/* 基金公司搜尋 */
+.keyword-wrap.keyword-wrap-company .input-field {
+    position: relative;
+}
+.match-list-company {
+    background-color: #ffa;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+}
+.section-searchFund .match-item.match-item-company {
+    padding: 8px 15px;
+}
+/* 基金公司搜尋 */
 
 .section-searchFund .row .content {
     width: 70%;
@@ -851,7 +862,6 @@ html::-webkit-scrollbar-thumb {
     padding-left: 5px;
     font-weight: 600;
 }
-
 .section-searchFund .asset-block .content .btn-asset-choose {
     display: inline-block;
     margin-right: 20px;
@@ -859,9 +869,14 @@ html::-webkit-scrollbar-thumb {
     font-weight: 600;
     color: var(--side-color);
 }
+/* 個別調整 */
 .section-searchFund .asset-block .content .btn-choose-group {
     display: inline-block;
 }
+.btn-choose-group.btn-choose-group-company .btn-choose {
+    margin-bottom: 10px;
+}
+/* 個別調整 */
 .section-searchFund .detail-check {
     display: block;
     padding-top: 15px;
