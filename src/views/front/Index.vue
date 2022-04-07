@@ -3,18 +3,20 @@
     <section class="section section-home" id="section-home">
         <div class="container">
             <div class="home-slider">
-                <div class="slide" :class="{active: sidePage === 0}">
+                <div class="slide"
+                  :class="{ active: currentIndex === index }"
+                  v-for="(item, index) in indexSlide" :key="item">
                     <div class="content">
                         <span>new arrivals</span>
-                        <h3>共同基金</h3>
+                        <h3>{{ item.title }}</h3>
                         <p> 攜手成長</p>
                         <a href="#" class="btn">shop now</a>
                     </div>
                     <div class="image connect">
-                        <img src="https://upload.cc/i1/2022/04/04/diAtjQ.png" alt="">
+                        <img :src="item.imageSrc">
                     </div>
                 </div>
-                <div class="slide" :class="{active: sidePage === 1}">
+                <!-- <div class="slide" :class="{active: sidePage === 1}">
                     <div class="content">
                         <span>new arrivals</span>
                         <h3>共同基金</h3>
@@ -24,14 +26,17 @@
                     <div class="image">
                         <img src="https://upload.cc/i1/2022/04/04/TSYKbM.png" alt="">
                     </div>
-                </div>
+                </div> -->
             </div>
 
-            <div id="home-slide-next" class="fas fa-angle-right" @click="sidePage = 1"></div>
-            <div id="home-slide-prev" class="fas fa-angle-left" @click="prePage"></div>
+            <div id="home-slide-next" class="fas fa-angle-right" @click="nextPage"
+            :class="{hover: showNextBtn}"
+            ></div>
+            <div id="home-slide-prev" class="fas fa-angle-left" @click="prePage"
+              ></div>
         </div>
     </section>
-    <section class="section section-topic" id="section-home">
+    <section class="section section-topic" id="section-topic">
         <div class="container">
             <div class="item-group">
                 <a class="item">
@@ -138,7 +143,23 @@ export default {
           1200: { slidesPerView: 3, spaceBetween: 30 }
         }
       },
-      sidePage: 0
+      showNextBtn: false,
+      sidePage: 0,
+      indexSlide: [
+        {
+          title: '手機',
+          imageSrc: 'https://upload.cc/i1/2022/04/04/diAtjQ.png'
+        },
+        {
+          title: '房子',
+          imageSrc: 'https://upload.cc/i1/2022/04/07/HeLgPK.png'
+          // https://upload.cc/i1/2022/04/07/1tObEF.png
+          // https://upload.cc/i1/2022/04/07/LEjaD3.png
+        }
+      ],
+      currentIndex: 0,
+      slideLen: ''
+      //  slideLen: this.indexSlide.length一載入的時候讀不到，先後順序原理
     }
   },
   components: {
@@ -148,6 +169,14 @@ export default {
   },
   methods: {
     nextPage () {
+      this.slideLen = this.indexSlide.length
+      this.currentIndex = (this.currentIndex + 1) % this.slideLen
+    },
+    prePage () {
+      this.currentIndex = ((this.currentIndex - 1) + this.slideLen) % this.slideLen
+    },
+    aa () {
+      console.log('d')
     }
   },
   mounted () {

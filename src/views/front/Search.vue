@@ -303,7 +303,7 @@
             <button
               class="btn-compare"
               id="btn-compare"
-              @click="updateCompare(item)"
+              @click="updateCompare(item, 'search')"
               :class="{ active: compareGroup.includes(item) }"
             >
               <i class="fas fa-plus"></i>比較
@@ -311,7 +311,7 @@
             <button
               class="btn-heart"
               id="btn-heart"
-              @click="updateFavorite(item)"
+              @click="updateFavorite(item, 'search')"
               :class="{ active: myFavoriteGroup.includes(item) }"
             >
               <i class="fas fa-heart"></i>觀察
@@ -346,7 +346,7 @@
             <button
               class="btn-compare"
               id="btn-compare"
-              @click="updateCompare(item)"
+              @click="updateCompare(item, 'search')"
               :class="{ active: compareGroup.includes(item) }"
             >
               <i class="fas fa-plus"></i>比較
@@ -354,7 +354,7 @@
             <button
               class="btn-heart"
               id="btn-heart"
-              @click="updateFavorite(item)"
+              @click="updateFavorite(item, 'search')"
               :class="{ active: myFavoriteGroup.includes(item) }"
             >
               <i class="fas fa-heart"></i>觀察
@@ -384,7 +384,7 @@
             <button
               class="btn-compare"
               id="btn-compare"
-              @click="updateCompare(item)"
+              @click="updateCompare(item, 'search')"
               :class="{ active: compareGroup.includes(item) }"
             >
               <i class="fas fa-plus"></i>比較
@@ -392,7 +392,7 @@
             <button
               class="btn-heart"
               id="btn-heart"
-              @click="updateFavorite(item)"
+              @click="updateFavorite(item, 'search')"
               :class="{ active: myFavoriteGroup.includes(item) }"
             >
               <i class="fas fa-heart"></i>觀察
@@ -429,7 +429,7 @@
             </div>
             <div
               class="btn-close fas fa-times"
-              @click="updateCompare(item)"
+              @click="updateCompare(item, 'search')"
             ></div>
           </li>
         </ul>
@@ -468,14 +468,12 @@
             </div>
             <div
               class="btn-close fas fa-times"
-              @click="updateFavorite(item)"
+              @click="updateFavorite(item, 'search')"
             ></div>
           </li>
         </ul>
         <div class="block-btn">
-          <a class="btn" @click="toResultSection, (showUpperBody = '')"
-            >新增觀察項目</a
-          >
+          <router-link to="/favorite" class="btn">前往觀察</router-link>
           <router-link to="/login" class="btn">前往網銀</router-link>
         </div>
       </div>
@@ -486,9 +484,7 @@
           <i class="fa-solid fa-angles-down"></i>
         </p>
         <div class="block-btn">
-          <a class="btn" @click="toResultSection, (showUpperBody = '')"
-            >新增觀察項目</a
-          >
+          <router-link to="/favorite" class="btn">前往觀察</router-link>
           <router-link to="/login" class="btn">前往網銀</router-link>
         </div>
       </div>

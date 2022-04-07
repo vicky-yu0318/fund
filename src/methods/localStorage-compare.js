@@ -9,14 +9,16 @@ export default {
       // 讀檔get:
       return JSON.parse(localStorage.getItem('fundCompare'))
     },
-    updateCompare (fund) {
+    updateCompare (fund, from) {
       this.showWindowFooter = true
       this.showUpperBody = 'compare'
       // 狀況一: 有 => 沒有
       if (this.compareGroup.includes(fund)) {
         this.compareGroup.splice(this.compareGroup.indexOf(fund), 1)
-        const message = { title: '商品已從收藏清單中移除', icon: 'success' }
-        this.sweetAlert(message)
+        if (from !== 'search') {
+          const message = { title: '商品已從比較清單中移除', icon: 'success' }
+          this.sweetAlert(message)
+        }
       } else {
         // 狀況二: 沒有 => 有
         if (this.compareGroup.length > 2) {
@@ -26,8 +28,10 @@ export default {
           return
         }
         this.compareGroup.push(fund)
-        const message = { title: '加入我的收藏清單', icon: 'success' }
-        this.sweetAlert(message)
+        if (from !== 'search') {
+          const message = { title: '加入我的比較清單', icon: 'success' }
+          this.sweetAlert(message)
+        }
       }
       this.saveCompare(this.compareGroup)
       //  this.emitter.emit('update-favorite')

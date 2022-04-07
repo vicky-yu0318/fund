@@ -134,4 +134,7 @@ export default {
   .footer {
     background: linear-gradient(to right, #544a5c, #4a3d53 );
   }
+  .footer::before {
+    background-color: #fff;
+  }
 </style>
