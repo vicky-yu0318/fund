@@ -1,39 +1,36 @@
 <template>
 <Navbar :currentPage="currentPage"></Navbar>
 <Breadcrumb :currentPage="currentPage"></Breadcrumb>
-<!-- <div class="container">
-    <line-chart
-      v-if="loaded"
-      :chartdata="chartdata">
-    </line-chart>
-</div> -->
-<!-- <div id="app">
-    父元件切換資料內容，並重新渲染圖表
-    <select
-      v-model="chartdataloaded"
-    >
-      <option
-        v-for="(item, index) in test"
-        :key="index"
-        :value="item"
-      >
-        測試 {{ index }}
-      </option>
-    </select>
-      Chart.vue 模組
-      chart_loaded 是當圖表資料為 API 非同步行為時，增加的"讀取後顯示判斷"
-    <div id="Chart">
-      <Chart
-        v-if="chart_loaded"
-        :chart-data="chartdataloaded"
-      />
-    </div>
-  </div> -->
   <section class="section-compare section" id="section-compare">
         <div class="container">
             <div class="block-main-title">
                 <i class="fa-solid fa-copy"></i>
                 <h2 class="main-title">基金比較 </h2>
+            </div>
+            <!-- 沒有基金 -->
+            <div class="block-empty-compare"  v-if="compareGroup.length === 0">
+              <div class="empty-remark">
+                <i class="fa-solid fa-magnifying-glass-plus icon-search"></i>
+                <div class="content">
+                  <p class="txt">您目前無比較中的基金</p>
+                  <p class="tip">請至<router-link to="/search" class="link-search">基金搜尋</router-link>
+                  點選「<button class="btn-compare"><i class="fas fa-plus"></i>比較</button>」
+                  加入想比較的基金。</p>
+                </div>
+              </div>
+            </div>
+            <!-- 1種比較基金 -->
+            <div class="block-compare-items block_one_items" v-if="compareGroup.length === 1">
+                <ul class="compare-items">
+                    <li v-for="item in compareGroup" :key="item">
+                        <h3>{{ item.fund }}</h3>
+                        <div class="btn-block">
+                            <a href="" class="btn-buy">申購</a>
+                        </div>
+                        <div class="btn-delete  fas fa-times"
+                        @click="updateCompare(item)"></div>
+                    </li>
+                </ul>
             </div>
             <!-- 2種比較基金 -->
             <div class="block-compare-items block_two_items"
@@ -44,7 +41,8 @@
                         <div class="btn-block">
                             <a href="" class="btn-buy">申購</a>
                         </div>
-                        <div class="btn-delete  fas fa-times"></div>
+                        <div class="btn-delete  fas fa-times"
+                        @click="updateCompare(item)"></div>
                     </li>
                 </ul>
             </div>
@@ -58,18 +56,20 @@
                         <div class="btn-block">
                             <a href="" class="btn-buy">申購</a>
                         </div>
-                        <div class="btn-delete  fas fa-times"></div>
+                        <div class="btn-delete  fas fa-times"
+                        @click="updateCompare(item)"></div>
                     </li>
                 </ul>
             </div>
-            <div class="block-btn-more">
+            <div class="block-btn-more" v-if="compareGroup.length !== 0">
                 <router-link class="btn-more"
                 to="/search">加入更多基金比較</router-link>
             </div>
             <!-- 績效走勢圖 -->
             <div class="block-accordion block_chart active"
              @click=" currentAccordion = 'chart',  updateOpenAccordionGroup('chart')"
-              :class="{active: currentAccordion === 'chart' && openAccordionGroup.includes('chart')}">
+              :class="{active: currentAccordion === 'chart' && openAccordionGroup.includes('chart')}"
+              v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>績效走勢圖</span>
                     <!-- 用v-if 比:class佳 -->
@@ -87,7 +87,8 @@
             <!-- 績效表現 -->
             <div class="block-accordion"
               @click=" currentAccordion = 'performance', updateOpenAccordionGroup('performance') "
-              :class="{active: currentAccordion === 'performance' && openAccordionGroup.includes('performance')}">
+              :class="{active: currentAccordion === 'performance' && openAccordionGroup.includes('performance')}"
+              v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>績效表現</span>
                     <i class="fa-solid fa-minus"
@@ -95,6 +96,43 @@
                     </i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
+                <!-- 績效表現-1項資料呈現方式 -->
+                <div class="accordion-body" v-if="compareGroup.length === 1">
+                    <div class="compare-table">
+                        <div class="compare-tr" >
+                            <div class="compare-th">三個月</div>
+                            <div class="compare-td compare-td_one_item"
+                            v-for="item in compareGroup" :key="item"
+                            :class="{mark: item.performance.three_month_year < 0}" >
+                            {{ $filters.toPercent(item.performance.three_month_year) }}</div>
+                            <!-- <div class="compare-td compare-td_two_items">37%</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">一年</div>
+                            <div class="compare-td compare-td_one_item"
+                            v-for="item in compareGroup" :key="item"
+                            :class="{mark: item.performance.one_year < 0}" >
+                            {{ $filters.toPercent(item.performance.one_year) }}</div>
+                            <!-- <div class="compare-td compare-td_two_items">37%</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">三年</div>
+                            <div class="compare-td compare-td_one_item"
+                            v-for="item in compareGroup" :key="item"
+                            :class="{mark: item.performance.three_year < 0}">
+                            {{ $filters.toPercent(item.performance.three_year) }}</div>
+                            <!-- <div class="compare-td compare-td_two_items">37%</div> -->
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">成立至今</div>
+                            <div class="compare-td compare-td_one_item"
+                            v-for="item in compareGroup" :key="item"
+                            :class="{mark: item.performance.establishToNow < 0}">
+                            {{ $filters.toPercent(item.performance.establishToNow) }}</div>
+                            <!-- <div class="compare-td compare-td_two_items">30%</div> -->
+                        </div>
+                    </div>
+                </div>
                 <!-- 績效表現-2項資料呈現方式 -->
                 <div class="accordion-body" v-if="compareGroup.length === 2">
                     <div class="compare-table">
@@ -175,7 +213,8 @@
             <!-- 基本資料 -->
             <div class="block-accordion"
               @click=" currentAccordion = 'basic', updateOpenAccordionGroup('basic') "
-              :class="{active: currentAccordion === 'basic' && openAccordionGroup.includes('basic')}">
+              :class="{active: currentAccordion === 'basic' && openAccordionGroup.includes('basic')}"
+              v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>基本資料</span>
                     <i class="fa-solid fa-minus"
@@ -183,6 +222,38 @@
                     </i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
+                <!-- 基本資料- 1種比較基金 -->
+                <div class="accordion-body" v-if="compareGroup.length === 1">
+                    <div class="compare-table">
+                        <div class="compare-tr">
+                            <div class="compare-th">成立時間</div>
+                            <div class="compare-td compare-td_one_item
+"
+                             v-for="item in compareGroup" :key="item">
+                              {{ $filters.toFormalDate(item.established) }}
+                            </div>
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">基金類型</div>
+                            <div class="compare-td compare-td_one_item"
+                              v-for="item in compareGroup" :key="item">
+                              <template v-for="(category, key) in item.asset">{{ key }}</template>
+                            </div>
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">風險屬性</div>
+                            <div class="compare-td compare-td_one_item"
+                            v-for="item in compareGroup" :key="item">
+                            {{ item.risk }}</div>
+                        </div>
+                        <div class="compare-tr">
+                            <div class="compare-th">基金規模</div>
+                            <div class="compare-td compare-td_one_item"
+                              v-for="item in compareGroup" :key="item">
+                               {{ item.scaleMillion }} 百萬</div>
+                        </div>
+                    </div>
+                </div>
                 <!-- 基本資料- 2種比較基金 -->
                 <div class="accordion-body" v-if="compareGroup.length === 2">
                     <div class="compare-table">
@@ -268,7 +339,6 @@ import Compare from '@/methods/localStorage-compare.js'
 // import LineChart from '@/components/Chart.vue'
 
 export default {
-  // name: 'LineChartContainer',
   components: {
     Navbar,
     Breadcrumb
@@ -283,9 +353,6 @@ export default {
     }
   },
   mixins: [Compare],
-  // data: () => ({
-  //   loaded: false,
-  //   chartdata: null,
   //   compareGroup: [
   //     {
   //       fund: '富蘭克林基金',
@@ -322,136 +389,6 @@ export default {
   //       }
   //     }
   //   ]
-  // }),
-  // async mounted () {
-  //   this.loaded = false
-  //   try {
-  //     const { userlist } = await fetch('/api/userlist')
-  //     this.chartdata = userlist
-  //     this.loaded = true
-  //   } catch (e) {
-  //     console.error(e)
-  //   }
-  // },
-  // data () {
-  //   return {
-  //     compareGroup: this.get() || [],
-  //     //   currentBreadCrumb: this.$route.name
-  //     //   <breadCrumb  :currentBreadCrumb="currentBreadCrumb"></breadCrumb>
-  //     // compareGroup: [
-  //     //   {
-  //     //     fund: '富蘭克林基金',
-  //     //     company: '富邦投顧',
-  //     //     code: '00400000',
-  //     //     asset: { 大宗商品: ['天然資源股票'] },
-  //     //     currency: '台幣',
-  //     //     rating: '4',
-  //     //     established: 667785600000,
-  //     //     risk: '保守型',
-  //     //     scaleMillion: 2000,
-  //     //     performance: {
-  //     //       three_month_year: -0.3,
-  //     //       one_year: 0.12,
-  //     //       three_year: 0.5,
-  //     //       establishToNow: 0.2
-  //     //     }
-  //     //   },
-  //     //   {
-  //     //     fund: '摩根新興35基金',
-  //     //     company: '富邦投顧',
-  //     //     code: '00200000',
-  //     //     asset: { 大宗商品: ['天然資源股票'] },
-  //     //     currency: '台幣',
-  //     //     rating: '4',
-  //     //     established: 667785600000,
-  //     //     risk: '保守型',
-  //     //     scaleMillion: 2000,
-  //     //     performance: {
-  //     //       three_month_year: 0.3,
-  //     //       one_year: 0.12,
-  //     //       three_year: 0.5,
-  //     //       establishToNow: 0.2
-  //     //     }
-  //     //   },
-  //     //   {
-  //     //     fund: '33',
-  //     //     company: '富邦投顧',
-  //     //     code: '00200000',
-  //     //     asset: { 大宗商品: ['天然資源股票'] },
-  //     //     currency: '台幣',
-  //     //     rating: '4',
-  //     //     established: 667785600000,
-  //     //     risk: '保守型',
-  //     //     scaleMillion: 2000,
-  //     //     performance: {
-  //     //       three_month_year: 0.3,
-  //     //       one_year: 0.12,
-  //     //       three_year: 0.5,
-  //     //       establishToNow: 0.2
-  //     //     }
-  //     //   }
-  //     // ],
-  //     currentAccordion: '',
-  //     openAccordionGroup: [],
-  //     isFixTop: ''
-  //     // chart_loaded: true, /* 圖表讀取 */
-  //     // chartdataloaded: {
-  //     //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //     //   datasets: [
-  //     //     {
-  //     //       label: '測試1',
-  //     //       borderColor: 'red',
-  //     //       pointBackgroundColor: 'red',
-  //     //       borderWidth: 1,
-  //     //       pointBorderColor: 'white',
-  //     //       data: [40, 35, 10, 40, 39, 80, 40]
-  //     //     }
-  //     //   ]
-  //     // },
-  //     // test: [
-  //     //   {
-  //     //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //     //     datasets: [
-  //     //       {
-  //     //         label: '測試1',
-  //     //         borderColor: 'red',
-  //     //         pointBackgroundColor: 'red',
-  //     //         borderWidth: 1,
-  //     //         pointBorderColor: 'white',
-  //     //         data: [40, 35, 10, 40, 39, 80, 40]
-  //     //       }
-  //     //     ]
-  //     //   },
-  //     //   {
-  //     //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //     //     datasets: [
-  //     //       {
-  //     //         label: '測試2',
-  //     //         borderColor: 'skyblue',
-  //     //         pointBackgroundColor: 'skyblue',
-  //     //         borderWidth: 1,
-  //     //         pointBorderColor: 'white',
-  //     //         data: [50, 45, 20, 50, 35, 70, 50]
-  //     //       }
-  //     //     ]
-  //     //   }
-  //     // ]
-  //   }
-  // },
-  // components: {
-  //   // LineChart
-  //   // BarChart
-  //   //   breadCrumb
-  // },
-  // watch: {
-  //   compareGroup: {
-  //     handler () {
-  //       this.getSearchData()
-  //       console.log(this.compareGroup)
-  //     },
-  //     deep: true
-  //   }
-  // },
   mounted () {
     goTop()
     // emitter.on('getSearchData', (aa) => {
@@ -479,3 +416,11 @@ export default {
   }
 }
 </script>
+<style>
+  .footer {
+    background: linear-gradient(to right, #544a5c, #4a3d53 );
+  }
+  .footer::before {
+    background-color: #fff;
+  }
+</style>

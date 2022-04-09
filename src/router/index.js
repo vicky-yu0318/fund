@@ -7,6 +7,11 @@ const routes = [
     name: 'index',
     children: [
       {
+        path: '/pra',
+        component: () => import('@/views/front/Pra.vue'),
+        name: 'pra'
+      },
+      {
         path: '/search',
         component: () => import('@/views/front/Search.vue'),
         name: 'search'

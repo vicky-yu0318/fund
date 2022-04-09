@@ -12,7 +12,7 @@
                 <router-link to="/search" class="btn-more">加入更多基金觀察</router-link>
                 <router-link to="/login" class="btn-goLogin">前往網銀</router-link>
             </div>
-            <div class="block-favorite">
+            <div class="block-favorite" v-if="myFavoriteGroup.length !== 0">
                 <div class="favorite-table">
                     <div class="favorite-tr">
                         <div class="favorite-th btns-th"></div>

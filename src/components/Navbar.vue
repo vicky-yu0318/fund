@@ -5,7 +5,8 @@
         Fund
         <h1 class="sr-only">playfund</h1>
       </a>
-      <nav class="navbar" :class="{active: isFixTop}">
+      <div class="fas fa-bars btn-hamburger" @click="switchList = !switchList"></div>
+      <nav class="navbar" :class="{active: isFixTop, activeList: switchList}">
         <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
         <router-link to="/compare">
           <i class="fa-solid fa-arrow-up-wide-short"></i> 基金比較表</router-link>
@@ -32,7 +33,8 @@
 export default {
   data () {
     return {
-      isFixTop: false
+      isFixTop: false,
+      switchList: false
     }
   },
   props: {

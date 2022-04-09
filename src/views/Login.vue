@@ -29,10 +29,10 @@
              v-if="!showPassword"/>
             <input type="text" class="input-password" v-model="user.password"
              v-else/>
-            <div class="btn-eye fa-solid fa-eye-slash"
+            <div class="btn-eye fas fa-eye"
             v-if="showPassword"
             @click="showPassword = !showPassword"></div>
-            <div class="btn-eye fas fa-eye" v-else
+            <div class="btn-eye fa-solid fa-eye-slash" v-else
             @click="showPassword = !showPassword"></div>
           </div>
         </div>
@@ -87,36 +87,4 @@ export default {
     }
   }
 }
-// export default {
-//   data () {
-//     return {
-//       user: {
-//         username: '',
-//         password: ''
-//       }
-//     }
-//   },
-//   methods: {
-//     login () {
-//       // console.log(this.user)
-//       // [API]: /admin/signin //
-//       //  document.cookie = "someCookieName=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-//       const api = `${process.env.VUE_APP_API}admin/signin`
-//       this.$http.post(api, this.user)
-//         .then((res) => {
-//           if (res.data.success) {
-//             alert('登入成功')
-//             const { token, expired } = res.data
-//             document.cookie = `hexLogin=${token}; expires=${new Date(expired)}`
-//             this.$router.push('/admin/products')
-//           } else {
-//             alert('請重新登入')
-//           }
-//         })
-//         .catch((err) => {
-//           console.log(err)
-//         })
-//     }
-//   }
-// }
 </script>

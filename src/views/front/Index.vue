@@ -115,6 +115,19 @@
                             </div>
                         </div>
                     </SwiperSlide>
+                    <SwiperSlide class="slide swiper-slide">
+                        <img src="https://upload.cc/i1/2022/04/09/WPELFk.jpg" alt="">
+                        <div class="content">
+                            <h3 class="title">title</h3>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laborum facilis id necessitatibus provident ut
+                                accusamus, accusantium debitis quia ipsum odit dolorem est. Incidunt obcaecati magni fugiat quo, repudiandae
+                                placeat.</p>
+                            <div class="block-btn">
+                                <a href="" class="btn">了解更多</a>
+                            </div>
+                        </div>
+                    </SwiperSlide>
+
                 <div class="swiper-pagination"></div>
             </Swiper>
         </div>
@@ -153,8 +166,6 @@ export default {
         {
           title: '房子',
           imageSrc: 'https://upload.cc/i1/2022/04/07/HeLgPK.png'
-          // https://upload.cc/i1/2022/04/07/1tObEF.png
-          // https://upload.cc/i1/2022/04/07/LEjaD3.png
         }
       ],
       currentIndex: 0,
@@ -174,9 +185,6 @@ export default {
     },
     prePage () {
       this.currentIndex = ((this.currentIndex - 1) + this.slideLen) % this.slideLen
-    },
-    aa () {
-      console.log('d')
     }
   },
   mounted () {

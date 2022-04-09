@@ -95,7 +95,7 @@ html::-webkit-scrollbar-thumb {
 }
 .btn-compare,
 .btn-heart {
-    display: block;
+    display: inline-block;
     border-radius: 5px;
     background-color: var(--side-color);
     color: #fff;
@@ -176,6 +176,16 @@ html::-webkit-scrollbar-thumb {
     font-size: 40px;
     letter-spacing: 8px;
     color: #fff;
+}
+
+.header .btn-hamburger {
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+.header .btn-hamburger:hover {
+    color: var(--light-color);
 }
 
 .header .navbar {
@@ -285,6 +295,19 @@ html::-webkit-scrollbar-thumb {
 /* ============= navbar =============== */
 /* ========== RWD =========== */
 @media (max-width: 575px) {
+  .header .btn-hamburger {
+    display: block;
+  }
+  .header .navbar {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: .2s linear;
+    /* transform: scale(0); */
+    /* transform-origin: right top; */
+  }
+  .header .navbar.activeList {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+    /* transform: scale(1); */
+  }
   .header .navbar  a {
     display: block;
     width: 100%;
@@ -529,14 +552,22 @@ html::-webkit-scrollbar-thumb {
         right: 80px;
     }
 }
-/* @media (max-width: 575px) {
-    .section-home::after {
-        content: '';
-        display: block;
-        background-color: #ffa;
-        height: 250px;
+@media (max-width: 575px) {
+    .section-home .home-slider .slide .image {
+        transform: translateY(-35%);
     }
-} */
+    .section-home #home-slide-next,
+    .section-home #home-slide-prev {
+        font-size: 25px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+        bottom: 30px;
+    }
+    .section-home #home-slide-prev {
+        right: 100px;
+    }
+}
 
 /* =============== section-topic ============= */
 .section-topic {
@@ -851,6 +882,11 @@ html::-webkit-scrollbar-thumb {
     border: 1px solid var(--side-color);
     z-index: 100;
     background-color: #fff;
+    /* 讓瀏覽器抓得到dom  使用active 取代 V-if*/
+    opacity: 0;
+}
+.section-searchFund .row .keyword-wrap .match-list.active {
+    opacity: 1;
 }
 .section-searchFund .match-item {
     display: flex;
@@ -957,8 +993,11 @@ html::-webkit-scrollbar-thumb {
 
 /* =========== section-searchFund =========== */
 /* =========== RWD ============== */
-.section-searchFund .searchResult-title.active {
+@media (max-width: 575px) {
+  .section-searchFund .searchResult-title.active {
     top: 0;
+    left: 20px; right: 20px;
+}
 }
 
 /* =========== section-searchResult =========== */
@@ -1244,6 +1283,34 @@ html::-webkit-scrollbar-thumb {
 }
 
 /* ============= section-compare =============== */
+.section-compare .empty-remark {
+    background-color: #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+.section-compare .empty-remark .icon-search {
+    font-size: 60px;
+    color: var(--light-color);
+    padding-right: 25px;
+}
+.section-compare .empty-remark .content .txt {
+    font-size: 25px;
+    font-weight: 600;
+}
+.section-compare .empty-remark .content .tip {
+    font-size: 18px;
+}
+.section-compare .empty-remark .content .tip .link-search {
+    color: var(--side-color);
+    font-weight: 600;
+    padding: 0 5px;
+}
+.section-compare .empty-remark .content .tip .btn-compare {
+    pointer-events: none;
+}
 /* 共用 */
 .section-compare .block-compare-items {
     padding: 0 10px;
@@ -1268,10 +1335,15 @@ html::-webkit-scrollbar-thumb {
     border: 1px solid var(--light-color);
     position: relative;
 }
+ /* <!-- 1種比較基金 --> */
+.section-compare .block_one_items .compare-items li {
+    width: 100%;
+}
  /* <!-- 2種比較基金 --> */
 .section-compare .block_two_items .compare-items li {
     width: 50%;
 }
+ /* <!-- 3種比較基金 --> */
 .section-compare .block_three_items .compare-items li {
     width: 33.3333333%;
 }
@@ -1428,6 +1500,10 @@ html::-webkit-scrollbar-thumb {
 /* 負報酬 => 紅色 */
 .section-compare .accordion-body .compare-td.mark {
     color: red;
+}
+/* 1項資料 */
+.section-compare .accordion-body .compare-td_one_item {
+    width: calc(80% - 1px);
 }
 /* 2項資料 */
 .section-compare .accordion-body .compare-td_two_items {

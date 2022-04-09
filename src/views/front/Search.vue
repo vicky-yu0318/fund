@@ -34,9 +34,10 @@
             />
             <!-- keyup的觸發=> 於input 非button -->
             <!-- 裡面要輸入任何資料 & 資料相似才會出現清單 -->
+            <!-- v-if="matchList.length > 0 && isMatchList && keyword" -->
             <ul
               class="match-list"
-              v-if="matchList.length > 0 && isMatchList && keyword"
+              :class="{active: matchList.length > 0 && isMatchList && keyword }"
               ref="refMatchList"
             >
               <li
@@ -673,7 +674,7 @@ export default {
       this.matchCompanyList = this.companyCategory.filter((cate) => {
         return cate.match(this.companyKeyword)
       })
-      console.log(this.matchCompanyList)
+      // console.log(this.matchCompanyList)
       // this.matchCompanyList = matchCompanyListTemp.filter((match, index, arr) => {
       //   console.log(match, index, arr)
       //   return arr.indexOf(match) =
@@ -687,14 +688,14 @@ export default {
       this.keyword = item.code
       this.isMatchList = false
       this.tempCondition = item
-      // console.log(this.tempCondition)
     },
     chooseCompanyCondition (item) {
-      this.companyKeyword = item.company
+      this.companyKeyword = item
       this.showCompanyList = false
     },
     changekeywordColor () {
       // 關鍵字綁定
+      console.log(this.$refs.refMatchList)
       // const regExp = new RegExp(this.keyword, 'gi')
       // console.log(regExp)
       // const matchList = document.querySelector('.match-list')
@@ -1279,3 +1280,11 @@ export default {
 // https://medium.com/@bebebobohaha/slice-splice-split-%E5%82%BB%E5%82%BB%E5%88%86%E4%B8%8D%E6%B8%85-46d9c8992729
 // https://blog.csdn.net/weixin_40013817/article/details/103069487 一個觸發，兩件事情；多個觸發
 </script>
+<style>
+.footer {
+  background: linear-gradient(to right, #544a5c, #4a3d53);
+}
+.footer::before {
+  background-color: #fff;
+}
+</style>
