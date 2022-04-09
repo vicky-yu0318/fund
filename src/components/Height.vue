@@ -2,7 +2,7 @@
   <!-- 輸入富邦之後改"富" 觸發後要再更新一次 所以要清空 -->
   <div v-if= "changeText">
     <span v-for="item in highlightList" :key="item"
-    :class="item.deep ? 'green': ''">{{ item.val }}</span>
+    :class="item.deep ? 'searchMark': ''">{{ item.val }}</span>
   </div>
 </template>
 
@@ -22,11 +22,9 @@ export default {
     }
   },
   mounted () {
-    // this.text = this.innertext
     // console.log(this.innertext) 富邦投顧 國泰投信
     // console.log(this.innertext.indexOf('顧')) 有幾個item 救回傳幾次
     // console.log(this.innertext.indexOf('顧')) 富邦投顧 => 3; 沒有則回傳-1
-    // console.log(this.innertext, this.innersearch)
     this.filterHighlight(this.innertext, this.innersearch)
   },
   methods: {

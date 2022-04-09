@@ -1615,7 +1615,7 @@ html::-webkit-scrollbar-thumb {
     /* background-color: #FDFBEF; */
     background: url('https://upload.cc/i1/2022/04/04/WqvMxO.jpg') no-repeat,
                 url('https://upload.cc/i1/2022/04/04/eIYW7N.png') no-repeat,
-                linear-gradient(to bottom,#F5F4F9 65% ,#FDEBE7 75%);
+                linear-gradient(to bottom,#F5F4F9 50% ,#FDEBE7 60%);
     background-size: 50%, 30%;
     background-position: left top,  right bottom;
     min-height: calc(100vh - 70px);
@@ -1698,6 +1698,33 @@ html::-webkit-scrollbar-thumb {
 .section-login .btn-login:hover {
     box-shadow: 0 8px 10px rgba(0,0,0,.2);
 }
+/* ========== section-login ==========  */
+/* ========== RWD ========== */
+@media (max-width: 1199px) {
+  .section-login {
+    background: linear-gradient(to bottom,#F5F4F9 50% ,#FDEBE7 75%); 
+    background-size: 60%, 100%;
+    background-position: left top;
+  }
+  .section-login .form-login {
+    max-width: 660px;
+    padding: 60px;
+  }
+}
+@media (max-width: 767px) {
+  .section-login {
+    background: url('https://upload.cc/i1/2022/04/04/WqvMxO.jpg') no-repeat,
+                linear-gradient(to bottom,#F5F4F9 10% ,#FDEBE7 40%);
+    background-size: 50%;
+    padding-top: 30px;
+    min-height: calc(100vh - 100px);
+  }
+  .section-login .form-login {
+    max-width: 100%;
+    padding: 20px;
+  }
+}
+
 
 /* ========= footer =========== */
 .footer::before {

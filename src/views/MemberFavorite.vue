@@ -14,7 +14,7 @@
                 class="btn-more">加入更多基金觀察</router-link>
                 <!-- <a class="btn-goLogin">前往網銀</a> -->
             </div>
-            <div class="block-favorite">
+            <div class="block-favorite" v-if="myFavoriteGroup.length > 0">
                 <div class="favorite-table">
                     <div class="favorite-tr">
                         <div class="favorite-th btns-th"></div>

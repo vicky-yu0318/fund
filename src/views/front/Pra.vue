@@ -17,7 +17,6 @@ import Height from '@/components/Height.vue'
 export default {
   data () {
     return {
-      // keyword: '顧',
       keyword: '',
       fundData: [
         {
@@ -60,7 +59,7 @@ export default {
   },
   methods: {
     searchValue (e) {
-      this.keyword = e.target.value
+      // this.keyword = e.target.value
       if (this.keyword.length > 0) {
         // 若有輸入內容觸發 (出現類似(過濾)內容的陣列)
         this.filterList = []
@@ -71,7 +70,6 @@ export default {
           }
         }
         this.filterList = arr
-        // console.log(this.filterList)
         // {fund: '富蘭克林基金', company: '富邦投顧', code: '00400000', asset: {…}, currency: '台幣', …}
       } else {
         // 沒輸入資料 => 清空
@@ -79,12 +77,10 @@ export default {
       }
     },
     pitchOn (e) {
-      // https://www.itread01.com/content/1545071047.html
       const index = e.currentTarget.dataset.index
-      //   const index = e.target.dataset.index
       // const index = e.target.dataset.index 我按的是highlight list的原件，
-      //   我要拿到父層綁定的資料，用currentTarget 否則 e.target
-      //   Cannot read properties of undefined 他沒有綁定dataset
+      // 我要拿到父層綁定的資料，用currentTarget 否則 e.target
+      // Cannot read properties of undefined 他沒有綁定dataset
       console.log({ title: `Selected: ${this.filterList[index].company}`, icon: 'none' })
       // {title: 'Selected: 富邦投顧', icon: 'none'}
     }
@@ -96,7 +92,7 @@ export default {
 </script>
 
 <style>
-.green {
+.searchMark {
   color: green;
 }
 </style>
