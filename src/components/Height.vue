@@ -62,6 +62,7 @@ export default {
         })
       }
       this.highlightList = list
+      // console.log(this.highlightList)
       // 0: {deep: false, val: '富'}
       // 1: {deep: false, val: '邦'}
       // 2: {deep: false, val: '投'}
@@ -80,3 +81,9 @@ export default {
   }
 }
 </script>
+<style>
+.searchMark {
+  color: var(--third-color);
+  font-weight: 600;
+}
+</style>

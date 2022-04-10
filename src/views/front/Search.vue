@@ -29,7 +29,7 @@
               type="text"
               placeholder="請輸入名稱/代碼"
               v-model="keyword"
-              @input="enterData"
+              @input="searchFundValue"
               @keyup.enter="addFundCondition"
             />
             <!-- keyup的觸發=> 於input 非button -->
@@ -38,15 +38,15 @@
             <ul
               class="match-list"
               :class="{active: matchList.length > 0 && isMatchList && keyword }"
-              ref="refMatchList"
             >
               <li
                 class="match-item"
                 @click="chooseFundCondition(item)"
                 v-for="item in matchList" :key="item"
               >
-                <div class="code">{{ item.code }}-</div>
-                <div class="name">{{ item.fund }}</div>
+                <!-- <div class="code">{{ item.code }}-</div> -->
+                <!-- <div class="name">{{ item.fund }}</div> -->
+                <Height :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Height>
               </li>
             </ul>
           </div>
@@ -69,17 +69,17 @@
                 type="text"
                 placeholder="請輸入基金公司關鍵字"
                 v-model="companyKeyword"
-                @input="enterCompanyData"
-                @keyup.enter="addCompanyCondition"
+                @input="searchValue"
               />
-              <ul class="match-list"
-                v-if="matchCompanyList.length > 0 && companyKeyword
-                && showCompanyList"
-              >
+               <!-- @keyup.enter="addCompanyCondition" -->
+              <ul class="match-list active"
+                v-if="matchCompanyList.length > 0 && companyKeyword && showCompanyList">
                 <li class="match-item match-item-company"
-                  v-for="item in matchCompanyList" :key="item"
-                  @click="chooseCompanyCondition(item)">
-                  <div class="name">{{ item }}</div>
+                  v-for="(item, i) in matchCompanyList" :key="item" :data-index="i"
+                  @click="pitchOnCompany(item)"
+                  >
+                  <!-- <div class="name">{{ item }}</div> -->
+                  <Height :innertext="item" :innersearch="companyKeyword"></Height>
                 </li>
               </ul>
             </div>
@@ -519,11 +519,10 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 // 如果不是vue檔，不用componensts 直接放入data就可以使用
 // https://www.796t.com/post/MWI1eGs=.html
 import fundData from '@/json/fundData.json'
-// import fundData from '@/json/fundData.js'
-// import getFundData from '@/methods/getFundData'
 import localStorage from '@/methods/localStorage.js'
 import localStorageCompare from '@/methods/localStorage-compare.js'
 // import emitter from '@/methods/eventBus'
+import Height from '@/components/Height.vue'
 
 export default {
   data () {
@@ -598,7 +597,8 @@ export default {
   },
   components: {
     Breadcrumb,
-    Navbar
+    Navbar,
+    Height
   },
   mixins: [localStorage, localStorageCompare],
   watch: {
@@ -667,21 +667,59 @@ export default {
         this.changekeywordColor()
       }
     },
+    searchFundValue (e) {
+      if (this.keyword) {
+        // 若有輸入內容觸發 (出現類似(過濾)內容的陣列)
+        this.matchList = []
+        const arr = []
+        // 以下是拿funds資料 (fund/.cokek)
+        for (let i = 0; i < this.funds.length; i++) {
+          if ((this.funds[i].fund.indexOf(this.keyword) > -1) || (this.funds[i].code.indexOf(this.keyword) > -1)) {
+            arr.push(this.funds[i])
+          }
+        }
+        this.matchList = arr
+        this.isMatchList = true
+        // console.log(this.matchList)
+        // {fund: '富蘭克林基金', company: '富邦投顧', code: '00400000', asset: {…}, currency: '台幣', …}
+      } else {
+        // 沒輸入資料 => 清空
+        this.matchList = []
+      }
+    },
     enterCompanyData () {
-      // this.matchCompanyList = this.funds.filter((fund) => {
-      //   return fund.company.match(this.companyKeyword)
-      // })
       this.matchCompanyList = this.companyCategory.filter((cate) => {
         return cate.match(this.companyKeyword)
       })
-      // console.log(this.matchCompanyList)
-      // this.matchCompanyList = matchCompanyListTemp.filter((match, index, arr) => {
-      //   console.log(match, index, arr)
-      //   return arr.indexOf(match) =
-      // })
       // 打開list
       if (this.matchCompanyList.length > 0) {
         this.showCompanyList = true
+      }
+    },
+    searchValue (e) {
+      if (this.companyKeyword) {
+        // 若有輸入內容觸發 (出現類似(過濾)內容的陣列)
+        this.matchCompanyList = []
+        const arr = []
+        // 以下是拿funds資料
+        // for (let i = 0; i < this.funds.length; i++) {
+        //   if (this.funds[i].company.indexOf(this.companyKeyword) > -1) {
+        //     arr.push(this.funds[i])
+        //   }
+        // }
+        // 以下是拿分類好的company資料
+        for (let i = 0; i < this.companyCategory.length; i++) {
+          if (this.companyCategory[i].indexOf(this.companyKeyword) > -1) {
+            arr.push(this.companyCategory[i])
+          }
+        }
+        this.matchCompanyList = arr
+        this.showCompanyList = true
+        // console.log(this.matchCompanyList)
+        // {fund: '富蘭克林基金', company: '富邦投顧', code: '00400000', asset: {…}, currency: '台幣', …}
+      } else {
+        // 沒輸入資料 => 清空
+        this.matchCompanyList = []
       }
     },
     chooseFundCondition (item) {
@@ -690,6 +728,13 @@ export default {
       this.tempCondition = item
     },
     chooseCompanyCondition (item) {
+      this.companyKeyword = item
+      this.showCompanyList = false
+    },
+    pitchOnCompany (item) {
+      // const index = e.currentTarget.dataset.index
+      // console.log({ title: `Selected: ${this.matchCompanyList[index]}`, icon: 'none' })
+      // {title: 'Selected: 富邦投顧', icon: 'none'}
       this.companyKeyword = item
       this.showCompanyList = false
     },
@@ -1033,6 +1078,7 @@ export default {
       })
     },
     updateCompanyCondition (item) {
+      // console.log(item)
       // ▲ 狀況一：原本就有在條件中 (-- 刪除)
       if (this.chooseCompanyItems.includes(item)) {
         // 畫面- active 轉換

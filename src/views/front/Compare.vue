@@ -374,14 +374,14 @@ export default defineComponent({
           },
           {
             label: '# of Votes',
-            data: [5, -3, 11, 9, 8, 9],
+            data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
             backgroundColor: 'rgba(170, 170, 170, .3)',
             borderColor: '#aaa',
             borderWidth: 1
           },
           {
             label: '3',
-            data: [2, 4, -2, 9, 6, 5],
+            data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
             backgroundColor: 'rgba(255, 170, 0, .8)',
             borderColor: 'rgb(255, 170, 0)',
             borderWidth: 1
