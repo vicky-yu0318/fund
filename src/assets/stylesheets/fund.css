@@ -1361,28 +1361,6 @@ html::-webkit-scrollbar-thumb {
        width: 50%;
    } 
 }
-/* =============== ?? ============= */
-/* .btnsmall {
-    background-color: #eee;
-    outline: none;
-    border: 1px solid #25322B;
-    margin: 0 15px;
-}
-.btnsmall.active {
-    background-color: #fa0;
-    color: #fff;
-}
-.btnDetail {
-    background-color: #eee;
-    outline: none;
-    border: 1px solid #0f0f0f;
-    margin: 0 15px;
-}
-.btnDetail.active {
-    background-color: #9B81AE;
-    color: #fff;
-} */
-
 /* ============= section-compare =============== */
 .section-compare .empty-remark {
     background-color: #eee;

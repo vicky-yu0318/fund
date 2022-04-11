@@ -80,13 +80,15 @@
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <div class="accordion-body">
-                  <div class="block-linechart">
-                    <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
+                  <div class="linechart-labels">
+                    <div class="label">
+                      <p>報酬率%</p>
+                      <div class="block-linechart">
+                        <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <!-- <div class="accordion-body" v-for="item in compareGroup" :key="item">
-                  {{ item.average_rate_of_return }}
-                </div> -->
             </div>
             <!-- 績效表現 -->
             <div class="block-accordion"
@@ -338,7 +340,7 @@
 import Navbar from '@/components/Navbar.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import goTop from '@/methods/goTop.js'
-// import emitter from '@/methods/eventBus'
+import emitter from '@/methods/eventBus'
 import Compare from '@/methods/localStorage-compare.js'
 // 匯入圖表
 import { defineComponent } from 'vue'
@@ -369,21 +371,24 @@ export default defineComponent({
         datasets: [
           {
             label: '123',
-            data: [10, -2, 10, 5, 2, 3, 10, -2, 10, 5, 2, 3],
+            // data: [10, -2, 10, 5, 2, 3, 10, -2, 10, 5, 2, 3],
+            data: [],
             backgroundColor: 'rgba(153, 102, 255, .4)',
             borderColor: '#914DA0',
             borderWidth: 1
           },
           {
             label: '# of Votes',
-            data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
+            // data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
+            data: [],
             backgroundColor: 'rgba(170, 170, 170, .3)',
             borderColor: '#aaa',
             borderWidth: 1
           },
           {
             label: '3',
-            data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
+            // data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
+            data: [],
             backgroundColor: 'rgba(255, 170, 0, .8)',
             borderColor: 'rgb(255, 170, 0)',
             borderWidth: 1
@@ -450,24 +455,19 @@ export default defineComponent({
   //   ]
   mounted () {
     goTop()
-    // emitter.on('getSearchData', (aa) => {
-    // })
     window.addEventListener('scroll', this.scroll)
     this.arrangeLineData()
   },
-  // watch: {
-  //   chartdata: {
-  //     handler () {
-  //       // this.arrangeLineData()
-  //       // this.chartdata.datasets[0].label = this.compareLabel1
-  //       // this.chartdata.datasets[1].label = this.compareLabel2
-  //       // this.chartdata.datasets[2].label = this.compareLabel3
-  //       // console.log('deep')
-  //       // this.render()
-  //     },
-  //     deep: true
-  //   }
-  // },
+  watch: {
+    chartdata: {
+      handler () {
+        emitter.emit('rerenderChart', this.chartdata)
+        // console.log('deep')
+        // console.log(this.chartdata.datasets[0])
+      },
+      deep: true
+    }
+  },
   methods: {
     updateOpenAccordionGroup (category) {
       // 打開 => 關閉,  -變+
@@ -495,7 +495,7 @@ export default defineComponent({
         const obj = this.compareGroup[0].average_rate_of_return
         this.compareData1 = Object.values(obj)
       }
-      if (this.compareGroup.length === 2) {
+      if (this.compareGroup.length >= 2) {
         const obj = this.compareGroup[1].average_rate_of_return
         this.compareData2 = Object.values(obj)
       }
@@ -510,17 +510,28 @@ export default defineComponent({
       if (this.compareGroup.length > 0) {
         this.compareLabel1 = this.compareGroup[0].fund
       }
-      if (this.compareGroup.length === 2) {
+      if (this.compareGroup.length >= 2) {
         this.compareLabel2 = this.compareGroup[1].fund
       }
       if (this.compareGroup.length === 3) {
         this.compareLabel3 = this.compareGroup[2].fund
       }
       // 塞資料到 label
+      // console.log(this.chartdata.datasets[0].label)
+      // console.log(this.compareGroup[0].fund)
       this.chartdata.datasets[0].label = this.compareLabel1
       this.chartdata.datasets[1].label = this.compareLabel2
       this.chartdata.datasets[2].label = this.compareLabel3
-      console.log(this.chartdata.datasets[1].label)
+      // console.log(this.chartdata.datasets[0].label)
+      // console.log(this.chartdata.datasets[1].label)
+      // console.log(this.chartdata.datasets[2].label)
+      // 塞資料到 圖表
+      this.chartdata.datasets[0].data = this.compareData1
+      this.chartdata.datasets[1].data = this.compareData2
+      this.chartdata.datasets[2].data = this.compareData3
+      // console.log(this.chartdata.datasets[0].data)
+      // console.log(this.chartdata.datasets[1].data)
+      // console.log(this.chartdata.datasets[2].data)
     }
   }
 })

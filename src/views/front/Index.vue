@@ -194,7 +194,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
   .footer::before {
     background-color: #ede4ee;
   }
