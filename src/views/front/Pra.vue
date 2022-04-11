@@ -8,12 +8,12 @@
   <div class="list_li" @click="pitchOn"
     v-for="(item, i) in filterList" :key="item" :data-index="i">
     <!-- 裡面再放 -->
-    <Height :innertext="item.company" :innersearch="keyword"></Height>
+    <Highlight :innertext="item.company" :innersearch="keyword"></Highlight>
   </div>
 </template>
 
 <script>
-import Height from '@/components/Height.vue'
+import Highlight from '@/components/Highlight.vue'
 export default {
   data () {
     return {
@@ -86,7 +86,7 @@ export default {
     }
   },
   components: {
-    Height
+    Highlight
   }
 }
 </script>

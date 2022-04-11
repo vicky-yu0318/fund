@@ -34,10 +34,9 @@
             />
             <!-- keyup的觸發=> 於input 非button -->
             <!-- 裡面要輸入任何資料 & 資料相似才會出現清單 -->
-            <!-- v-if="matchList.length > 0 && isMatchList && keyword" -->
             <ul
               class="match-list"
-              :class="{active: matchList.length > 0 && isMatchList && keyword }"
+              v-if="matchList.length > 0 && isMatchList && keyword"
             >
               <li
                 class="match-item"
@@ -46,7 +45,7 @@
               >
                 <!-- <div class="code">{{ item.code }}-</div> -->
                 <!-- <div class="name">{{ item.fund }}</div> -->
-                <Height :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Height>
+                <Highlight :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Highlight>
               </li>
             </ul>
           </div>
@@ -79,7 +78,7 @@
                   @click="pitchOnCompany(item)"
                   >
                   <!-- <div class="name">{{ item }}</div> -->
-                  <Height :innertext="item" :innersearch="companyKeyword"></Height>
+                  <Highlight :innertext="item" :innersearch="companyKeyword"></Highlight>
                 </li>
               </ul>
             </div>
@@ -88,7 +87,7 @@
               @click="addCompanyCondition"
           ></div>
           </div>
-          <div class="btn-choose-group btn-choose-group-company"
+          <div class="btn-choose-group"
              v-if="isCompanyMore">
             <div
               class="btn-choose"
@@ -522,7 +521,8 @@ import fundData from '@/json/fundData.json'
 import localStorage from '@/methods/localStorage.js'
 import localStorageCompare from '@/methods/localStorage-compare.js'
 // import emitter from '@/methods/eventBus'
-import Height from '@/components/Height.vue'
+import Highlight from '@/components/Highlight.vue'
+import goTop from '@/methods/goTop.js'
 
 export default {
   data () {
@@ -598,7 +598,7 @@ export default {
   components: {
     Breadcrumb,
     Navbar,
-    Height
+    Highlight
   },
   mixins: [localStorage, localStorageCompare],
   watch: {
@@ -1311,6 +1311,7 @@ export default {
     }
   },
   mounted () {
+    goTop()
     window.addEventListener('scroll', this.scroll)
     this.categoriesCompany()
     this.categoriesAsset()
@@ -1326,11 +1327,3 @@ export default {
 // https://medium.com/@bebebobohaha/slice-splice-split-%E5%82%BB%E5%82%BB%E5%88%86%E4%B8%8D%E6%B8%85-46d9c8992729
 // https://blog.csdn.net/weixin_40013817/article/details/103069487 一個觸發，兩件事情；多個觸發
 </script>
-<style>
-.footer {
-  background: linear-gradient(to right, #544a5c, #4a3d53);
-}
-.footer::before {
-  background-color: #fff;
-}
-</style>

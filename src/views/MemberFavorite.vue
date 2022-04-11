@@ -10,9 +10,7 @@
             </div>
             <p>建議您先登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
             <div class="block-btn-more">
-                <router-link to="/search"
-                class="btn-more">加入更多基金觀察</router-link>
-                <!-- <a class="btn-goLogin">前往網銀</a> -->
+                <router-link to="/search" class="btn-more-fund">加入更多基金觀察</router-link>
             </div>
             <div class="block-favorite" v-if="myFavoriteGroup.length > 0">
                 <div class="favorite-table">

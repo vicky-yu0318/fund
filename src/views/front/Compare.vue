@@ -62,13 +62,13 @@
                 </ul>
             </div>
             <div class="block-btn-more" v-if="compareGroup.length !== 0">
-                <router-link class="btn-more"
+                <router-link class="btn-more-fund"
                 to="/search">加入更多基金比較</router-link>
             </div>
             <!-- 績效走勢圖 -->
-            <div class="block-accordion block_chart active"
+            <div class="block-accordion block_chart"
              @click=" currentAccordion = 'chart',  updateOpenAccordionGroup('chart')"
-              :class="{active: currentAccordion === 'chart' && openAccordionGroup.includes('chart')}"
+              :class="{active: currentAccordion === 'chart'}"
               v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>績效走勢圖</span>
@@ -79,8 +79,10 @@
                     </i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
-                <div class="block-linechart">
-                  <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
+                <div class="accordion-body">
+                  <div class="block-linechart">
+                    <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
+                  </div>
                 </div>
                 <!-- <div class="accordion-body" v-for="item in compareGroup" :key="item">
                   {{ item.average_rate_of_return }}
@@ -453,19 +455,19 @@ export default defineComponent({
     window.addEventListener('scroll', this.scroll)
     this.arrangeLineData()
   },
-  watch: {
-    chartdata: {
-      handler () {
-        // this.arrangeLineData()
-        // this.chartdata.datasets[0].label = this.compareLabel1
-        // this.chartdata.datasets[1].label = this.compareLabel2
-        // this.chartdata.datasets[2].label = this.compareLabel3
-        console.log('deep')
-        // this.render()
-      },
-      deep: true
-    }
-  },
+  // watch: {
+  //   chartdata: {
+  //     handler () {
+  //       // this.arrangeLineData()
+  //       // this.chartdata.datasets[0].label = this.compareLabel1
+  //       // this.chartdata.datasets[1].label = this.compareLabel2
+  //       // this.chartdata.datasets[2].label = this.compareLabel3
+  //       // console.log('deep')
+  //       // this.render()
+  //     },
+  //     deep: true
+  //   }
+  // },
   methods: {
     updateOpenAccordionGroup (category) {
       // 打開 => 關閉,  -變+
@@ -524,16 +526,15 @@ export default defineComponent({
 })
 </script>
 <style>
-  .footer {
-    background: linear-gradient(to right, #544a5c, #4a3d53 );
-  }
-  .footer::before {
-    background-color: #fff;
-  }
   .block-linechart {
     margin: auto;
     width: 700px;
     padding-bottom: 50px;
   }
 
+  @media (max-width: 767px) {
+    .block-linechart {
+      width: 100%;
+  }
+}
 </style>

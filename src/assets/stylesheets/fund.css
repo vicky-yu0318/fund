@@ -115,7 +115,6 @@ html::-webkit-scrollbar-thumb {
 .btn-heart i {
     padding-right: 5px;
 }
-
 .btn-compare.active,
 .btn-heart.active {
     background-color: var(--side-color-active);
@@ -130,6 +129,15 @@ html::-webkit-scrollbar-thumb {
 }
 .btn-more:hover {
     color: var(--light-color);
+}
+.btn-buy {
+    border-radius: 30px;
+    background-color: var(--third-color);
+    color: #fff;
+    padding: 5px 25px;
+}
+.btn-buy:hover {
+    background-color: var(--third-color-active);
 }
 .block-main-title {
     display: flex;
@@ -154,6 +162,39 @@ html::-webkit-scrollbar-thumb {
 @media (max-width: 1199px) {
     .container {
         padding: 0 20px;
+    }
+    .btn-more {
+      font-size: 17px;
+      padding-top: 5px;
+    }
+    .btn-buy {
+      border-radius: 20px;
+      padding: 5px 20px;
+    }
+}
+@media (max-width: 767px) {
+    .btn-buy {
+      border-radius: 10px;
+      padding: 8px;
+    }
+    .btn-choose {
+      font-size: 15px;
+    }
+    .btn-more {
+      font-size: 15px;
+      width: auto;
+      margin-left: auto;
+    }
+}
+
+@media (max-width: 575px) {
+    .btn-compare,
+    .btn-heart {
+      padding: 5px 10px;
+    }
+    .btn-compare i,
+    .btn-heart i {
+      display: none;
     }
 }
 
@@ -294,7 +335,17 @@ html::-webkit-scrollbar-thumb {
 
 /* ============= navbar =============== */
 /* ========== RWD =========== */
+@media (max-width: 767px) {
+  .header .btn-login {
+    margin-left: auto;
+    margin-right: 15px;
+  }
+}
 @media (max-width: 575px) {
+  .header .logo {
+    font-size: 30px;
+    letter-spacing: 5px;
+  }
   .header .btn-hamburger {
     display: block;
   }
@@ -323,7 +374,6 @@ html::-webkit-scrollbar-thumb {
   .header .navbar.active {
     position: static;
   }
-  
 }
 /* ========== breadcrumb ============ */
 .breadcrumb {
@@ -338,7 +388,6 @@ html::-webkit-scrollbar-thumb {
     padding: 0 8px;
     color: #aaa;
 }
-
 .breadcrumb .breadcrumb-list li a {
     color: #aaa;
 }
@@ -351,8 +400,17 @@ html::-webkit-scrollbar-thumb {
     font-weight: 600;
     pointer-events: none;
 }
+@media (max-width: 575px) {
+  .section-compare {
+    padding-top: 15px;
+  }
+  .breadcrumb {
+    padding-top: 10px;
+  }
+}
 /* ========= section-home ========== */
 .section-home {
+    padding-top: 150px;
     padding-bottom: 0;
     background: url('https://upload.cc/i1/2022/04/04/lCMj2U.jpg') center top no-repeat;
     background-size: cover;
@@ -391,7 +449,7 @@ html::-webkit-scrollbar-thumb {
     /* display: flex; */
     width: 100%;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     position: relative;
     /* z-index: 3; */
@@ -437,7 +495,7 @@ html::-webkit-scrollbar-thumb {
     width: calc(50% - 15px);
     padding-top: 50px;
     animation: fadeUp .7s linear;
-    transform: translateY(20%);
+    transform: translateY(-10%);
     position: relative;
     /* z-index: -1; */
 }
@@ -508,6 +566,14 @@ html::-webkit-scrollbar-thumb {
 /* ========== section-home =========== */
 /* ========== RWD =========== */
 @media (max-width: 1199px) {
+    .section-home .home-slider .slide .image {
+        transform: translateY(10%);
+    }
+}
+@media (max-width: 991px) {
+    .section-home .home-slider .slide .image {
+        transform: translateY(40%);
+    }
 }
 @media (max-width: 767px) {
     .section-home .home-slider .slide .content {
@@ -517,6 +583,7 @@ html::-webkit-scrollbar-thumb {
     .section-home .home-slider .slide .image {
         width: 100%;
         padding-top: 0px;
+        transform: translateY(0);
     }
     .section-home .home-slider .slide .image img {
         width: 80%;
@@ -554,7 +621,7 @@ html::-webkit-scrollbar-thumb {
 }
 @media (max-width: 575px) {
     .section-home .home-slider .slide .image {
-        transform: translateY(-35%);
+        transform: translateY(-40%);
     }
     .section-home #home-slide-next,
     .section-home #home-slide-prev {
@@ -574,9 +641,9 @@ html::-webkit-scrollbar-thumb {
     /* transform: translateY(-400px); 會佔位*/
     /* top: -400px; 會佔位*/ 
     /* margin-top: -350px; rwd就不用調整*/
-    margin-top: -20%;
+    margin-top: -18%;
     /* padding-top: 500px; */
-    padding-top: 31%;
+    padding-top: 30%;
     background: url('https://upload.cc/i1/2022/04/07/Nw2pE8.png') no-repeat center top  ,
                 transparent;
     position: relative;
@@ -674,8 +741,8 @@ html::-webkit-scrollbar-thumb {
 }
 @media (max-width: 575px) {
     .section-topic {
-        margin-top: -40%;
-        padding-top: 20%;
+        margin-top: -45%;
+        padding-top: 18%;
     }
     .section-topic::before {
         content: '';
@@ -752,10 +819,6 @@ html::-webkit-scrollbar-thumb {
 
 
 /* =========== section-searchFund =========== */
-.section-searchFund {
-    padding-top: 100px;
-}
-
 .section-searchFund .searchResult-title {
     display: flex;
     align-items: center;
@@ -765,7 +828,7 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .searchResult-title.active {
     position: fixed;
     left: 0; right: 0; top: 60px;
-    z-index: 999;
+    z-index: 100;
     max-width: 1200px;
     margin: auto;
     animation: slowDown .8s linear;
@@ -784,6 +847,7 @@ html::-webkit-scrollbar-thumb {
 
 .section-searchFund .notes {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px 0;
 }
@@ -851,7 +915,7 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .row .keyword-wrap {
     width: 85%;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: center;
 }
 .section-searchFund .row .keyword-wrap input {
@@ -874,7 +938,6 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .row .keyword-wrap input:focus {
     border-color: var(--side-color);
 }
-
 .section-searchFund .row .keyword-wrap .match-list {
     padding-left: 0;
     position: absolute;
@@ -882,11 +945,6 @@ html::-webkit-scrollbar-thumb {
     border: 1px solid var(--side-color);
     z-index: 100;
     background-color: #fff;
-    /* 讓瀏覽器抓得到dom  使用active 取代 V-if*/
-    opacity: 0;
-}
-.section-searchFund .row .keyword-wrap .match-list.active {
-    opacity: 1;
 }
 .section-searchFund .match-item {
     display: flex;
@@ -949,7 +1007,7 @@ html::-webkit-scrollbar-thumb {
     padding-right: 25px;
 }
 .section-searchFund .rating {
-    width: 80%;
+    width: 70%;
 }
 .section-searchFund .rating i {
     cursor: pointer;
@@ -979,9 +1037,10 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .asset-block .content .btn-choose-group {
     display: inline-block;
 }
-.btn-choose-group.btn-choose-group-company .btn-choose {
-    margin-bottom: 10px;
+.btn-choose-group .btn-choose {
+  margin-bottom: 10px;
 }
+
 /* 個別調整 */
 .section-searchFund .detail-check {
     display: block;
@@ -993,11 +1052,49 @@ html::-webkit-scrollbar-thumb {
 
 /* =========== section-searchFund =========== */
 /* =========== RWD ============== */
+@media (max-width: 1199px) {
+  .section-searchFund .searchResult-title.active {
+    left: 20px; right: 20px; top: 60px;
+  }
+  .section-searchFund .row .title {
+     font-size: 17px;
+   }
+   .section-searchFund .row .title i {
+     font-size: 14px; 
+   }
+}
+@media (max-width: 767px) {
+    .section-searchFund .row .title {
+      font-size: 17px;
+    }
+    .section-searchFund .notes {
+      font-size: 15px;
+    }
+    
+}
 @media (max-width: 575px) {
   .section-searchFund .searchResult-title.active {
     top: 0;
     left: 20px; right: 20px;
-}
+  }
+  .section-searchFund .row .title {
+    width: 25%;
+  }
+  .section-searchFund .row .content {
+    width: 75%;
+  }
+  .section-searchFund .detail-check {
+    font-size: 14px;    
+  }
+  .section-searchFund .searchResult-title span {
+    font-size: 40px;
+    padding-right: 5px;
+  }
+  .section-searchFund .searchResult-title .btn {
+    font-size: 15px; 
+    padding: 5px 8px;
+    margin-left: 5px;
+  }
 }
 
 /* =========== section-searchResult =========== */
@@ -1013,6 +1110,7 @@ html::-webkit-scrollbar-thumb {
     padding: 5px 10px;
     border-radius: 30px;
     margin-right: 10px;
+    margin-bottom: 8px;
 }
 .section-searchResult .condition-item i {
     padding-left: 8px;
@@ -1076,6 +1174,8 @@ html::-webkit-scrollbar-thumb {
     box-sizing: border-box;
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
     align-items: center;
     justify-content: center;
 }
@@ -1089,23 +1189,26 @@ html::-webkit-scrollbar-thumb {
 }
 /* 報酬率類別 */
 .section-searchResult .content.performance-content li {
-    /* width: calc(14.286% - 1.143px); */
     width: 14.285714%;
 }
 /* 風險類別 */
 .section-searchResult .content.risk-content li {
-    /* width: calc(14.286% - 1.143px); */
     width: 16.667%;
 }
 
-.btn-buy {
-    border-radius: 30px;
-    background-color: var(--third-color);
-    color: #fff;
-    padding: 5px 30px;
-}
-.btn-buy:hover {
-    background-color: var(--third-color-active);
+/* ============ .section-searchResult  ============= */
+/* ============ RWD ============ */
+@media (max-width: 575px) {
+  .section-searchFund .searchResult-title.active {
+    left: 20px; right: 20px; top: 0;
+  }
+  .section-searchResult .content .result-tr {
+    font-size: 15px;
+  }
+  .section-searchResult .search-category li {
+    font-size: 17px;
+    padding: 5px 0;
+  }
 }
 
 
@@ -1255,13 +1358,11 @@ html::-webkit-scrollbar-thumb {
 /* ======== RWD ============ */
 @media (max-width:767px) {
    .window {
-       left: 0;
-       width: 90%;
+       width: 50%;
    } 
 }
-
 /* =============== ?? ============= */
-.btnsmall {
+/* .btnsmall {
     background-color: #eee;
     outline: none;
     border: 1px solid #25322B;
@@ -1280,7 +1381,7 @@ html::-webkit-scrollbar-thumb {
 .btnDetail.active {
     background-color: #9B81AE;
     color: #fff;
-}
+} */
 
 /* ============= section-compare =============== */
 .section-compare .empty-remark {
@@ -1328,6 +1429,8 @@ html::-webkit-scrollbar-thumb {
     flex-wrap: wrap;
 }
 .section-compare .compare-items li {
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     padding: 35px 0 30px;
     box-sizing: border-box;
@@ -1377,11 +1480,14 @@ html::-webkit-scrollbar-thumb {
 .section-compare .compare-items li .btn-delete:hover {
     color: var(--light-color);
 }
+.section-compare .compare-items li .btn-block {
+    margin-top: auto;
+}
 .section-compare .block-btn-more {
     text-align: right;
     padding: 30px 0 50px;
 }
-.section-compare .btn-more {
+.section-compare .btn-more-fund {
     border: 1px solid var(--main-color);
     color: var(--main-color);
     border-radius: 30px;
@@ -1391,7 +1497,7 @@ html::-webkit-scrollbar-thumb {
     font-weight: 600;
     font-size: 18px;
 }
-.section-compare .btn-more:hover {
+.section-compare .btn-more-fund:hover {
     background-color: var(--main-color);
     color: #fff;
 }
@@ -1513,20 +1619,42 @@ html::-webkit-scrollbar-thumb {
 .section-compare .accordion-body .compare-td_three_items {
     width: calc(26.667% - 5px);
 }
+/* ========== section-compare =========== */
+/* ============= RWD ============== */
+@media (max-width: 575px) {
+  .section-compare .block-compare-items.active {
+    top: 0px; 
+  }
+  .section-compare .compare-items li h3 {
+    font-size: 16px;
+  }
+  .block-accordion .accordion-body {
+    padding: 10px 0;
+  }
+  .section-compare .accordion-body .compare-th {
+    font-size: 16px;
+  }
+  .section-compare .accordion-body .compare-td {
+    font-size: 15px;
+  }
+}
 /* ========== section-favorite =========== */
+.section-favorite {
+    padding-bottom: 150px;
+}
 .section-favorite .block-btn-more {
     text-align: right;
     padding: 30px 0 50px;
 }
-.section-favorite .btn-more {
+.section-favorite .btn-more-fund {
     border: 1px solid var(--main-color);
     color: var(--main-color);
     border-radius: 30px;
     padding: 5px 13px;
-    display: inline-block;
     cursor: pointer;
     font-weight: 600;
     font-size: 18px;
+    display: inline-block;
 }
 .section-favorite .btn-more:hover {
     background-color: var(--main-color);
@@ -1580,7 +1708,7 @@ html::-webkit-scrollbar-thumb {
     text-align: center;
     margin-top: -100px;
     position: relative;
-    z-index: 10;
+    padding: 0 20px;
 }
 .section-favorite .btn-goLogin-dark p {
     color: #fff;
@@ -1608,6 +1736,20 @@ html::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     gap: 5px;
+}
+/* ========== section-favorite =========== */
+@media (max-width: 767px) {
+  .section-favorite .block-favorite {
+    padding: 0px;
+  }
+  .section-favorite .btn-goLogin-dark {
+    margin-top: -140px;
+  }
+}
+@media (max-width: 575px) {
+  .section-favorite .btn-goLogin-dark {
+    margin-top: -160px;
+  }
 }
 
 /* ========= section-login ========== */
@@ -1725,17 +1867,17 @@ html::-webkit-scrollbar-thumb {
   }
 }
 
-
 /* ========= footer =========== */
 .footer::before {
     content: '';
     position: absolute;
     right: 0; left: 0; top: 0; bottom: 0;
-    background-color: #ede4ee;
+    background-color: #fff;
     z-index: -1;
 }
 .footer {
-    background: linear-gradient(to right, #333d38 , #25322B);
+    /* background: linear-gradient(to right, #333d38 , #25322B); */
+    background: linear-gradient(to right, #544a5c, #4a3d53 );
     color: #fff;
     padding: 50px 0 30px;
     border-radius: 125px 0 0 0;

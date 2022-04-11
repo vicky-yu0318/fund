@@ -6,7 +6,7 @@
         <h1 class="sr-only">playfund</h1>
       </a>
 
-      <div class="btn">回首頁</div>
+      <router-link to="/" class="btn">回首頁</router-link>
     </div>
   </header>
 

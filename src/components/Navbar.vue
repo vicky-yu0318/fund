@@ -5,7 +5,6 @@
         Fund
         <h1 class="sr-only">playfund</h1>
       </a>
-      <div class="fas fa-bars btn-hamburger" @click="switchList = !switchList"></div>
       <nav class="navbar" :class="{active: isFixTop, activeList: switchList}">
         <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
         <router-link to="/compare">
@@ -20,6 +19,8 @@
       <template v-if="currentPage === 'memberFavorite'">
         <div class="btn-login btn" @click="logout">登出</div>
       </template>
+
+      <div class="fas fa-bars btn-hamburger" @click="switchList = !switchList"></div>
     </div>
     <div class="assistant" v-if="currentPage !== '/'">
       <div class="remark" > 我是智能客服，有問題可以敲我 </div>

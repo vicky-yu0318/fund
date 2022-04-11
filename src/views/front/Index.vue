@@ -12,7 +12,7 @@
                         <p> 攜手成長</p>
                         <a href="#" class="btn">shop now</a>
                     </div>
-                    <div class="image connect">
+                    <div class="image">
                         <img :src="item.imageSrc">
                     </div>
                 </div>
@@ -194,3 +194,8 @@ export default {
   }
 }
 </script>
+<style>
+  .footer::before {
+    background-color: #ede4ee;
+  }
+</style>
