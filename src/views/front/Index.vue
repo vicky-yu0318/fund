@@ -183,7 +183,7 @@ export default {
   }
 }
 </script>
-<style scope>
+<style lang="scss" scoped>
   .footer::before {
     background-color: #ede4ee;
   }

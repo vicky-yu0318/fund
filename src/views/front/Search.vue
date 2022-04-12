@@ -150,24 +150,66 @@
             </template>
           </div>
           <div class="detail-check" v-if="showAssetDetail">
-            <template v-for="item in assetCategory" :key="item">
-              <label v-if="item === currentAsset">
+            <!-- <template v-for="item in assetCategory" :key="item"> -->
+              <label v-if="currentAsset === '大宗商品'">
                 <input
                   type="checkbox"
                   value="全"
+                  v-model="allcheck1"
                   @click="checkAllAsset"
-                  :checked="fixConditions.has(item)"
                 />
+                {{ allcheck1 }}
                 <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
-                <span>全部 {{ item }} </span>
+                <span>全部</span>
               </label>
-            </template>
-            <label v-for="item in AssetDetailSet" :key="item">
+              <label v-if="currentAsset === '新興市場股票'">
+                <input
+                  type="checkbox"
+                  value="全"
+                  v-model="allcheck2"
+                  @click="checkAllAsset"
+                />
+                {{ allcheck2 }}
+                <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
+                <span>全部 </span>
+              </label>
+              <label v-if="currentAsset === '高收益債'">
+                <input
+                  type="checkbox"
+                  value="全"
+                  v-model="allcheck3"
+                  @click="checkAllAsset"
+                />
+                {{ allcheck3 }}
+                <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
+                <span>全部</span>
+              </label>
+            <!-- </template> -->
+            <!-- <label v-for="item in AssetDetailSet" :key="item">
               <input type="checkbox" :value="item" v-model="checkDetailGroup" />
               <span>{{ item }}</span>
-            </label>
-            {{ checkDetailGroup }}
-            點選:{{ checkDetailLen }}, 總長: {{ currentAssetdetailLen }}
+            </label> -->
+            <template v-if="currentAsset === '大宗商品'">
+              <label v-for="item in showCurrentDetail" :key="item">
+                <input type="checkbox" :value="item" v-model="checkDetailGroup1" />
+                <span>{{ item }}</span>
+              </label>
+            </template>
+            <template v-if="currentAsset === '新興市場股票'">
+              <label v-for="item in showCurrentDetail" :key="item">
+                <input type="checkbox" :value="item" v-model="checkDetailGroup2" />
+                <span>{{ item }}</span>
+              </label>
+            </template>
+            <template v-if="currentAsset === '高收益債'">
+              <label v-for="item in showCurrentDetail" :key="item">
+                <input type="checkbox" :value="item" v-model="checkDetailGroup3" />
+                <span>{{ item }}</span>
+              </label>
+            </template>
+            {{ checkDetailGroup1 }}
+            {{ checkDetailGroup2 }}
+            {{ checkDetailGroup3 }}
           </div>
           <!-- <div class="category" v-if="isAssetDetail">
             <template v-for="item in assetCategory" :key="item">
@@ -528,6 +570,9 @@ import goTop from '@/methods/goTop.js'
 export default {
   data () {
     return {
+      allcheck1: '',
+      allcheck2: '',
+      allcheck3: '',
       currentPage: this.$route.name,
       finalData: '',
       funds: fundData,
@@ -572,7 +617,7 @@ export default {
       assetTempObj: {},
       isfirstCheckDetail: '',
       showAllDetail: [],
-      isChooseAllDetail: true,
+      // isChooseAllDetail: true,
       chooseSingleDetailGroup: '',
       secondClickAssetGroup: [],
       beforeStarSring: '',
@@ -586,15 +631,20 @@ export default {
       currentSearchCatagory: 'basic',
       showUpperBody: '',
       showWindowFooter: false,
-      checkDetailGroup: [],
+      checkDetailGroup1: [],
+      checkDetailGroup2: [],
+      checkDetailGroup3: [],
+      tempgroup1: [],
+      tempgroup2: [],
+      tempgroup3: [],
       allChooseAsset: '',
       tempDetail: [],
       checkDetailLen: '',
       currentAssetdetailLen: '',
       isDetailStatus: '',
       cancel: '',
-      fixChangetoAll: '',
-      assetButtonActive: ''
+      assetButtonActive: '',
+      showCurrentDetail: []
     }
   },
   components: {
@@ -610,7 +660,19 @@ export default {
       },
       deep: true
     },
-    checkDetailGroup: {
+    checkDetailGroup1: {
+      handler () {
+        this.updateDetail()
+      },
+      deep: true
+    },
+    checkDetailGroup2: {
+      handler () {
+        this.updateDetail()
+      },
+      deep: true
+    },
+    checkDetailGroup3: {
       handler () {
         this.updateDetail()
       },
@@ -627,40 +689,51 @@ export default {
   },
   methods: {
     updateDetail () {
-      // 現在是由單選改勾選 全選的狀況 且實際上有點擊拳選按鈕 或等刪資料跑回圈
-      if (this.checkDetailGroup.length === 0 && !this.isDetailStatus) {
-        console.log('all.now')
-        this.checkAllAssetPrepareData()
-        return
-      }
       // 畫面-狀態- 點選單選 不是全部，就算選取全部的細項，全選也不能勾起
       this.isDetailStatus = true
-      // 更新前先清空
-      this.tempDetail.forEach((temp) => {
-        this.fixConditions.delete(temp)
-      })
       // 資料- 刪除- 主類- fixConditions
       this.fixConditions.delete(this.currentAsset)
-      // 資料- 刪除/ 新增- fixConditions
-      this.checkDetailGroup.forEach((detail) => {
+      // 資料- 刪除 / 新增- fixConditions
+      // 更新前先清空
+      this.tempgroup1.forEach((temp) => {
+        this.fixConditions.delete(temp)
+      })
+      this.tempgroup2.forEach((temp) => {
+        this.fixConditions.delete(temp)
+      })
+      this.tempgroup3.forEach((temp) => {
+        this.fixConditions.delete(temp)
+      })
+      this.checkDetailGroup1.forEach((detail) => {
         this.fixConditions.add(detail)
-        // 下次要按細項，全部清空的準備內容 (避免重複因此做判斷)
-        if (!this.tempDetail.includes(detail)) {
-          this.tempDetail.push(detail)
-        }
+        this.tempgroup1.push(detail)
+      })
+      this.checkDetailGroup2.forEach((detail) => {
+        this.fixConditions.add(detail)
+        this.tempgroup2.push(detail)
+      })
+      this.checkDetailGroup3.forEach((detail) => {
+        this.fixConditions.add(detail)
+        this.tempgroup3.push(detail)
       })
       // 資料- 刪除- Conditions 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
       delete this.conditions.asset[this.currentAsset]
-      // 資料- 新增- Conditions
-      this.conditions.asset[this.currentAsset] = this.checkDetailGroup
+      // OK資料- 新增- Conditions
+      if (this.currentAsset === '大宗商品') {
+        this.conditions.asset[this.currentAsset] = this.checkDetailGroup1
+      }
+      if (this.currentAsset === '新興市場股票') {
+        this.conditions.asset[this.currentAsset] = this.checkDetailGroup2
+      }
+      if (this.currentAsset === '高收益債') {
+        this.conditions.asset[this.currentAsset] = this.checkDetailGroup3
+      }
       // 畫面- 用資料控制畫面 判定全部是否勾選
       if (this.conditions.asset[this.currentAsset]) {
         this.checkDetailLen = this.conditions.asset[this.currentAsset].length
         this.currentAssetdetailLen = this.AssetDetailSet.size
       }
       // 判斷主資產是否加上class
-      // console.log(this.fixConditions)
-      // console.log(this.AssetDetailSet)
       this.AssetDetailSet.forEach((item) => {
         if (this.fixConditions.has(item)) {
           this.assetButtonActive = true
@@ -668,9 +741,6 @@ export default {
           this.assetButtonActive = false
         }
       })
-      // if (!this.fixConditions.has(this.currentAsset)) {
-      //   console.log('no')
-      // }
     },
     enterData () {
       // https://morecoke.coderbridge.io/2021/03/28/js-input-%E4%BA%8B%E4%BB%B6/
@@ -779,6 +849,12 @@ export default {
         this.sweetAlert(message)
         return
       }
+      // 如果之前有新增就不新增了
+      if (this.fixConditions.has(this.companyKeyword)) {
+        const message = { title: '先前已加入搜尋條件中', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
       this.companyCategory.forEach((item) => {
         if (item === this.companyKeyword) {
           this.updateCompanyCondition(item)
@@ -794,7 +870,9 @@ export default {
       // OK 判斷- 把現在按的主要資產類別 灌入狀態內(做細項參考)
       this.currentAsset = item
       // 判斷- 一按主類別，預設選取 所有細項
-      this.isChooseAllDetail = true
+      // this.isChooseAllDetail = true
+      // 畫面- 先備好個別資產細項this.AssetDetailSet
+      this.showCurrentDetail = this.assetDetailCategories[this.currentAsset]
       // OK 畫面- 從8隻基金裡面「現在點選的主類別」細項 放在AssetDetailSet中，再顯示在畫面
       this.AssetDetailSet = new Set()
       this.funds.forEach((fund) => {
@@ -829,7 +907,17 @@ export default {
       // 畫面- 區隔按全選還是 單選
       this.isDetailStatus = false
       // 畫面- 清空所有細項 (觸發深層監聽) ps只能刪此總類的
-      this.checkDetailGroup = []
+      if (this.currentAsset === '大宗商品') {
+        this.checkDetailGroup1 = []
+      }
+      if (this.currentAsset === '新興市場股票') {
+        this.checkDetailGroup2 = []
+      }
+      if (this.currentAsset === '高收益債') {
+        this.checkDetailGroup3 = []
+      }
+      this.checkAllAssetPrepareData()
+      // XXX this.checkDetailGroup = []
       // const currentDetails = this.assetDetailCategories[this.currentAsset]
       // this.checkDetailGroup.forEach((check) => {
       //   currentDetails.forEach((detail) => {
@@ -848,24 +936,19 @@ export default {
       //     }
       //   })
       // })
-      this.fixChangetoAll = false
     },
     checkAllAssetPrepareData () {
       // 判斷情境- 預設是"全選" 再按一次，變成"不選"
-      this.isChooseAllDetail = !this.isChooseAllDetail
       // 先備好個別資產細項this.AssetDetailSet
       const currentDetail = this.assetDetailCategories[this.currentAsset]
       if (this.conditions.asset[this.currentAsset]) {
+        // 細項總數 === 現在加進資料的總數 代表check全選
         this.checkDetailLen = this.conditions.asset[this.currentAsset].length
         this.currentAssetdetailLen = this.AssetDetailSet.size
-        if (this.checkDetailLen === this.currentAssetdetailLen) {
-          console.log('表本全選要改 單')
-        } else {
-          console.log('表單要改 全選')
-        }
       }
-      // ▲ 狀況1: 全選 (本都單選改全選 or 全部取消選取狀況下選取)
-      if (this.checkDetailLen !== this.currentAssetdetailLen || this.cancel) {
+      // ▲ 狀況1: 全選 (單選改全選 or 全部取消狀況下全選)(資料尚未重跑)
+      // this.checkDetailLen !== this.currentAssetdetailLen || this.cancel
+      if (this.isDetailStatus === false) {
         // 畫面- 主類變色
         this.chooseAssetGroup.push(this.currentAsset)
         // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
@@ -881,27 +964,29 @@ export default {
           })
         })
         // (4) OK新增- fixConditions- 主要類別
-        this.fixConditions.add(this.currentAsset)
-        this.cancel = false
+        // console.log(this.currentAsset)
+        this.fixConditions.add(`${this.currentAsset}`)
+        console.log(this.fixConditions)
+        // this.cancel = false
       } else {
         // ▲ 狀況2: 不選全部(取消全選)
         // OK畫面- 把原選擇的主類 顏色拿掉
-        this.chooseAssetGroup.forEach((asset) => {
-          if (this.currentAsset === asset) {
-            const index = this.chooseAssetGroup.indexOf(asset)
-            this.chooseAssetGroup.splice(index, 1)
-          }
-        })
+        // this.chooseAssetGroup.forEach((asset) => {
+        //   if (this.currentAsset === asset) {
+        //     const index = this.chooseAssetGroup.indexOf(asset)
+        //     this.chooseAssetGroup.splice(index, 1)
+        //   }
+        // })
         // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
-        delete this.conditions.asset[this.currentAsset]
+        // delete this.conditions.asset[this.currentAsset]
         // (2) OK資料- 刪除- fixConditions- 刪除主項
-        this.fixConditions.forEach((fix) => {
-          if (fix === this.currentAsset) {
-            this.fixConditions.delete(fix)
-          }
-        })
+        // this.fixConditions.forEach((fix) => {
+        //   if (fix === this.currentAsset) {
+        //     this.fixConditions.delete(fix)
+        //   }
+        // })
         // 取消全選 = checkDetailLen沒資料
-        this.cancel = true
+        // this.cancel = true
       }
       // 用資料控制畫面 判定全部是否勾選
       if (this.conditions.asset[this.currentAsset]) {
