@@ -16,17 +16,6 @@
                         <img :src="item.imageSrc">
                     </div>
                 </div>
-                <!-- <div class="slide" :class="{active: sidePage === 1}">
-                    <div class="content">
-                        <span>new arrivals</span>
-                        <h3>共同基金</h3>
-                        <p>ctetur adipisicing elit. Dolorum, debitis.</p>
-                        <a href="#" class="btn">shop now</a>
-                    </div>
-                    <div class="image">
-                        <img src="https://upload.cc/i1/2022/04/04/TSYKbM.png" alt="">
-                    </div>
-                </div> -->
             </div>
 
             <div id="home-slide-next" class="fas fa-angle-right" @click="nextPage"
@@ -75,8 +64,8 @@
               :pagination="{ clickable: true }"
               :breakpoints="swiperOptions.breakpoints"
                 :autoplay="{ autoplay: true,
-                              disableOnInteraction: false
-                            }"
+                             disableOnInteraction: false,
+                             stopOnLastSlide: false}"
               loop
               :centeredSlides="true"
               >

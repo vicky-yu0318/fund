@@ -22,24 +22,23 @@ export default defineComponent({
     chartData: {
       handler () {
         // this.arrangeLineData()
-        // this.chartdata.datasets[0].label = this.compareLabel1
-        // this.chartdata.datasets[1].label = this.compareLabel2
-        // this.chartdata.datasets[2].label = this.compareLabel3
         // console.log('圖監聽開啟')
-        // this.render()
+        // this.renderChart(this.chartData, this.chartOptions)
       },
       deep: true
     }
   },
   mounted () {
+    // console.log('觸發mounted')
     this.renderChart(this.chartData, this.chartOptions)
-    // console.log('程式於chart')
-    emitter.on('rerenderChart', (data) => {
-      // console.log('rerenderChart被觸發')
+    emitter.on('rerenderChart', () => {
+      // console.log('line.vue 的rerenderChart被觸發')
+      // 傳進來是最新的沒錯
       // console.log(this.chartData)
-      // console.log(data)
-      // this.renderChart(this.chartData, this.chartOptions)
+      // this.myChart.destroy()
+      // this.renderChart(this.chartData)
     })
+    // console.log(this.chartData)
   }
 })
 </script>

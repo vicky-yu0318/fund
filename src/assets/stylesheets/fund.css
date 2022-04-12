@@ -798,6 +798,10 @@ html::-webkit-scrollbar-thumb {
 .section-service .slide .content .btn {
     background-color: var(--main-color);
 }
+.section-service .slide .content .btn:hover {
+    background-color: var(--main-color-active);
+    color: #fff;
+}
 
 .section-service .service-slider  {
     padding-bottom: 40px;
@@ -1435,14 +1439,13 @@ html::-webkit-scrollbar-thumb {
     bottom: 0; right: 0; left: 0;
 }
 .section-compare .compare-items li:first-child::after {
-    /* background-color: #D2BD7A; */
-    background-color: #FEC77C;
-}
-.section-compare .compare-items li:nth-child(2)::after {
     background-color: #914DA0;
 }
+.section-compare .compare-items li:nth-child(2)::after {
+    background-color: #aaa;
+}
 .section-compare .compare-items li:nth-child(3)::after {
-    background-color: #FE9494;
+     background-color: #FEC77C;
 }
 .section-compare .compare-items li h3 {
     padding-bottom: 20px;

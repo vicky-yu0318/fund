@@ -135,12 +135,13 @@
           </div>
           <div class="btn-choose-group">
             <template v-for="item in assetCategory" :key="item">
+                <!-- conditions.asset[currentAsset].length > 0 -->
               <div
                 class="btn-choose"
                 v-if="currentAsset === item || !isAssetOption"
                 :class="{
                   disabled: showAssetDetail,
-                  active: chooseAssetGroup.includes(item)
+                  active: chooseAssetGroup.includes(item) || assetButtonActive
                 }"
                 @click="addAssetCondition(item)"
               >
@@ -592,7 +593,8 @@ export default {
       currentAssetdetailLen: '',
       isDetailStatus: '',
       cancel: '',
-      fixChangetoAll: ''
+      fixChangetoAll: '',
+      assetButtonActive: ''
     }
   },
   components: {
@@ -656,6 +658,19 @@ export default {
         this.checkDetailLen = this.conditions.asset[this.currentAsset].length
         this.currentAssetdetailLen = this.AssetDetailSet.size
       }
+      // 判斷主資產是否加上class
+      // console.log(this.fixConditions)
+      // console.log(this.AssetDetailSet)
+      this.AssetDetailSet.forEach((item) => {
+        if (this.fixConditions.has(item)) {
+          this.assetButtonActive = true
+        } else {
+          this.assetButtonActive = false
+        }
+      })
+      // if (!this.fixConditions.has(this.currentAsset)) {
+      //   console.log('no')
+      // }
     },
     enterData () {
       // https://morecoke.coderbridge.io/2021/03/28/js-input-%E4%BA%8B%E4%BB%B6/
@@ -664,7 +679,6 @@ export default {
       })
       if (this.matchList.length > 0) {
         this.isMatchList = true
-        this.changekeywordColor()
       }
     },
     searchFundValue (e) {
@@ -736,16 +750,8 @@ export default {
       // console.log({ title: `Selected: ${this.matchCompanyList[index]}`, icon: 'none' })
       // {title: 'Selected: 富邦投顧', icon: 'none'}
       this.companyKeyword = item
+      // console.log(this.companyKeyword)
       this.showCompanyList = false
-    },
-    changekeywordColor () {
-      // 關鍵字綁定
-      console.log(this.$refs.refMatchList)
-      // const regExp = new RegExp(this.keyword, 'gi')
-      // console.log(regExp)
-      // const matchList = document.querySelector('.match-list')
-      // console.log(matchList)
-      // setTimeout
     },
     addFundCondition () {
       this.isSearchFund = ''
@@ -767,15 +773,15 @@ export default {
       })
     },
     addCompanyCondition () {
+      // console.log(this.companyKeyword)
       if (this.companyKeyword === '') {
         const message = { title: '請輸入您要搜尋的基金公司名稱', icon: 'info' }
         this.sweetAlert(message)
         return
       }
-      this.funds.forEach((item) => {
-        if (item.company === this.companyKeyword) {
-          // console.log(this.companyKeyword)
-          this.updateCompanyCondition(item.company)
+      this.companyCategory.forEach((item) => {
+        if (item === this.companyKeyword) {
+          this.updateCompanyCondition(item)
         }
       })
       this.companyKeyword = ''
@@ -1078,7 +1084,6 @@ export default {
       })
     },
     updateCompanyCondition (item) {
-      // console.log(item)
       // ▲ 狀況一：原本就有在條件中 (-- 刪除)
       if (this.chooseCompanyItems.includes(item)) {
         // 畫面- active 轉換

@@ -23,7 +23,7 @@
       <div class="fas fa-bars btn-hamburger" @click="switchList = !switchList"></div>
     </div>
     <div class="assistant" v-if="currentPage !== '/'">
-      <div class="remark" > 我是智能客服，有問題可以敲我 </div>
+      <div class="remark" > 安心基金智能客服，有問題可以隨時找我 </div>
       <i class="btn-assistant fa-solid fa-person-dots-from-line">?</i>
     </div>
   </header>

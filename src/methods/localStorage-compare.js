@@ -1,3 +1,4 @@
+import emitter from '@/methods/eventBus'
 export default {
   methods: {
     // 存檔save:
@@ -46,6 +47,7 @@ export default {
     compareGroup: {
       handler () {
         this.saveCompare(this.compareGroup)
+        emitter.emit('updateComareGroup')
       },
       deep: true
     }

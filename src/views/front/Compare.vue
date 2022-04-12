@@ -67,39 +67,37 @@
             </div>
             <!-- 績效走勢圖 -->
             <div class="block-accordion block_chart"
-             @click=" currentAccordion = 'chart',  updateOpenAccordionGroup('chart')"
-              :class="{active: currentAccordion === 'chart'}"
+             @click="updateOpenAccordionGroup('chart')"
+              :class="{active: openAccordionGroup.includes('chart') }"
               v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>績效走勢圖</span>
                     <!-- 用v-if 比:class佳 -->
-                    <!-- 只有一種情況要顯示- 其他(包含預設)都是+ -->
                     <i class="fa-solid fa-minus"
-                      v-if="currentAccordion === 'chart' && openAccordionGroup.includes('chart')">
-                    </i>
+                    v-if="openAccordionGroup.includes('chart')"></i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <div class="accordion-body">
                   <div class="linechart-labels">
                     <div class="label">
-                      <p>報酬率%</p>
                       <div class="block-linechart">
                         <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
                       </div>
+                      <p>X軸：月份(近一年)</p>
+                      <p>Y軸：平均報酬</p>
                     </div>
                   </div>
                 </div>
             </div>
             <!-- 績效表現 -->
             <div class="block-accordion"
-              @click=" currentAccordion = 'performance', updateOpenAccordionGroup('performance') "
-              :class="{active: currentAccordion === 'performance' && openAccordionGroup.includes('performance')}"
+              @click="updateOpenAccordionGroup('performance')"
+              :class="{active: openAccordionGroup.includes('performance') }"
               v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>績效表現</span>
                     <i class="fa-solid fa-minus"
-                      v-if="currentAccordion === 'performance' && openAccordionGroup.includes('performance')">
-                    </i>
+                    v-if="openAccordionGroup.includes('performance')"></i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <!-- 績效表現-1項資料呈現方式 -->
@@ -217,15 +215,15 @@
 
             </div>
             <!-- 基本資料 -->
+            <!--  === 'basic' -->
             <div class="block-accordion"
-              @click=" currentAccordion = 'basic', updateOpenAccordionGroup('basic') "
-              :class="{active: currentAccordion === 'basic' && openAccordionGroup.includes('basic')}"
+              @click="updateOpenAccordionGroup('basic')"
+              :class="{active: openAccordionGroup.includes('basic') }"
               v-if="compareGroup.length !== 0">
                 <a class="accordion-header">
                     <span>基本資料</span>
-                    <i class="fa-solid fa-minus"
-                      v-if="currentAccordion === 'basic' && openAccordionGroup.includes('basic')">
-                    </i>
+                     <i class="fa-solid fa-minus"
+                    v-if="openAccordionGroup.includes('basic')"></i>
                     <i class="fa-solid fa-plus" v-else></i>
                 </a>
                 <!-- 基本資料- 1種比較基金 -->
@@ -356,49 +354,44 @@ export default defineComponent({
     return {
       currentPage: this.$route.name,
       compareGroup: this.getCompare() || [],
-      currentAccordion: 'chart',
       openAccordionGroup: [],
       isFixTop: '',
-      compareData1: [],
-      compareData2: [],
-      compareData3: [],
-      compareLabel1: '',
-      compareLabel2: '',
-      compareLabel3: '',
-      // this.data.datasets[0].label = this.compareGroup[0].fund
       chartdata: {
-        labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
+        // labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
         datasets: [
-          {
-            label: '123',
-            // data: [10, -2, 10, 5, 2, 3, 10, -2, 10, 5, 2, 3],
-            data: [],
-            backgroundColor: 'rgba(153, 102, 255, .4)',
-            borderColor: '#914DA0',
-            borderWidth: 1
-          },
-          {
-            label: '# of Votes',
-            // data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
-            data: [],
-            backgroundColor: 'rgba(170, 170, 170, .3)',
-            borderColor: '#aaa',
-            borderWidth: 1
-          },
-          {
-            label: '3',
-            // data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
-            data: [],
-            backgroundColor: 'rgba(255, 170, 0, .8)',
-            borderColor: 'rgb(255, 170, 0)',
-            borderWidth: 1
-          }
+          // {
+          //   label: '',
+          //   // data: [10, -2, 10, 5, 2, 3, 10, -2, 10, 5, 2, 3],
+          //   data: [],
+          //   // backgroundColor: 'rgba(153, 102, 255, .4)',
+          //   backgroundColor: '',
+          //   borderColor: '#914DA0'
+          //   // borderWidth: 1
+          // }
+          // {
+          //   label: '',
+          //   // data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
+          //   data: [],
+          //   // backgroundColor: 'rgba(170, 170, 170, .3)',
+          //   backgroundColor: '',
+          //   borderColor: '#aaa'
+          //   // borderWidth: 1
+          // },
+          // {
+          //   label: '',
+          //   // data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
+          //   data: [],
+          //   // backgroundColor: 'rgba(255, 170, 0, .8)',
+          //   backgroundColor: '',
+          //   borderColor: 'rgb(255, 170, 0)'
+          //   // borderWidth: 1
+          // }
         ]
       },
       options: {
         title: {
-          display: true
-          // text: 'Chart Title'
+          display: true,
+          text: '近一年每月平均報酬'
         },
         scales: {
           y: {
@@ -409,13 +402,6 @@ export default defineComponent({
       }
     }
   },
-  // render () {
-  //   return (
-  //     <Fragment>
-  //       <MonthlyChart chartData={this.chartData} chartOptions={this.options} />
-  //     </Fragment>
-  //   )
-  // },
   mixins: [Compare],
   //   compareGroup: [
   //     {
@@ -457,13 +443,16 @@ export default defineComponent({
     goTop()
     window.addEventListener('scroll', this.scroll)
     this.arrangeLineData()
+    emitter.on('updateComareGroup', () => {
+      this.compareGroup = this.getCompare() || []
+      this.arrangeLineData()
+      // console.log('刪除compare被觸發, chartdata資料有')
+    })
   },
   watch: {
     chartdata: {
       handler () {
-        emitter.emit('rerenderChart', this.chartdata)
-        // console.log('deep')
-        // console.log(this.chartdata.datasets[0])
+        emitter.emit('rerenderChart')
       },
       deep: true
     }
@@ -487,51 +476,63 @@ export default defineComponent({
       }
     },
     arrangeLineData () {
-      // 整理平均報酬率
-      this.compareData1 = []
-      this.compareData2 = []
-      this.compareData3 = []
+      // 全部清掉不管剛是刪除哪個，待會全部加回
+      this.chartdata.datasets = []
+      const detail = {
+        label: '',
+        data: [],
+        backgroundColor: '',
+        borderColor: '',
+        borderWidth: ''
+      }
       if (this.compareGroup.length > 0) {
+        this.chartdata.labels = ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月']
+        this.chartdata.datasets.push(detail)
         const obj = this.compareGroup[0].average_rate_of_return
-        this.compareData1 = Object.values(obj)
+        const compareLabel1 = this.compareGroup[0].fund
+        const compareData1 = Object.values(obj)
+        this.chartdata.datasets[0].label = compareLabel1
+        this.chartdata.datasets[0].data = compareData1
+        this.chartdata.datasets[0].backgroundColor = 'rgba(153, 102, 255, .4)'
+        this.chartdata.datasets[0].borderColor = '#914DA0'
+        this.chartdata.datasets[0].borderWidth = '1'
+      }
+      const detail2 = {
+        label: '',
+        data: [],
+        backgroundColor: '',
+        borderColor: '',
+        borderWidth: ''
       }
       if (this.compareGroup.length >= 2) {
+        this.chartdata.datasets.push(detail2)
         const obj = this.compareGroup[1].average_rate_of_return
-        this.compareData2 = Object.values(obj)
+        const compareData2 = Object.values(obj)
+        const compareLabel2 = this.compareGroup[1].fund
+        this.chartdata.datasets[1].label = compareLabel2
+        this.chartdata.datasets[1].data = compareData2
+        this.chartdata.datasets[1].backgroundColor = 'rgba(170, 170, 170, .3)'
+        this.chartdata.datasets[1].borderColor = '#aaa'
+        this.chartdata.datasets[1].borderWidth = '1'
+      }
+      const detail3 = {
+        label: '',
+        data: [],
+        backgroundColor: '',
+        borderColor: '',
+        borderWidth: ''
       }
       if (this.compareGroup.length === 3) {
+        this.chartdata.datasets.push(detail3)
         const obj = this.compareGroup[2].average_rate_of_return
-        this.compareData3 = Object.values(obj)
+        const compareData3 = Object.values(obj)
+        const compareLabel3 = this.compareGroup[2].fund
+        this.chartdata.datasets[2].label = compareLabel3
+        this.chartdata.datasets[2].data = compareData3
+        this.chartdata.datasets[2].backgroundColor = 'rgba(255, 170, 0, .8)'
+        this.chartdata.datasets[2].borderColor = 'rgb(255, 170, 0)'
+        this.chartdata.datasets[2].borderWidth = '1'
       }
-      // 整理基金標的 label
-      this.compareLabel1 = ''
-      this.compareLabel2 = ''
-      this.compareLabel3 = ''
-      if (this.compareGroup.length > 0) {
-        this.compareLabel1 = this.compareGroup[0].fund
-      }
-      if (this.compareGroup.length >= 2) {
-        this.compareLabel2 = this.compareGroup[1].fund
-      }
-      if (this.compareGroup.length === 3) {
-        this.compareLabel3 = this.compareGroup[2].fund
-      }
-      // 塞資料到 label
-      // console.log(this.chartdata.datasets[0].label)
-      // console.log(this.compareGroup[0].fund)
-      this.chartdata.datasets[0].label = this.compareLabel1
-      this.chartdata.datasets[1].label = this.compareLabel2
-      this.chartdata.datasets[2].label = this.compareLabel3
-      // console.log(this.chartdata.datasets[0].label)
-      // console.log(this.chartdata.datasets[1].label)
-      // console.log(this.chartdata.datasets[2].label)
-      // 塞資料到 圖表
-      this.chartdata.datasets[0].data = this.compareData1
-      this.chartdata.datasets[1].data = this.compareData2
-      this.chartdata.datasets[2].data = this.compareData3
-      // console.log(this.chartdata.datasets[0].data)
-      // console.log(this.chartdata.datasets[1].data)
-      // console.log(this.chartdata.datasets[2].data)
     }
   }
 })
@@ -541,6 +542,11 @@ export default defineComponent({
     margin: auto;
     width: 700px;
     padding-bottom: 50px;
+  }
+  .linechart-labels p {
+    margin: auto;
+    width: 700px;
+    text-align: right;
   }
 
   @media (max-width: 767px) {
