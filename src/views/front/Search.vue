@@ -170,7 +170,6 @@
                   @click="checkAllAsset"
                 />
                 {{ allcheck2 }}
-                <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
                 <span>全部 </span>
               </label>
               <label v-if="currentAsset === '高收益債'">
@@ -571,8 +570,8 @@ export default {
   data () {
     return {
       allcheck1: true,
-      allcheck2: '',
-      allcheck3: '',
+      allcheck2: true,
+      allcheck3: true,
       currentPage: this.$route.name,
       finalData: '',
       funds: fundData,
@@ -617,7 +616,6 @@ export default {
       assetTempObj: {},
       isfirstCheckDetail: '',
       showAllDetail: [],
-      // isChooseAllDetail: true,
       chooseSingleDetailGroup: '',
       secondClickAssetGroup: [],
       beforeStarSring: '',
@@ -634,9 +632,6 @@ export default {
       checkDetailGroup1: [],
       checkDetailGroup2: [],
       checkDetailGroup3: [],
-      tempgroup1: [],
-      tempgroup2: [],
-      tempgroup3: [],
       allChooseAsset: '',
       tempDetail: [],
       checkDetailLen: '',
@@ -662,19 +657,29 @@ export default {
     },
     checkDetailGroup1: {
       handler () {
-        this.updateDetail()
+        this.allcheck1 = false
+        // 非按全選再執行
+        if (this.checkDetailGroup1.length !== 0) {
+          this.updateDetail()
+        }
       },
       deep: true
     },
     checkDetailGroup2: {
       handler () {
-        this.updateDetail()
+        this.allcheck2 = false
+        if (this.checkDetailGroup2.length !== 0) {
+          this.updateDetail()
+        }
       },
       deep: true
     },
     checkDetailGroup3: {
       handler () {
-        this.updateDetail()
+        this.allcheck3 = false
+        if (this.checkDetailGroup3.length !== 0) {
+          this.updateDetail()
+        }
       },
       deep: true
     },
@@ -690,52 +695,53 @@ export default {
   methods: {
     updateDetail () {
       // 待改
-      this.allcheck1 = false
+      this.fixConditions.delete(`${this.currentAsset}`)
+      // console.log('delete')
       // 畫面-狀態- 點選單選 不是全部，就算選取全部的細項，全選也不能勾起
-      // this.isDetailStatus = true
       // 資料- 刪除- 主類- fixConditions
-      this.fixConditions.delete(this.currentAsset)
+      // this.fixConditions.delete(this.currentAsset)做此會影響上方console.log
       // 資料- 刪除 / 新增- fixConditions
-      // 更新前先清空
-      this.tempgroup1.forEach((temp) => {
-        this.fixConditions.delete(temp)
-      })
-      this.tempgroup2.forEach((temp) => {
-        this.fixConditions.delete(temp)
-      })
-      this.tempgroup3.forEach((temp) => {
-        this.fixConditions.delete(temp)
+      // X this.tempgroup1.forEach((temp) => {
+      //   this.fixConditions.delete(temp)
+      // })
+      // X this.checkDetailGroup3.forEach((detail) => {
+      //   this.fixConditions.add(detail)
+      //   this.tempgroup3.push(detail)
+      // })
+      this.AssetDetailSet.forEach((del) => {
+        this.fixConditions.delete(`${del}`)
       })
       this.checkDetailGroup1.forEach((detail) => {
         this.fixConditions.add(detail)
-        this.tempgroup1.push(detail)
       })
       this.checkDetailGroup2.forEach((detail) => {
         this.fixConditions.add(detail)
-        this.tempgroup2.push(detail)
       })
       this.checkDetailGroup3.forEach((detail) => {
         this.fixConditions.add(detail)
-        this.tempgroup3.push(detail)
       })
       // console.log(this.fixConditions)
       // 資料- 刪除- Conditions 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
+      // console.log(this.conditions)
       delete this.conditions.asset[this.currentAsset]
+      // console.log(this.conditions)
       // OK資料- 新增- Conditions
       if (this.currentAsset === '大宗商品') {
-        this.conditions.asset[this.currentAsset] = this.checkDetailGroup1
+        this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup1]
+        // console.log(this.conditions.asset[this.currentAsset])
       }
       if (this.currentAsset === '新興市場股票') {
-        this.conditions.asset[this.currentAsset] = this.checkDetailGroup2
+        this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup2]
       }
       if (this.currentAsset === '高收益債') {
-        this.conditions.asset[this.currentAsset] = this.checkDetailGroup3
+        this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup3]
       }
+      // console.log(this.conditions)
       // 畫面- 用資料控制畫面 判定全部是否勾選
-      if (this.conditions.asset[this.currentAsset]) {
-        this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-        this.currentAssetdetailLen = this.AssetDetailSet.size
-      }
+      // if (this.conditions.asset[this.currentAsset]) {
+      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
+      //   this.currentAssetdetailLen = this.AssetDetailSet.size
+      // }
       // 判斷主資產是否加上class
       this.AssetDetailSet.forEach((item) => {
         if (this.fixConditions.has(item)) {
@@ -892,6 +898,7 @@ export default {
         this.chooseAssetGroup.push(item)
         // OK 資料- 把主類塞入fix
         this.fixConditions.add(item)
+        // console.log(this.fixConditions)
       }
       // OK 資料- 把主類塞入最終條件式conditions{ asset: {新興市場: [1,2,2,] }
       // assetDetailCategories 為預先整理好的格式 {新興市場: [1,2,2,]; 成熟市場: [1,2,3]}
@@ -912,14 +919,39 @@ export default {
       // 畫面- 清空所有細項 (觸發深層監聽) ps只能刪此總類的
       if (this.currentAsset === '大宗商品') {
         this.checkDetailGroup1 = []
+        if (!this.allcheck1) {
+          this.allCheckTrue()
+        } else {
+          this.allCheckFalse()
+        }
       }
       if (this.currentAsset === '新興市場股票') {
         this.checkDetailGroup2 = []
+        if (!this.allcheck2) {
+          this.allCheckTrue()
+        } else {
+          this.allCheckFalse()
+        }
       }
       if (this.currentAsset === '高收益債') {
         this.checkDetailGroup3 = []
+        if (!this.allcheck3) {
+          this.allCheckTrue()
+        } else {
+          this.allCheckFalse()
+        }
       }
-      this.checkAllAssetPrepareData()
+      // 判斷主資產是否加上class
+      this.AssetDetailSet.forEach((item) => {
+        if (this.fixConditions.has(item)) {
+          // console.log('fix有')
+          this.assetButtonActive = true
+        } else {
+          this.assetButtonActive = false
+          // console.log('fix沒有')
+        }
+      })
+      // this.checkAllAssetPrepareData()
       // XXX this.checkDetailGroup = []
       // const currentDetails = this.assetDetailCategories[this.currentAsset]
       // this.checkDetailGroup.forEach((check) => {
@@ -943,52 +975,50 @@ export default {
     checkAllAssetPrepareData () {
       // 判斷情境- 預設是"全選" 再按一次，變成"不選"
       // 先備好個別資產細項this.AssetDetailSet
-      const currentDetail = this.assetDetailCategories[this.currentAsset]
-      if (this.conditions.asset[this.currentAsset]) {
-        // 細項總數 === 現在加進資料的總數 代表check全選
-        this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-        this.currentAssetdetailLen = this.AssetDetailSet.size
-      }
+      // const currentDetail = this.assetDetailCategories[this.currentAsset]
+      // if (this.conditions.asset[this.currentAsset]) {
+      //   // 細項總數 === 現在加進資料的總數 代表check全選
+      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
+      //   this.currentAssetdetailLen = this.AssetDetailSet.size
+      // }
       // ▲ 狀況1: 全選 (單選改全選 or 全部取消狀況下全選)(資料尚未重跑)
       // this.checkDetailLen !== this.currentAssetdetailLen || this.cancel
       if (!this.allcheck1) {
-        this.fixConditions.add('大宗商品')
-        // 畫面- 主類變色
-        this.chooseAssetGroup.push(this.currentAsset)
-        // (3) OK刪除- fixConditions- 全部單一細項
-        this.fixConditions.forEach((fix) => {
-          currentDetail.forEach((detail) => {
-            if (fix === detail) {
-              this.fixConditions.delete(fix)
-            }
-          })
-          console.log(this.fixConditions)
-        })
-        // (4) OK新增- fixConditions- 主要類別
-        // console.log(this.currentAsset)
-        // this.fixConditions.add(this.currentAsset)
-        this.fixConditions.add('大宗商品')
-        console.log(this.fixConditions)
-        // this.fixConditions.add(event.target.value)
-        // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
-        this.conditions.asset[this.currentAsset] = []
-        // (2) OK新增- 最終條件-
-        this.conditions.asset[this.currentAsset] = currentDetail
+        this.allCheckTrue()
+        // // console.log(this.currentAsset) 主類的分類都被刪掉 []
+        // // (4) OK新增- fixConditions- 主要類別
+        // // this.fixConditions.add(`${this.currentAsset}`)
+        // // console.log('add')
+        // // 畫面- 主類變色
+        // // this.chooseAssetGroup.push(this.currentAsset)
+        // // (3) OK刪除- fixConditions- 全部單一細項
+        // this.fixConditions.forEach((fix) => {
+        //   currentDetail.forEach((detail) => {
+        //     if (fix === detail) {
+        //       this.fixConditions.delete(fix)
+        //     }
+        //   })
+        // })
+        // // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
+        // this.conditions.asset[this.currentAsset] = []
+        // // (2) OK新增- 最終條件-
+        // this.conditions.asset[this.currentAsset] = currentDetail
         // this.cancel = false
-        this.fixConditions.add('大宗商品')
       } else {
-        console.log('全選取消')
-        // ▲ 狀況2: 不選全部(取消全選)
-        // OK畫面- 把原選擇的主類 顏色拿掉
+        this.allCheckFalse()
+        // console.log('全選取消')
+        // // ▲ 狀況2: 不選全部(取消全選)
+        // // 一樣group 數量0 不會觸發watch
+        // // OK畫面- 把原選擇的主類 顏色拿掉
         // this.chooseAssetGroup.forEach((asset) => {
         //   if (this.currentAsset === asset) {
         //     const index = this.chooseAssetGroup.indexOf(asset)
         //     this.chooseAssetGroup.splice(index, 1)
         //   }
         // })
-        // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
+        // // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
         // delete this.conditions.asset[this.currentAsset]
-        // (2) OK資料- 刪除- fixConditions- 刪除主項
+        // // (2) OK資料- 刪除- fixConditions- 刪除主項
         // this.fixConditions.forEach((fix) => {
         //   if (fix === this.currentAsset) {
         //     this.fixConditions.delete(fix)
@@ -998,10 +1028,10 @@ export default {
         // this.cancel = true
       }
       // 用資料控制畫面 判定全部是否勾選
-      if (this.conditions.asset[this.currentAsset]) {
-        this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-        this.currentAssetdetailLen = this.AssetDetailSet.size
-      }
+      // if (this.conditions.asset[this.currentAsset]) {
+      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
+      //   this.currentAssetdetailLen = this.AssetDetailSet.size
+      // }
       // 畫面- 區隔按全選還是 單選
       // this.isDetailStatus = true
     },
@@ -1050,6 +1080,41 @@ export default {
     //     }
     //   }
     // }
+    allCheckTrue () {
+      const currentDetail = this.assetDetailCategories[this.currentAsset]
+      this.fixConditions.add(`${this.currentAsset}`)
+      this.chooseAssetGroup.push(this.currentAsset)
+      // (3) OK刪除- fixConditions- 全部單一細項
+      this.fixConditions.forEach((fix) => {
+        currentDetail.forEach((detail) => {
+          if (fix === detail) {
+            this.fixConditions.delete(fix)
+          }
+        })
+      })
+      // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
+      this.conditions.asset[this.currentAsset] = []
+      // (2) OK新增- 最終條件-
+      this.conditions.asset[this.currentAsset] = currentDetail
+    },
+    allCheckFalse () {
+      // OK畫面- 把原選擇的主類 顏色拿掉
+      this.chooseAssetGroup.forEach((asset) => {
+        if (this.currentAsset === asset) {
+          const index = this.chooseAssetGroup.indexOf(asset)
+          this.chooseAssetGroup.splice(index, 1)
+          console.log(this.chooseAssetGroup)
+        }
+      })
+      // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
+      delete this.conditions.asset[this.currentAsset]
+      // (2) OK資料- 刪除- fixConditions- 刪除主項
+      this.fixConditions.forEach((fix) => {
+        if (fix === this.currentAsset) {
+          this.fixConditions.delete(fix)
+        }
+      })
+    },
     deleteCondition (item) {
       // 共用 刪除 fixConditions
       this.fixConditions.delete(item)

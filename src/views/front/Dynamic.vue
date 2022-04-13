@@ -64,7 +64,8 @@ export default defineComponent({
         chartOptions: {
           responsive: true
         }
-      }
+      },
+      isFirst: true
     }
   },
   beforeMount () {
@@ -80,11 +81,14 @@ export default defineComponent({
   methods: {
     fillData () {
       console.log('被觸發了')
-      this.state.chartData = {}
+      if (this.isFirst) {
+        this.compareGroup.reverse()
+      }
+      console.log(this.compareGroup)
       if (this.compareGroup.length === 1) {
-        console.log(this.compareGroup[0])
-        console.log(this.compareGroup[1])
-        const obj = this.compareGroup[0].average_rate_of_return
+        // console.log(this.compareGroup[0])
+        // console.log(this.compareGroup[1])
+        const obj = { ...this.compareGroup[0].average_rate_of_return }
         const compareData1 = Object.values(obj)
         this.state.chartData = {
           labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
@@ -96,46 +100,47 @@ export default defineComponent({
             }
           ]
         }
-        console.log(this.compareGroup[0])
+        // console.log(this.compareGroup[0])
       }
       if (this.compareGroup.length === 2) {
-        console.log(this.compareGroup[0])
-        console.log(this.compareGroup[1])
-        const obj = this.compareGroup[0].average_rate_of_return
+        // console.log(this.compareGroup[0])
+        // console.log(this.compareGroup[1])
+        // console.log(this.compareGroup[2])
+        const obj = { ...this.compareGroup[0].average_rate_of_return }
         const compareData1 = Object.values(obj)
-        const obj2 = this.compareGroup[1].average_rate_of_return
+        const obj2 = { ...this.compareGroup[1].average_rate_of_return }
         const compareData2 = Object.values(obj2)
         this.state.chartData = {
           labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
           datasets: [
             {
-              label: this.compareGroup[1].fund,
+              label: this.compareGroup[0].fund,
               backgroundColor: 'rgba(170, 170, 170, .3)',
-              data: compareData2
+              data: compareData1
             },
             {
-              label: this.compareGroup[0].fund,
+              label: this.compareGroup[1].fund,
               backgroundColor: 'rgba(153, 102, 255, .4)',
-              data: compareData1
+              data: compareData2
             }
           ]
         }
         console.log(this.state.chartData)
       }
       if (this.compareGroup.length === 3) {
-        const obj = this.compareGroup[0].average_rate_of_return
+        const obj = { ...this.compareGroup[0].average_rate_of_return }
         const compareData1 = Object.values(obj)
-        const obj2 = this.compareGroup[1].average_rate_of_return
+        const obj2 = { ...this.compareGroup[1].average_rate_of_return }
         const compareData2 = Object.values(obj2)
-        const obj3 = this.compareGroup[2].average_rate_of_return
+        const obj3 = { ...this.compareGroup[2].average_rate_of_return }
         const compareData3 = Object.values(obj3)
         this.state.chartData = {
           labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
           datasets: [
             {
-              label: this.compareGroup[2].fund,
+              label: this.compareGroup[0].fund,
               backgroundColor: 'rgba(255, 170, 0, .8)',
-              data: compareData3
+              data: compareData1
             },
             {
               label: this.compareGroup[1].fund,
@@ -143,15 +148,21 @@ export default defineComponent({
               data: compareData2
             },
             {
-              label: this.compareGroup[0].fund,
+              label: this.compareGroup[2].fund,
               backgroundColor: 'rgba(153, 102, 255, .4)',
-              data: compareData1
+              data: compareData3
             }
           ]
         }
       }
+      this.isFirst = false
     }
   },
+  // watch: {
+  //   state () {
+  //     this.fillData()
+  //   }
+  // },
   mounted () {
     emitter.on('updateComareGroup', () => {
       this.fillData()
