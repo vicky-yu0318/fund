@@ -12,6 +12,11 @@ const routes = [
         name: 'pra'
       },
       {
+        path: '/dynamic',
+        component: () => import('@/views/front/Dynamic.vue'),
+        name: 'dynamic'
+      },
+      {
         path: '/search',
         component: () => import('@/views/front/Search.vue'),
         name: 'search'

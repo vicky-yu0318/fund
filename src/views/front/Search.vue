@@ -154,7 +154,7 @@
               <label v-if="currentAsset === '大宗商品'">
                 <input
                   type="checkbox"
-                  value="全"
+                  value="大宗商品"
                   v-model="allcheck1"
                   @click="checkAllAsset"
                 />
@@ -165,7 +165,7 @@
               <label v-if="currentAsset === '新興市場股票'">
                 <input
                   type="checkbox"
-                  value="全"
+                  value="新興市場股票"
                   v-model="allcheck2"
                   @click="checkAllAsset"
                 />
@@ -176,7 +176,7 @@
               <label v-if="currentAsset === '高收益債'">
                 <input
                   type="checkbox"
-                  value="全"
+                  value="高收益債"
                   v-model="allcheck3"
                   @click="checkAllAsset"
                 />
@@ -570,7 +570,7 @@ import goTop from '@/methods/goTop.js'
 export default {
   data () {
     return {
-      allcheck1: '',
+      allcheck1: true,
       allcheck2: '',
       allcheck3: '',
       currentPage: this.$route.name,
@@ -689,8 +689,10 @@ export default {
   },
   methods: {
     updateDetail () {
+      // 待改
+      this.allcheck1 = false
       // 畫面-狀態- 點選單選 不是全部，就算選取全部的細項，全選也不能勾起
-      this.isDetailStatus = true
+      // this.isDetailStatus = true
       // 資料- 刪除- 主類- fixConditions
       this.fixConditions.delete(this.currentAsset)
       // 資料- 刪除 / 新增- fixConditions
@@ -716,6 +718,7 @@ export default {
         this.fixConditions.add(detail)
         this.tempgroup3.push(detail)
       })
+      // console.log(this.fixConditions)
       // 資料- 刪除- Conditions 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
       delete this.conditions.asset[this.currentAsset]
       // OK資料- 新增- Conditions
@@ -905,7 +908,7 @@ export default {
     },
     checkAllAsset () {
       // 畫面- 區隔按全選還是 單選
-      this.isDetailStatus = false
+      // this.isDetailStatus = false
       // 畫面- 清空所有細項 (觸發深層監聽) ps只能刪此總類的
       if (this.currentAsset === '大宗商品') {
         this.checkDetailGroup1 = []
@@ -948,13 +951,10 @@ export default {
       }
       // ▲ 狀況1: 全選 (單選改全選 or 全部取消狀況下全選)(資料尚未重跑)
       // this.checkDetailLen !== this.currentAssetdetailLen || this.cancel
-      if (this.isDetailStatus === false) {
+      if (!this.allcheck1) {
+        this.fixConditions.add('大宗商品')
         // 畫面- 主類變色
         this.chooseAssetGroup.push(this.currentAsset)
-        // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
-        this.conditions.asset[this.currentAsset] = []
-        // (2) OK新增- 最終條件-
-        this.conditions.asset[this.currentAsset] = currentDetail
         // (3) OK刪除- fixConditions- 全部單一細項
         this.fixConditions.forEach((fix) => {
           currentDetail.forEach((detail) => {
@@ -962,13 +962,22 @@ export default {
               this.fixConditions.delete(fix)
             }
           })
+          console.log(this.fixConditions)
         })
         // (4) OK新增- fixConditions- 主要類別
         // console.log(this.currentAsset)
-        this.fixConditions.add(`${this.currentAsset}`)
+        // this.fixConditions.add(this.currentAsset)
+        this.fixConditions.add('大宗商品')
         console.log(this.fixConditions)
+        // this.fixConditions.add(event.target.value)
+        // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
+        this.conditions.asset[this.currentAsset] = []
+        // (2) OK新增- 最終條件-
+        this.conditions.asset[this.currentAsset] = currentDetail
         // this.cancel = false
+        this.fixConditions.add('大宗商品')
       } else {
+        console.log('全選取消')
         // ▲ 狀況2: 不選全部(取消全選)
         // OK畫面- 把原選擇的主類 顏色拿掉
         // this.chooseAssetGroup.forEach((asset) => {
@@ -994,7 +1003,7 @@ export default {
         this.currentAssetdetailLen = this.AssetDetailSet.size
       }
       // 畫面- 區隔按全選還是 單選
-      this.isDetailStatus = true
+      // this.isDetailStatus = true
     },
     // XXcheckSingleAssetDetail (item) {
     //   // console.log(this.chooseSingleDetailGroup)

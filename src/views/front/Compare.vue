@@ -81,7 +81,8 @@
                   <div class="linechart-labels">
                     <div class="label">
                       <div class="block-linechart">
-                        <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" />
+                        <LineChart v-bind:chartData="state.chartData" />
+                        <!-- <MonthlyChart v-bind:chartData="chartdata" v-bind:chartOptions="options" /> -->
                       </div>
                       <p>X軸：月份(近一年)</p>
                       <p>Y軸：平均報酬</p>
@@ -342,13 +343,13 @@ import emitter from '@/methods/eventBus'
 import Compare from '@/methods/localStorage-compare.js'
 // 匯入圖表
 import { defineComponent } from 'vue'
-import MonthlyChart from '@/components/chart/Line.vue'
+import LineChart from '@/components/chart/Line.vue'
 
 export default defineComponent({
   components: {
     Navbar,
     Breadcrumb,
-    MonthlyChart
+    LineChart
   },
   data () {
     return {
@@ -356,52 +357,29 @@ export default defineComponent({
       compareGroup: this.getCompare() || [],
       openAccordionGroup: [],
       isFixTop: '',
-      chartdata: {
-        // labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
-        datasets: [
-          // {
-          //   label: '',
-          //   // data: [10, -2, 10, 5, 2, 3, 10, -2, 10, 5, 2, 3],
-          //   data: [],
-          //   // backgroundColor: 'rgba(153, 102, 255, .4)',
-          //   backgroundColor: '',
-          //   borderColor: '#914DA0'
-          //   // borderWidth: 1
-          // }
-          // {
-          //   label: '',
-          //   // data: [5, -3, 11, 9, 8, 9, 5, -3, 11, 9, 8, 9],
-          //   data: [],
-          //   // backgroundColor: 'rgba(170, 170, 170, .3)',
-          //   backgroundColor: '',
-          //   borderColor: '#aaa'
-          //   // borderWidth: 1
-          // },
-          // {
-          //   label: '',
-          //   // data: [2, 4, -2, 9, 6, 5, 2, 4, -2, 9, 6, 5],
-          //   data: [],
-          //   // backgroundColor: 'rgba(255, 170, 0, .8)',
-          //   backgroundColor: '',
-          //   borderColor: 'rgb(255, 170, 0)'
-          //   // borderWidth: 1
-          // }
-        ]
-      },
-      options: {
-        title: {
-          display: true,
-          text: '近一年每月平均報酬'
-        },
-        scales: {
-          y: {
-            suggestedMin: 20,
-            suggestedMax: 20
-          }
+      state: {
+        chartData: {},
+        chartOptions: {
+          responsive: true
         }
       }
     }
   },
+  beforeMount () {
+    this.fillData()
+  },
+  // options: {
+  //       title: {
+  //         display: true,
+  //         text: '近一年每月平均報酬'
+  //       },
+  //       scales: {
+  //         y: {
+  //           suggestedMin: 20,
+  //           suggestedMax: 20
+  //         }
+  //       }
+  //     }
   mixins: [Compare],
   //   compareGroup: [
   //     {
@@ -442,20 +420,9 @@ export default defineComponent({
   mounted () {
     goTop()
     window.addEventListener('scroll', this.scroll)
-    this.arrangeLineData()
     emitter.on('updateComareGroup', () => {
-      this.compareGroup = this.getCompare() || []
-      this.arrangeLineData()
-      // console.log('刪除compare被觸發, chartdata資料有')
+      this.fillData()
     })
-  },
-  watch: {
-    chartdata: {
-      handler () {
-        emitter.emit('rerenderChart')
-      },
-      deep: true
-    }
   },
   methods: {
     updateOpenAccordionGroup (category) {
@@ -475,65 +442,133 @@ export default defineComponent({
         this.isFixTop = false
       }
     },
-    arrangeLineData () {
-      // 全部清掉不管剛是刪除哪個，待會全部加回
-      this.chartdata.datasets = []
-      const detail = {
-        label: '',
-        data: [],
-        backgroundColor: '',
-        borderColor: '',
-        borderWidth: ''
-      }
-      if (this.compareGroup.length > 0) {
-        this.chartdata.labels = ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月']
-        this.chartdata.datasets.push(detail)
+    fillData () {
+      console.log('被觸發了')
+      this.state.chartData = {}
+      if (this.compareGroup.length === 1) {
         const obj = this.compareGroup[0].average_rate_of_return
-        const compareLabel1 = this.compareGroup[0].fund
         const compareData1 = Object.values(obj)
-        this.chartdata.datasets[0].label = compareLabel1
-        this.chartdata.datasets[0].data = compareData1
-        this.chartdata.datasets[0].backgroundColor = 'rgba(153, 102, 255, .4)'
-        this.chartdata.datasets[0].borderColor = '#914DA0'
-        this.chartdata.datasets[0].borderWidth = '1'
+        this.state.chartData = {
+          labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
+          datasets: [
+            {
+              label: this.compareGroup[0].fund,
+              backgroundColor: 'rgba(153, 102, 255, .4)',
+              data: compareData1
+            }
+          ]
+        }
       }
-      const detail2 = {
-        label: '',
-        data: [],
-        backgroundColor: '',
-        borderColor: '',
-        borderWidth: ''
-      }
-      if (this.compareGroup.length >= 2) {
-        this.chartdata.datasets.push(detail2)
-        const obj = this.compareGroup[1].average_rate_of_return
-        const compareData2 = Object.values(obj)
-        const compareLabel2 = this.compareGroup[1].fund
-        this.chartdata.datasets[1].label = compareLabel2
-        this.chartdata.datasets[1].data = compareData2
-        this.chartdata.datasets[1].backgroundColor = 'rgba(170, 170, 170, .3)'
-        this.chartdata.datasets[1].borderColor = '#aaa'
-        this.chartdata.datasets[1].borderWidth = '1'
-      }
-      const detail3 = {
-        label: '',
-        data: [],
-        backgroundColor: '',
-        borderColor: '',
-        borderWidth: ''
+      if (this.compareGroup.length === 2) {
+        const obj = this.compareGroup[0].average_rate_of_return
+        const compareData1 = Object.values(obj)
+        const obj2 = this.compareGroup[1].average_rate_of_return
+        const compareData2 = Object.values(obj2)
+        this.state.chartData = {
+          labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
+          datasets: [
+            {
+              label: this.compareGroup[0].fund,
+              backgroundColor: 'rgba(153, 102, 255, .4)',
+              data: compareData1
+            },
+            {
+              label: this.compareGroup[1].fund,
+              backgroundColor: 'rgba(170, 170, 170, .3)',
+              data: compareData2
+            }
+          ]
+        }
       }
       if (this.compareGroup.length === 3) {
-        this.chartdata.datasets.push(detail3)
-        const obj = this.compareGroup[2].average_rate_of_return
-        const compareData3 = Object.values(obj)
-        const compareLabel3 = this.compareGroup[2].fund
-        this.chartdata.datasets[2].label = compareLabel3
-        this.chartdata.datasets[2].data = compareData3
-        this.chartdata.datasets[2].backgroundColor = 'rgba(255, 170, 0, .8)'
-        this.chartdata.datasets[2].borderColor = 'rgb(255, 170, 0)'
-        this.chartdata.datasets[2].borderWidth = '1'
+        const obj = this.compareGroup[0].average_rate_of_return
+        const compareData1 = Object.values(obj)
+        const obj2 = this.compareGroup[1].average_rate_of_return
+        const compareData2 = Object.values(obj2)
+        const obj3 = this.compareGroup[2].average_rate_of_return
+        const compareData3 = Object.values(obj3)
+        this.state.chartData = {
+          labels: ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'],
+          datasets: [
+            {
+              label: this.compareGroup[0].fund,
+              backgroundColor: 'rgba(153, 102, 255, .4)',
+              data: compareData1
+            },
+            {
+              label: this.compareGroup[1].fund,
+              backgroundColor: 'rgba(170, 170, 170, .3)',
+              data: compareData2
+            },
+            {
+              label: this.compareGroup[2].fund,
+              backgroundColor: 'rgba(255, 170, 0, .8)',
+              data: compareData3
+            }
+          ]
+        }
       }
     }
+    // arrangeLineData () {
+    //   // 全部清掉不管剛是刪除哪個，待會全部加回
+    //   console.log('do it')
+    //   this.chartdata.datasets = []
+    //   const detail = {
+    //     label: '',
+    //     data: [],
+    //     backgroundColor: '',
+    //     borderColor: '',
+    //     borderWidth: ''
+    //   }
+    //   if (this.compareGroup.length > 0) {
+    //     this.chartdata.labels = ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月']
+    //     this.chartdata.datasets.push(detail)
+    //     const obj = this.compareGroup[0].average_rate_of_return
+    //     const compareLabel1 = this.compareGroup[0].fund
+    //     const compareData1 = Object.values(obj)
+    //     this.chartdata.datasets[0].label = compareLabel1
+    //     this.chartdata.datasets[0].data = compareData1
+    //     this.chartdata.datasets[0].backgroundColor = 'rgba(153, 102, 255, .4)'
+    //     this.chartdata.datasets[0].borderColor = '#914DA0'
+    //     this.chartdata.datasets[0].borderWidth = '1'
+    //   }
+    //   const detail2 = {
+    //     label: '',
+    //     data: [],
+    //     backgroundColor: '',
+    //     borderColor: '',
+    //     borderWidth: ''
+    //   }
+    //   if (this.compareGroup.length >= 2) {
+    //     this.chartdata.datasets.push(detail2)
+    //     const obj = this.compareGroup[1].average_rate_of_return
+    //     const compareData2 = Object.values(obj)
+    //     const compareLabel2 = this.compareGroup[1].fund
+    //     this.chartdata.datasets[1].label = compareLabel2
+    //     this.chartdata.datasets[1].data = compareData2
+    //     this.chartdata.datasets[1].backgroundColor = 'rgba(170, 170, 170, .3)'
+    //     this.chartdata.datasets[1].borderColor = '#aaa'
+    //     this.chartdata.datasets[1].borderWidth = '1'
+    //   }
+    //   const detail3 = {
+    //     label: '',
+    //     data: [],
+    //     backgroundColor: '',
+    //     borderColor: '',
+    //     borderWidth: ''
+    //   }
+    //   if (this.compareGroup.length === 3) {
+    //     this.chartdata.datasets.push(detail3)
+    //     const obj = this.compareGroup[2].average_rate_of_return
+    //     const compareData3 = Object.values(obj)
+    //     const compareLabel3 = this.compareGroup[2].fund
+    //     this.chartdata.datasets[2].label = compareLabel3
+    //     this.chartdata.datasets[2].data = compareData3
+    //     this.chartdata.datasets[2].backgroundColor = 'rgba(255, 170, 0, .8)'
+    //     this.chartdata.datasets[2].borderColor = 'rgb(255, 170, 0)'
+    //     this.chartdata.datasets[2].borderWidth = '1'
+    //   }
+    // }
   }
 })
 </script>
