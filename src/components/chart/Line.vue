@@ -29,6 +29,9 @@ export default defineComponent({
   //     deep: true
   //   }
   // },
+  updated(){
+    console.log(this.chartData)
+  },
   mounted () {
     this.renderChart(this.chartData, this.chartOptions)
   }
