@@ -343,7 +343,7 @@ import emitter from '@/methods/eventBus'
 import Compare from '@/methods/localStorage-compare.js'
 // 匯入圖表
 import { defineComponent } from 'vue'
-import LineChart from '@/components/Card.vue'
+import LineChart from '@/components/chart/Line.vue'
 
 export default defineComponent({
   components: {
