@@ -14,8 +14,12 @@ export default defineComponent({
       required: false
     }
   },
+  updated () {
+    console.log(this.chartData)
+  },
   mounted () {
     this.renderChart(this.chartData, this.chartOptions)
+    console.log(this.chartData)
   }
 })
 </script>

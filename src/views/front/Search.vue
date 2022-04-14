@@ -141,11 +141,12 @@
                 v-if="currentAsset === item || !isAssetOption"
                 :class="{
                   disabled: showAssetDetail,
-                  active: chooseAssetGroup.includes(item) || assetButtonActive
+                  active: chooseAssetGroup.includes(item)
                 }"
                 @click="addAssetCondition(item)"
               >
                 {{ item }}
+                <!-- || assetButtonActive -->
               </div>
             </template>
           </div>
@@ -1081,9 +1082,12 @@ export default {
     //   }
     // }
     allCheckTrue () {
+      // 畫面- 主類
+      if (!this.chooseAssetGroup.includes(this.currentAsset)) {
+        this.chooseAssetGroup.push(this.currentAsset)
+      }
       const currentDetail = this.assetDetailCategories[this.currentAsset]
       this.fixConditions.add(`${this.currentAsset}`)
-      this.chooseAssetGroup.push(this.currentAsset)
       // (3) OK刪除- fixConditions- 全部單一細項
       this.fixConditions.forEach((fix) => {
         currentDetail.forEach((detail) => {
