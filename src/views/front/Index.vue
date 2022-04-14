@@ -7,10 +7,10 @@
                   :class="{ active: currentIndex === index }"
                   v-for="(item, index) in indexSlide" :key="item">
                     <div class="content">
-                        <span>new arrivals</span>
+                        <span>{{ item.subtitle }}</span>
                         <h3>{{ item.title }}</h3>
-                        <p> 攜手成長</p>
-                        <a href="#" class="btn">shop now</a>
+                        <p>{{ item.content }} </p>
+                        <a href="#" class="btn">前往了解</a>
                     </div>
                     <div class="image">
                         <img :src="item.imageSrc">
@@ -31,8 +31,8 @@
                 <a class="item">
                     <span class="new">New</span>
                     <i class="fa-solid fa-piggy-bank"></i>
-                    <h3 class="title">title</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, repellendus!</p>
+                    <h3 class="title">幸福長跑 基金優惠</h3>
+                    <p>讓投資變習慣，為自己好好打算。定期定額滿三年，手續費0元</p>
                     <div class="block-btn-more">
                       <div class="btn">了解更多</div>
                     </div>
@@ -40,8 +40,8 @@
                 <a class="item">
                     <span class="new">New</span>
                     <i class="fa-solid fa-comments-dollar"></i>
-                    <h3 class="title">title</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, repellendus!</p>
+                    <h3 class="title">小資理財 Ready go！</h3>
+                    <p>利用小錢及早學習投資理財，正所謂「你不理財、財不理你」，願意跨出第一步是成功的開始！</p>
                     <div class="block-btn-more">
                         <div class="btn">了解更多</div>
                     </div>
@@ -49,8 +49,8 @@
                 <a class="item">
                     <span class="new">New</span>
                     <i class="fa-solid fa-comment-dots"></i>
-                    <h3 class="title">title</h3>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque, repellendus!</p>
+                    <h3 class="title">買基金必學法則</h3>
+                    <p>看著朋友們享受投資成果，您是否也想要開始學習投資基金呢？只要掌握以下重點，就能輕鬆上手！</p>
                     <div class="block-btn-more">
                         <div class="btn">了解更多</div>
                     </div>
@@ -73,8 +73,8 @@
                       >
                         <img src="https://upload.cc/i1/2022/04/04/JyBMX0.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">title</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laborum facilis rem est. Incidunt obcaecati magni fugiat quo, repudiandae placeat.</p>
+                            <h3 class="title">定期不定額</h3>
+                            <p>投資策略採「自由設定」，全方位滿足不同市場行情需求，客觀判斷加減碼，避免因人為主觀判斷錯失投資機會。</p>
                             <div class="block-btn">
                                 <a href="" class="btn">了解更多</a>
                             </div>
@@ -83,10 +83,8 @@
                     <SwiperSlide class="slide swiper-slide">
                         <img src="https://upload.cc/i1/2022/04/04/HYvNwJ.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">title</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laborum facilis id necessitatibus provident ut
-                                accusamus, accusantium debitis quia ipsum odit dolorem est. Incidunt obcaecati magni fugiat quo, repudiandae
-                                placeat.</p>
+                            <h3 class="title">最佳智能團</h3>
+                            <p>為不同投資類型投資人精準配置需求；智能團依據市場趨勢、基金績效嚴選每月首選基金，滿足各種投資需求</p>
                             <div class="block-btn">
                                 <a href="" class="btn">了解更多</a>
                             </div>
@@ -95,10 +93,9 @@
                     <SwiperSlide class="slide swiper-slide">
                         <img src="https://upload.cc/i1/2022/04/04/mhk4uP.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">title</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laborum facilis id necessitatibus provident ut
-                                accusamus, accusantium debitis quia ipsum odit dolorem est. Incidunt obcaecati magni fugiat quo, repudiandae
-                                placeat.</p>
+                            <h3 class="title">想抗通膨又買不起房？不妨靠REITS</h3>
+                            <p>在全球普遍預期通膨影響下，在台灣也可以感受到房價上漲所帶來壓力，不過投資人或許可以把買房的夢想，
+                              放在全球不動產投資信託基金(REITs)，更能掌握成長趨勢</p>
                             <div class="block-btn">
                                 <a href="" class="btn">了解更多</a>
                             </div>
@@ -107,10 +104,8 @@
                     <SwiperSlide class="slide swiper-slide">
                         <img src="https://upload.cc/i1/2022/04/09/WPELFk.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">title</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laborum facilis id necessitatibus provident ut
-                                accusamus, accusantium debitis quia ipsum odit dolorem est. Incidunt obcaecati magni fugiat quo, repudiandae
-                                placeat.</p>
+                            <h3 class="title">第一次買基金就上手</h3>
+                            <p>基金是一項普及的投資標的，對於剛開始投資基金的人來說，除了要有第一筆資金外，也應該做好心理準備與認知，才能正式步上投資理財的道路。</p>
                             <div class="block-btn">
                                 <a href="" class="btn">了解更多</a>
                             </div>
@@ -149,12 +144,16 @@ export default {
       sidePage: 0,
       indexSlide: [
         {
-          title: '手機',
-          imageSrc: 'https://upload.cc/i1/2022/04/04/diAtjQ.png'
+          title: '共同基金',
+          subtitle: '攜手成長，安全有保障',
+          imageSrc: 'https://upload.cc/i1/2022/04/04/diAtjQ.png',
+          content: '共同基金因資金龐大，可有計劃的分散其投資，再加上基金經理人專業的判斷，風險自然大幅降低。同時可以進行投資組合，提高投資勝算。'
         },
         {
-          title: '房子',
-          imageSrc: 'https://upload.cc/i1/2022/04/07/HeLgPK.png'
+          title: '開戶方式3選1開始投資第一步',
+          subtitle: '開始比研究更重要，超低門檻快速上手',
+          imageSrc: 'https://upload.cc/i1/2022/04/07/HeLgPK.png',
+          content: '任何時間、任何地點想下單就下單；活動期間數位通路申購首選基金，享申購手續費6折優惠'
         }
       ],
       currentIndex: 0,

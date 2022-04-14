@@ -495,7 +495,7 @@ html::-webkit-scrollbar-thumb {
     width: calc(50% - 15px);
     padding-top: 50px;
     animation: fadeUp .7s linear;
-    transform: translateY(-10%);
+    transform: translateY(18%);
     position: relative;
     /* z-index: -1; */
 }

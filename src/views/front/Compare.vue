@@ -450,7 +450,7 @@ export default defineComponent({
       }
       this.state.chartData = {}
       // console.log(this.state.chartData)沒東西
-      console.log(this.compareGroup)
+      // console.log(this.compareGroup)
       if (this.compareGroup.length === 3) {
         const obj = { ...this.compareGroup[0].average_rate_of_return }
         const compareData1 = Object.values(obj)

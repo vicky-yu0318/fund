@@ -337,7 +337,7 @@
         <ul class="result-tr" v-if="finalData.size > 0">
           <li></li>
           <li>基金名稱</li>
-          <li>幣別</li>
+          <li>發行日期</li>
           <li>基金類型</li>
           <li></li>
         </ul>
@@ -1302,14 +1302,20 @@ export default {
     hoverRating (item) {
       if (!this.isRating) {
         const ratingStars = document.querySelectorAll('.rating-star')
-        ratingStars.forEach((ratingStar) => {
-          // console.dir(ratingStar.__vnode.key)
-          // console.log(ratingStar.getAttribute('key'))
-          // 如果目前hover的星星位置大於等於其他星星，給這些其他星星變色
-          if (item >= ratingStar.__vnode.key) {
-            ratingStars[ratingStar.__vnode.key - 1].classList.add('active')
+        ratingStars.forEach((ratingStar, i) => {
+          if (item >= i) {
+            const dom = ratingStars[i - 1]
+            if (dom !== undefined) {
+              dom.classList.add('active')
+            }
           }
-          // 在這才加入滑鼠移開的事件監聽，以避免寫在行內(click事件時需移除)無法移除
+          if (item > i) {
+            ratingStars[i].classList.add('active')
+          }
+          // if (item >= ratingStar.__vnode.key) {
+          //   ratingStars[ratingStar.__vnode.key - 1].classList.add('active')
+          // }
+          // 在這才加入滑鼠移開的事件監聽，以避免寫在行內(click事件時77需移除)無法移除
           // ("個別" 於 "dom" 加監聽)
           ratingStar.addEventListener('mouseout', this.leaveRating)
         })
