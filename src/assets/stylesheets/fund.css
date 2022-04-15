@@ -240,9 +240,10 @@ html::-webkit-scrollbar-thumb {
     right: 0; left: 0;
     top: 0;
     /* fixed就會依據視窗給予寬，所以不想跟他一樣，就設定max-width */
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: auto;
     z-index: 1000;
+    background-color: var(--main-color);
     padding: 0;
     animation: slowDown .3s linear;
 }
@@ -259,6 +260,10 @@ html::-webkit-scrollbar-thumb {
 .header .navbar.active a {
     background-color: var(--main-color);
     color: #fff;
+    border-right: none;
+}
+.header .navbar.active a:first-child {
+    border-left: none;
 }
 
 .header .navbar a {
@@ -439,14 +444,6 @@ html::-webkit-scrollbar-thumb {
 .section-home:hover #home-slide-prev {
     display: block;
 }
-/* .section-home::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; left: 0; bottom: 0;
-    background-color: rgba(255,255,255,.4);
-    z-index: -1;
-} */
-
 .section-home .home-slider .slide {
     /* display: flex; */
     width: 100%;
@@ -478,34 +475,37 @@ html::-webkit-scrollbar-thumb {
     font-size: 30px;
     font-weight: 600;
     color: var(--strong-color);
+    text-shadow: 0 5px 10px  rgba(0,0,0,.1);
 }
 .section-home .home-slider .slide .content h3 {
     font-size: 60px;
     color: var(--main-color);
+    text-shadow: 0 5px 10px rgba(255,255,255,.6);
     letter-spacing: 3px;
     padding-bottom: 30px;
 }
 .section-home .home-slider .slide .content p {
-    font-size: 20px;
+    font-size: 25px;
     color: var(--main-color-active);
     font-weight: 600;
-    padding: 10px 0;
+    padding-bottom: 20px;
     line-height: 2;
+    width: 80%;
+    text-shadow: 0 5px 10px rgba(255,255,255,.7);
 }
-.section-home .home-slider .slide .content a {
-    background-color: var(--side-color);
+.section-home .home-slider .slide .content .btn:hover {
+    background-color: var(--main-color);
+    color: #fff;
 }
 .section-home .home-slider .slide .image {
     width: calc(50% - 15px);
     padding-top: 50px;
     animation: fadeUp .7s linear;
-    /* transform: translateY(18%); */
     position: relative;
     /* z-index: -1; */
 }
 .section-home .home-slider .slide .image img {
     width: 100%;
-    height: 100%;
     object-fit: cover;
 }
 
@@ -570,63 +570,60 @@ html::-webkit-scrollbar-thumb {
 /* ========== section-home =========== */
 /* ========== RWD =========== */
 @media (max-width: 1199px) {
-    .section-home .home-slider .slide .image {
-        /* transform: translateY(10%); */
+    .section-home {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, .05) 20%, rgba(255, 255, 255, .6) 50%),
+      url('https://upload.cc/i1/2022/04/04/lCMj2U.jpg') center top no-repeat;
+    }
+    .section-home .home-slider .slide .content span {
+      font-size: 25px;
+    }
+    .section-home .home-slider .slide .content h3 {
+      font-size: 55px;
+    }
+    .section-home .home-slider .slide .content p {
+      font-size: 23px;
+      width: 100%;
     }
 }
 @media (max-width: 991px) {
+    .section-home .home-slider .slide .content {
+        width: 100%;
+    }
     .section-home .home-slider .slide .image {
-        /* transform: translateY(40%); */
+        width: 100%;
+        text-align: center;
+    }
+    .section-home .home-slider .slide .image img {
+        width: 70%;
+    }
+    .section-home #home-slide-next,
+    .section-home #home-slide-prev {
+        bottom: 0;
+        margin: auto;
     }
 }
 @media (max-width: 767px) {
-    .section-home .home-slider .slide .content {
-        padding: 0;
-        width: 100%;
+    .section-home .home-slider .slide {
+        gap: 0;
     }
     .section-home .home-slider .slide .image {
-        width: 100%;
-        padding-top: 0px;
-        /* transform: translateY(0); */
+        padding-top: 0;
     }
-    .section-home .home-slider .slide .image img {
-        width: 80%;
-        margin: 0 auto;
-        display: flex;
-    }
-    .section-home .home-slider .slide .content span {
-        font-size: 18px;
-    }
-    .section-home .home-slider .slide .content h3 {
-        font-size: 35px;
-    }
-    .section-home .home-slider .slide .content p {
-        font-size: 13px;
-        padding: 0 0 10px;
-        line-height: 1.2;
-    }
-    .section-home .home-slider .slide .content a {
-        padding: 5px 10px;
-    }
-    
     .section-home #home-slide-next,
     .section-home #home-slide-prev {
         font-size: 18px;
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
         top: unset;
         bottom: 0;
     }
     .section-home #home-slide-prev {
         left: unset;
-        right: 80px;
+        right: 100px;
     }
 }
 @media (max-width: 575px) {
-    .section-home .home-slider .slide .image {
-        /* transform: translateY(-40%); */
-    }
     .section-home #home-slide-next,
     .section-home #home-slide-prev {
         font-size: 25px;
@@ -634,9 +631,6 @@ html::-webkit-scrollbar-thumb {
         height: 45px;
         line-height: 45px;
         bottom: 30px;
-    }
-    .section-home #home-slide-prev {
-        right: 100px;
     }
 }
 
@@ -665,21 +659,17 @@ html::-webkit-scrollbar-thumb {
     text-align: center;
     color: var(--side-color);
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 30px;
     box-sizing: border-box;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,.3);
     cursor: pointer;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-/* .section-topic .item-group .item::after {
-    content: '';
-    position: absolute;
-    right: 0; left: 0; top: 0; bottom: 0;
-    background-color: rgba(0,0,0,.3);
-    z-index: -1;
-} */
 .section-topic .item-group .item i {
     width: 80px;
     height: 80px;
@@ -689,6 +679,7 @@ html::-webkit-scrollbar-thumb {
     border-radius: 50%;
     color: #fff;
     background-color: var(--light-color);
+    margin-bottom: 15px;
 }
 .section-topic .item-group .item h3 {
     font-size: 25px;
@@ -697,11 +688,14 @@ html::-webkit-scrollbar-thumb {
 }
 .section-topic .item-group .item p {
     font-size: 18px;
-    padding: 10px 0 30px;
+    padding: 20px 0 35px;
     color: var(--main-color);
 }
+.section-topic .item-group .item .block-btn-more {
+  margin-top: auto;
+}
 .section-topic .item-group .item .btn {
-    background-color: var(--main-color);
+    background-color: var(--main-color);  
 }
 .section-topic .item-group .item .new {
     position: absolute;
@@ -1366,7 +1360,8 @@ html::-webkit-scrollbar-thumb {
 /* ======== RWD ============ */
 @media (max-width:767px) {
    .window {
-       width: 50%;
+       width: 100%;
+       left: 0;
    } 
 }
 /* ============= section-compare =============== */

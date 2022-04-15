@@ -40,8 +40,8 @@
                 <a class="item">
                     <span class="new">New</span>
                     <i class="fa-solid fa-comments-dollar"></i>
-                    <h3 class="title">小資理財 Ready go！</h3>
-                    <p>利用小錢及早學習投資理財，正所謂「你不理財、財不理你」，願意跨出第一步是成功的開始！</p>
+                    <h3 class="title">小資理財術</h3>
+                    <p>利用小錢及早學習投資理財，「你不理財、財不理你」跨出第一步是成功的開始</p>
                     <div class="block-btn-more">
                         <div class="btn">了解更多</div>
                     </div>
@@ -144,12 +144,12 @@ export default {
       sidePage: 0,
       indexSlide: [
         {
-          title: '開始投資第一步',
+          title: '開啟投資第一步',
           subtitle: '開始比研究更重要，超低門檻快速上手',
           // https://upload.cc/i1/2022/04/14/UaXn2H.png
           // https://upload.cc/i1/2022/04/07/HeLgPK.png
           imageSrc: 'https://i.ibb.co/d4kXz5F/002.png',
-          content: '任何時間、任何地點想下單就下單；活動期間數位通路申購首選基金，享申購手續費6折優惠'
+          content: '活動期間數位通路申購首選基金，享申購手續費6折優惠'
         },
         {
           title: '共同基金',
@@ -159,7 +159,7 @@ export default {
           // https://i.ibb.co/Vjsfhnb/final.png
           // https://i.ibb.co/bzM9NJ9/pad-2.png
           imageSrc: 'https://i.ibb.co/1XkppKN/final0.png',
-          content: '共同基金因資金龐大，可有計劃的分散其投資，再加上基金經理人專業的判斷，風險自然大幅降低。同時可以進行投資組合，提高投資勝算。'
+          content: '共同基金因資金龐大，可有計劃的分散投資。擁有智能團隊專業的判斷，提高投資勝算。'
         }
       ],
       currentIndex: 0,

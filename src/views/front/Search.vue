@@ -306,8 +306,9 @@
           {{ item }} <i class="fas fa-times" @click="deleteCondition(item)"></i>
         </div>
       </div>
+      <!-- 沒搜尋結果 -->
       <!-- 搜尋結果主分類 -->
-      <div class="search-category">
+      <div class="search-category" v-if="finalData.length > 0">
         <ul class="row">
           <li
             :class="{ active: currentSearchCatagory === 'basic' }"

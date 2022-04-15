@@ -362,8 +362,7 @@ export default defineComponent({
         chartOptions: {
           responsive: true
         }
-      },
-      isFirst: true
+      }
     }
   },
   // beforeMount updated 子元件mounted 缺一不可
@@ -447,9 +446,6 @@ export default defineComponent({
     },
     fillData () {
       // console.log('被觸發了')
-      if (this.isFirst) {
-        this.compareGroup.reverse()
-      }
       this.state.chartData = {}
       // console.log(this.state.chartData)沒東西
       // console.log(this.compareGroup)
@@ -510,7 +506,6 @@ export default defineComponent({
           ]
         }
       }
-      this.isFirst = false
     }
     // arrangeLineData () {
     //   // 全部清掉不管剛是刪除哪個，待會全部加回
