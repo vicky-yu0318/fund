@@ -17,20 +17,17 @@ export default defineComponent({
       required: false
     }
   },
+  // 加watch圖就空了
   // watch: {
   //   chartData: {
   //     handler () {
-  //       // this.arrangeLineData()
-  //       // console.log('圖監聽開啟')
-  //       this._data._chart.destroy()
   //       this.renderChart(this.chartData, this.chartOptions)
-  //       // this.renderChart(this.chartData, this.chartOptions)
   //     },
   //     deep: true
   //   }
   // },
   updated () {
-    console.log(this.chartData)
+    // console.log(this.chartData)
     this.renderChart(this.chartData, this.chartOptions)
   },
   mounted () {

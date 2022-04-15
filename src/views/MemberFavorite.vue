@@ -1,6 +1,6 @@
 <template>
   <!-- <router-view v-if="loginData">00</router-view> -->
-  <Navbar :loginStatus="loginStatus" :currentPage="currentPage"></Navbar>
+  <Navbar :currentPage="currentPage"></Navbar>
   <section v-if="loginData"
   class="section section-favorite" id="section-favorite">
         <div class="container">
@@ -30,12 +30,16 @@
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
+                                    v-if="item"
+                                    @click="confirmEqual(item)"
+                                    :class="{active: compareGroup.includes(item) ||
+                                    ActiveCompareGroup.includes(item)
+                                    }"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
                                     <button class="btn-heart" id="btn-heart"
-                                     :class="{ active: myFavoriteGroup.includes(item)}"
-                                     @click="updateFavorite(item)">
+                                     @click="deleteFavorite(item)">
                                         <i class="fas fa-heart"></i>刪除
                                     </button>
                                 </div>
@@ -63,12 +67,16 @@
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
+                                    v-if="item"
+                                    @click="confirmEqual(item)"
+                                    :class="{active: compareGroup.includes(item) ||
+                                    ActiveCompareGroup.includes(item)
+                                    }"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
                                     <button class="btn-heart" id="btn-heart"
-                                     :class="{ active: myFavoriteGroup.includes(item)}"
-                                     @click="updateFavorite(item)">
+                                     @click="deleteFavorite(item)">
                                         <i class="fas fa-heart"></i>刪除
                                     </button>
                                 </div>
@@ -108,6 +116,7 @@
 
 <script>
 import Favorite from '@/methods/localStorage.js'
+import Compare from '@/methods/localStorage-compare.js'
 import goTop from '@/methods/goTop.js'
 import Navbar from '@/components/Navbar.vue'
 
@@ -116,22 +125,34 @@ export default {
     return {
       currentPage: this.$route.name,
       loginData: '',
-      myFavoriteGroup: this.getFavorite() || []
+      myFavoriteGroup: this.getFavorite() || [],
+      compareGroup: this.getCompare() || []
     }
   },
   components: {
     Navbar
   },
-  mixins: [Favorite],
+  mixins: [Favorite, Compare],
   mounted () {
     this.loginData = this.getUser()
     goTop()
-    console.log(this.loginData)
+    this.compareGroup = this.getCompare() || []
+    this.isCompareBtnActive()
   },
   methods: {
     getUser () {
       // 讀檔get:
       return JSON.parse(localStorage.getItem('loginUser'))
+    },
+    isCompareBtnActive () {
+      this.compareGroup.forEach((compare) => {
+        this.myFavoriteGroup.forEach((favorite) => {
+          if (JSON.stringify(compare) === JSON.stringify(favorite)) {
+            this.ActiveCompareGroup.push(favorite)
+            // favorite 和 compare是不同的物件(雖然內容一樣)
+          }
+        })
+      })
     }
   }
 }

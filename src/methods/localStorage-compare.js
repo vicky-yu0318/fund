@@ -1,5 +1,10 @@
 import emitter from '@/methods/eventBus'
 export default {
+  data () {
+    return {
+      ActiveCompareGroup: []
+    }
+  },
   methods: {
     // 存檔save:
     saveCompare (compare) {
@@ -22,6 +27,7 @@ export default {
         }
       } else {
         // 狀況二: 沒有 => 有
+        // console.log(fund, typeof fund)
         if (this.compareGroup.length > 2) {
         // 雖是mixins於首頁的方法，但可以用首頁所有方法
           const message = { title: '最多僅能比較3檔基金', icon: 'info' }
@@ -40,6 +46,27 @@ export default {
     },
     sweetAlert (message) {
       this.$swal(message)
+    },
+    // 檢查物件的“值相等”我們基本上是要遍歷的物件的每個屬性
+    // https://www.delftstack.com/zh-tw/howto/javascript/compare-objects-javascript/
+    confirmEqual (item) {
+      let addFav = true
+      this.compareGroup.forEach((compare) => {
+        if (JSON.stringify(compare) === JSON.stringify(item)) {
+          // 只要有1個就不行
+          addFav = false
+        }
+      })
+      if (addFav) {
+        if (this.compareGroup.length > 2) {
+          const message = { title: '最多僅能比較3檔基金', icon: 'info' }
+          this.sweetAlert(message)
+          return
+        }
+        this.compareGroup.push(item)
+        const message = { title: '加入我的比較清單', icon: 'success' }
+        this.sweetAlert(message)
+      }
     }
   },
   //  inject: ['emitter'],

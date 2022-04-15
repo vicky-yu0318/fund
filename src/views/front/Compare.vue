@@ -366,6 +366,7 @@ export default defineComponent({
       isFirst: true
     }
   },
+  // beforeMount updated 子元件mounted 缺一不可
   beforeMount () {
     this.fillData()
   },
@@ -424,6 +425,7 @@ export default defineComponent({
     emitter.on('updateComareGroup', () => {
       this.fillData()
     })
+    this.openAccordionGroup.push('chart')
   },
   methods: {
     updateOpenAccordionGroup (category) {
@@ -444,7 +446,7 @@ export default defineComponent({
       }
     },
     fillData () {
-      console.log('被觸發了')
+      // console.log('被觸發了')
       if (this.isFirst) {
         this.compareGroup.reverse()
       }
@@ -507,7 +509,6 @@ export default defineComponent({
             }
           ]
         }
-        // console.log(this.compareGroup[0])
       }
       this.isFirst = false
     }
@@ -589,6 +590,9 @@ export default defineComponent({
   @media (max-width: 767px) {
     .block-linechart {
       width: 100%;
+  }
+  .linechart-labels p {
+    width: 100%;
   }
 }
 </style>

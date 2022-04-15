@@ -30,13 +30,13 @@
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
-                                     @click="updateCompare(item)"
-                                     :class="{active: compareGroup.includes(item)}"
+                                     @click="confirmEqual(item)"
+                                     :class="{active: compareGroup.includes(item)} || isActiveCompareBtn"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
                                     <button class="btn-heart" id="btn-heart"
-                                     :class="{ active: myFavoriteGroup.includes(item)}"
+                                     :class="{ active: myFavoriteGroup.includes(item) }"
                                      @click="deleteFavorite(item)">
                                         <i class="fas fa-heart"></i>刪除
                                     </button>
@@ -65,8 +65,11 @@
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
                                     <button class="btn-compare" id="btn-compare"
-                                    @click="updateCompare(item)"
-                                    :class="{active: compareGroup.includes(item)}"
+                                    v-if="item"
+                                    @click="confirmEqual(item)"
+                                    :class="{active: compareGroup.includes(item) ||
+                                    ActiveCompareGroup.includes(item)
+                                    }"
                                     >
                                         <i class="fas fa-plus"></i>比較
                                     </button>
@@ -126,7 +129,28 @@ export default {
   mixins: [Favorite, Compare],
   mounted () {
     goTop()
+    this.compareGroup = this.getCompare() || []
+    this.isCompareBtnActive()
+  },
+  methods: {
+    isCompareBtnActive () {
+      this.compareGroup.forEach((compare) => {
+        this.myFavoriteGroup.forEach((favorite) => {
+          if (JSON.stringify(compare) === JSON.stringify(favorite)) {
+            this.ActiveCompareGroup.push(favorite)
+            // favorite 和 compare是不同的物件(雖然內容一樣)
+          }
+        })
+      })
+    }
+    // 不能直接在畫面寫原因，不會v-for畫面呈現後才跑function?
+    // sure (sure) {
+    //   this.compareGroup.forEach((compare) => {
+    //     if (JSON.stringify(compare) === JSON.stringify(sure)) {
+    //       return true
+    //     }
+    //   })
+    // }
   }
 }
-
 </script>

@@ -144,16 +144,22 @@ export default {
       sidePage: 0,
       indexSlide: [
         {
-          title: '共同基金',
-          subtitle: '攜手成長，安全有保障',
-          imageSrc: 'https://upload.cc/i1/2022/04/04/diAtjQ.png',
-          content: '共同基金因資金龐大，可有計劃的分散其投資，再加上基金經理人專業的判斷，風險自然大幅降低。同時可以進行投資組合，提高投資勝算。'
+          title: '開始投資第一步',
+          subtitle: '開始比研究更重要，超低門檻快速上手',
+          // https://upload.cc/i1/2022/04/14/UaXn2H.png
+          // https://upload.cc/i1/2022/04/07/HeLgPK.png
+          imageSrc: 'https://i.ibb.co/d4kXz5F/002.png',
+          content: '任何時間、任何地點想下單就下單；活動期間數位通路申購首選基金，享申購手續費6折優惠'
         },
         {
-          title: '開戶方式3選1開始投資第一步',
-          subtitle: '開始比研究更重要，超低門檻快速上手',
-          imageSrc: 'https://upload.cc/i1/2022/04/07/HeLgPK.png',
-          content: '任何時間、任何地點想下單就下單；活動期間數位通路申購首選基金，享申購手續費6折優惠'
+          title: '共同基金',
+          subtitle: '攜手成長，安全有保障',
+          // https://i.ibb.co/hZD6mvg/pad-1.png
+          // https://upload.cc/i1/2022/04/04/diAtjQ.png
+          // https://i.ibb.co/Vjsfhnb/final.png
+          // https://i.ibb.co/bzM9NJ9/pad-2.png
+          imageSrc: 'https://i.ibb.co/1XkppKN/final0.png',
+          content: '共同基金因資金龐大，可有計劃的分散其投資，再加上基金經理人專業的判斷，風險自然大幅降低。同時可以進行投資組合，提高投資勝算。'
         }
       ],
       currentIndex: 0,

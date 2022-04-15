@@ -1303,18 +1303,13 @@ export default {
       if (!this.isRating) {
         const ratingStars = document.querySelectorAll('.rating-star')
         ratingStars.forEach((ratingStar, i) => {
-          if (item >= i) {
-            const dom = ratingStars[i - 1]
+          if (item > i) {
+            const dom = ratingStars[i]
+            // console.log(ratingStars[-1])
             if (dom !== undefined) {
               dom.classList.add('active')
             }
           }
-          if (item > i) {
-            ratingStars[i].classList.add('active')
-          }
-          // if (item >= ratingStar.__vnode.key) {
-          //   ratingStars[ratingStar.__vnode.key - 1].classList.add('active')
-          // }
           // 在這才加入滑鼠移開的事件監聽，以避免寫在行內(click事件時77需移除)無法移除
           // ("個別" 於 "dom" 加監聽)
           ratingStar.addEventListener('mouseout', this.leaveRating)
