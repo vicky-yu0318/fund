@@ -135,6 +135,7 @@ html::-webkit-scrollbar-thumb {
     background-color: var(--third-color);
     color: #fff;
     padding: 5px 25px;
+    display: inline-block;
 }
 .btn-buy:hover {
     background-color: var(--third-color-active);
@@ -778,6 +779,15 @@ html::-webkit-scrollbar-thumb {
         background-color: #fff;
         height: 150px;
     }
+    .section-topic .item-group .item {
+      padding: 10px;   
+    }
+    .section-topic .item-group .item i {
+       margin-bottom: 10px;
+    }
+    .section-topic .item-group .item p {
+      padding: 10px 0 20px;
+    }
 }
 /* =========== section-service =========== */
 .section-service {
@@ -847,8 +857,12 @@ html::-webkit-scrollbar-thumb {
 }
 /* =========== section-service =========== */
 /* ============= RWD ================ */
-
-
+@media (max-width: 575px) {
+    .section-service .slide .content {
+      padding: 20px 5px;
+      transform: translateY(calc(100% - 60px));
+    }
+}
 
 /* =========== section-searchFund =========== */
 .section-searchFund .searchResult-title {
@@ -889,6 +903,7 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .row {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 .section-searchFund .row::after {
     content: '';
@@ -904,7 +919,6 @@ html::-webkit-scrollbar-thumb {
     font-size: 20px;
     padding-left: 10px;
     box-sizing: border-box;
-    position: relative;
 }
 .section-searchFund .title .title-description {
     padding: 10px;
@@ -912,8 +926,9 @@ html::-webkit-scrollbar-thumb {
     border-radius: 5px;
     color: #fff;
     position: absolute;
-    width: 600px;
-    top: 120%; 
+    width: 80%;
+    max-width: 600px;
+    top: 50%; 
     left: 0;
     cursor: pointer;
     font-size: 18px;
@@ -945,9 +960,8 @@ html::-webkit-scrollbar-thumb {
 }
 
 .section-searchFund .row .keyword-wrap {
-    width: 85%;
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     align-items: center;
 }
 .section-searchFund .row .keyword-wrap input {
@@ -972,8 +986,8 @@ html::-webkit-scrollbar-thumb {
 }
 .section-searchFund .row .keyword-wrap .match-list {
     padding-left: 0;
-    position: absolute;
-    right: 0; left: 0;
+    /* position: absolute; */
+    /* right: 0; left: 0; */
     border: 1px solid var(--side-color);
     z-index: 100;
     background-color: #fff;
@@ -1007,19 +1021,6 @@ html::-webkit-scrollbar-thumb {
 }
 
 /* 基金公司搜尋 */
-.keyword-wrap.keyword-wrap-company .input-field {
-    position: relative;
-}
-.match-list-company {
-    background-color: #ffa;
-    position: absolute;
-    top: 100%; left: 0; right: 0;
-}
-.section-searchFund .match-item.match-item-company {
-    padding: 8px 15px;
-}
-/* 基金公司搜尋 */
-
 .section-searchFund .row .content {
     width: 70%;
 }
@@ -1089,20 +1090,36 @@ html::-webkit-scrollbar-thumb {
     left: 20px; right: 20px; top: 60px;
   }
   .section-searchFund .row .title {
-     font-size: 17px;
-   }
-   .section-searchFund .row .title i {
-     font-size: 14px; 
-   }
+    font-size: 17px;
+  }
+  .section-searchFund .row .title i {
+    font-size: 14px; 
+  }
+  .section-searchFund .title .title-description::before {
+    left: 80px;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom:  10px solid rgba(0,0,0,.3);
+  }
 }
 @media (max-width: 767px) {
     .section-searchFund .row .title {
       font-size: 17px;
     }
+    .section-searchFund .row .title i {
+        margin-left: 35%;
+    }
     .section-searchFund .notes {
       font-size: 15px;
     }
-    
+    .section-searchFund .title .title-description {
+      font-size: 17px;
+      top: 60%;
+    }
+    .section-searchFund .title .title-description::before {
+      left: 35px;
+      top: -10px;
+    }
 }
 @media (max-width: 575px) {
   .section-searchFund .searchResult-title.active {
@@ -1127,6 +1144,23 @@ html::-webkit-scrollbar-thumb {
     padding: 5px 8px;
     margin-left: 5px;
   }
+  .section-searchFund .row .keyword-wrap input {
+    padding: 6px;
+    font-size: 18px;
+  }
+  .section-searchFund .row .keyword-wrap input::placeholder {
+    font-size: 17px;
+  }
+  /* 基金公司搜尋 */
+  .keyword-wrap.keyword-wrap-company .input-field {
+    width: 68%;
+  }
+  .section-searchFund .keyword-wrap.keyword-wrap-company  input {
+    width: 100%;
+  }
+  .section-searchFund .row .keyword-wrap.keyword-wrap-company .btn-searchFund  {
+    margin-left: 25px;
+  } 
 }
 
 /* =========== section-searchResult =========== */
@@ -1425,7 +1459,13 @@ html::-webkit-scrollbar-thumb {
 
 /* ======= window ========= */
 /* ======== RWD ============ */
-@media (max-width:767px) {
+@media (max-width: 767px) {
+   .window {
+       left: unset;
+       right: 0;
+   } 
+}
+@media (max-width: 575px) {
    .window {
        width: 100%;
        left: 0;
@@ -1648,7 +1688,10 @@ html::-webkit-scrollbar-thumb {
 .section-compare .accordion-body .compare-td {
     border-left: 1px solid var(--light-color);
     font-size: 18px;
-    padding: 15px 0; 
+    /* padding: 15px 0; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /* 負報酬 => 紅色 */
 .section-compare .accordion-body .compare-td.mark {
@@ -1660,14 +1703,24 @@ html::-webkit-scrollbar-thumb {
 }
 /* 2項資料 */
 .section-compare .accordion-body .compare-td_two_items {
-    width: calc(40% - 2px);
+    width: calc(40% - 1px);
 }
 /* 3項資料 */
 .section-compare .accordion-body .compare-td_three_items {
-    width: calc(26.667% - 5px);
+    width: calc(26.667% - 1px);
 }
 /* ========== section-compare =========== */
 /* ============= RWD ============== */
+@media (max-width: 767px) {
+    .section-compare .compare-items li {
+      padding: 30px 5px 20px;
+    }
+    .section-compare .compare-items li .btn-buy {
+      border-radius: 20px;
+      padding: 5px 30px;
+    }
+}
+
 @media (max-width: 575px) {
   .section-compare .empty-remark {
     text-align: center;
@@ -1691,9 +1744,22 @@ html::-webkit-scrollbar-thumb {
   }
   .section-compare .accordion-body .compare-th {
     font-size: 16px;
+    width: 35%;
   }
   .section-compare .accordion-body .compare-td {
     font-size: 15px;
+  }
+  /* 1項資料 */
+  .section-compare .accordion-body .compare-td_one_item {
+    width: calc(65% - 1px);
+  }
+  /* 2項資料 */
+  .section-compare .accordion-body .compare-td_two_items {
+    width: calc(32.5% - 1px);
+  }
+  /* 3項資料 */
+  .section-compare .accordion-body .compare-td_three_items {
+    width: calc(21.667% - 1px);
   }
 }
 /* ========== section-favorite =========== */

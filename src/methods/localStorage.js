@@ -9,9 +9,16 @@ export default {
       // 讀檔get:
       return JSON.parse(localStorage.getItem('fundFavorite'))
     },
-    updateFavorite (fund, from) {
+    isShowWindow () {
       this.showWindowFooter = true
       this.showUpperBody = 'favorite'
+      const currentbreakpoint = window.matchMedia('(max-width: 575px)')
+      if (currentbreakpoint.matches) { // If media query matches
+        this.showUpperBody = ''
+      }
+    },
+    updateFavorite (fund, from) {
+      this.isShowWindow()
       // 狀況一: 有 => 沒有
       if (this.myFavoriteGroup.includes(fund)) {
         this.myFavoriteGroup.splice(this.myFavoriteGroup.indexOf(fund), 1)

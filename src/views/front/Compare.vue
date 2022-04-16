@@ -588,6 +588,9 @@ export default defineComponent({
   }
   .linechart-labels p {
     width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-size: 15px;
   }
 }
 </style>
