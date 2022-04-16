@@ -1763,6 +1763,34 @@ html::-webkit-scrollbar-thumb {
   }
 }
 /* ========== section-favorite =========== */
+.section-favorite .empty-remark {
+    background-color: #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+.section-favorite .empty-remark .icon-search {
+    font-size: 60px;
+    color: var(--light-color);
+    padding-right: 25px;
+}
+.section-favorite .empty-remark .content .txt {
+    font-size: 25px;
+    font-weight: 600;
+}
+.section-favorite .empty-remark .content .tip {
+    font-size: 18px;
+}
+.section-favorite .empty-remark .content .tip .link-search {
+    color: var(--side-color);
+    font-weight: 600;
+    padding: 0 5px;
+}
+.section-favorite .empty-remark .content .tip .btn-heart {
+    pointer-events: none;
+}
 .section-favorite {
     padding-bottom: 150px;
 }
@@ -1871,6 +1899,17 @@ html::-webkit-scrollbar-thumb {
   }
 }
 @media (max-width: 575px) {
+  .section-favorite .empty-remark {
+    text-align: center;
+    padding: 20px 10px;
+  }
+  .section-favorite .empty-remark .content .txt {
+    font-size: 23px;
+    padding-bottom: 5px;
+  }
+  .section-favorite .empty-remark .content .tip {
+    font-size: 16px;
+  }
   .section-favorite .btn-goLogin-dark {
     margin-top: -160px;
   }

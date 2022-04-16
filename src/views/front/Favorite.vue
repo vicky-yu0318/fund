@@ -7,10 +7,22 @@
                 <i class="fa-solid fa-heart"></i>
                 <h2 class="main-title">基金觀察名單</h2>
             </div>
-            <p>建議您先登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
-            <div class="block-btn-more">
+            <p v-if="myFavoriteGroup.length > 0">建議您登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
+            <div class="block-btn-more" v-if="myFavoriteGroup.length > 0">
                 <router-link to="/search" class="btn-more-fund">加入更多基金觀察</router-link>
                 <router-link to="/login" class="btn-goLogin">前往網銀</router-link>
+            </div>
+            <!-- 沒有基金 -->
+            <div class="block-empty-favorite"  v-if="myFavoriteGroup.length === 0">
+              <div class="empty-remark">
+                <i class="fa-solid fa-magnifying-glass-plus icon-search"></i>
+                <div class="content">
+                  <p class="txt">您目前無觀察中的基金</p>
+                  <p class="tip">請至<router-link to="/search" class="link-search">基金搜尋</router-link>
+                  點選「<button class="btn-heart"><i class="fas fa-heart"></i>觀察</button>」
+                  加入想觀察的基金。</p>
+                </div>
+              </div>
             </div>
             <div class="block-favorite" v-if="myFavoriteGroup.length !== 0">
                 <div class="favorite-table">
