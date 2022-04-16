@@ -5,7 +5,8 @@
         Fund
         <h1 class="sr-only">playfund</h1>
       </a>
-      <nav class="navbar" :class="{active: isFixTop, activeList: switchList}">
+      <nav class="navbar" :class="{ active: isFixTop, activeList: isActiveList}"
+        ref="refNav">
         <div class="container">
           <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
           <router-link to="/compare">
@@ -22,7 +23,7 @@
         <div class="btn-login btn" @click="logout">登出</div>
       </template>
 
-      <div class="fas fa-bars btn-hamburger" @click="switchList = !switchList"></div>
+      <div class="fas fa-bars btn-hamburger" @click="switchList"></div>
     </div>
     <div class="assistant" v-if="currentPage !== '/'">
       <div class="remark" > 安心基金智能客服，有問題可以隨時找我 </div>
@@ -37,7 +38,7 @@ export default {
   data () {
     return {
       isFixTop: false,
-      switchList: false
+      isActiveList: false
     }
   },
   props: {
@@ -46,10 +47,38 @@ export default {
     }
   },
   methods: {
+    hasClass (element, cls) {
+      return (element.className).indexOf(cls) > -1
+    },
+    switchList () {
+      if (!this.hasClass(this.$refs.refNav, 'activeList')) {
+        // 如果沒有+上
+        // this.isActiveList = true
+        this.$refs.refNav.classList.add('activeList')
+      } else {
+        // this.isActiveList = false
+        // 以hasClass來判斷收闔的，因此不能用狀態。
+        this.$refs.refNav.classList.remove('activeList')
+      }
+    },
+    scrollActive () {
+      if (this.hasClass(this.$refs.refNav, 'activeList')) {
+        this.$refs.refNav.classList.remove('activeList')
+      }
+      this.fixTop()
+    },
     fixTop () {
       if (window.scrollY > 100) {
         this.isFixTop = true
       } else {
+        this.isFixTop = false
+      }
+      this.notFix()
+    },
+    notFix () {
+      // https://www.w3schools.com/howto/howto_js_media_queries.asp
+      const currentbreakpoint = window.matchMedia('(max-width: 575px)')
+      if (currentbreakpoint.matches) { // If media query matches
         this.isFixTop = false
       }
     },
@@ -63,8 +92,7 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('scroll', this.fixTop)
-    // console.log(this.currentPage)
+    window.addEventListener('scroll', this.scrollActive)
   }
 }
 </script>

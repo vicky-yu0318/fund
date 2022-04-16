@@ -235,6 +235,7 @@ html::-webkit-scrollbar-thumb {
     right: 0; left: 0;
     font-size: 0;
 }
+/* ======= 下滑軸出現 ========== */
 .header .navbar.active {
     position: fixed;
     right: 0; left: 0;
@@ -265,7 +266,7 @@ html::-webkit-scrollbar-thumb {
 .header .navbar.active a:first-child {
     border-left: none;
 }
-
+/* ======= 下滑軸出現 ========== */
 .header .navbar a {
     background-color: #fff;
     display: inline-block;
@@ -298,7 +299,6 @@ html::-webkit-scrollbar-thumb {
     right: 25px;
     z-index: 101;
 }
-
 .header .assistant .btn-assistant {
     cursor: pointer;
     font-size: 40px;
@@ -355,29 +355,39 @@ html::-webkit-scrollbar-thumb {
     display: block;
   }
   .header .navbar {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    position: absolute;
+    top: 100%;
+    clip-path: polygon(0 0, 100% 0%, 100% 0, 0% 0%);
+    /* display: none; 不能用此，因會沒有動畫感*/
     transition: .2s linear;
-    /* transform: scale(0); */
-    /* transform-origin: right top; */
   }
-  .header .navbar.activeList {
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-    /* transform: scale(1); */
+  /* 把原頁面取消 */
+  .header .navbar .container {
+    position: static;
+    display: block;
+    padding: 0;
   }
-  .header .navbar  a {
+  .header .navbar a {
     display: block;
     width: 100%;
     text-align: left;
     padding: 15px 10px;
-    background-color: var(--main-color-active);
-    color: #fff;
     box-sizing: border-box;
+    background-color: rgb(37, 50, 43, .9);
+    color: #fff;
   }
   .header .navbar a:first-child {
     border: none;
   }
+  /* 把原先active拿掉 */
   .header .navbar.active {
     position: static;
+   }
+
+  /* 漢堡選單出現navbar */
+  .header .navbar.activeList {
+    /* display: block; */
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
   }
 }
 /* ========== breadcrumb ============ */
@@ -624,6 +634,26 @@ html::-webkit-scrollbar-thumb {
     }
 }
 @media (max-width: 575px) {
+    .section-home {
+       padding-top: 40px;
+       padding-bottom: 20px;
+    }
+    .section-home .home-slider .slide .content {
+        padding: 0 0 25px;
+    }
+    .section-home .home-slider .slide .content span {
+      font-size: 19px;
+    }
+    .section-home .home-slider .slide .content h3 {
+      font-size: 45px;
+      letter-spacing: 0;
+      padding-bottom: 15px;
+    }
+    .section-home .home-slider .slide .content p {
+      font-size: 23px;
+      width: 100%;
+      line-height: 1.5;
+    }
     .section-home #home-slide-next,
     .section-home #home-slide-prev {
         font-size: 25px;
@@ -746,7 +776,7 @@ html::-webkit-scrollbar-thumb {
         content: '';
         display: block;
         background-color: #fff;
-        height: 130px;
+        height: 150px;
     }
 }
 /* =========== section-service =========== */
@@ -1121,6 +1151,33 @@ html::-webkit-scrollbar-thumb {
 .section-searchResult .condition-item i:hover {
     color: #fff;
 }
+/* 空結果 */
+.section-searchResult .empty-remark {
+    background-color: #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+.section-searchResult .empty-remark .icon-search {
+    font-size: 60px;
+    color: var(--light-color);
+    padding-right: 25px;
+}
+.section-searchResult .empty-remark .content {
+    padding: 0;
+}
+.section-searchResult .empty-remark .content .txt {
+    font-size: 25px;
+    font-weight: 600;
+}
+.section-searchResult .empty-remark .content .tip {
+    font-size: 18px;
+    color: var(--side-color);
+    font-weight: 600;
+    text-align: center;
+}
 
 .section-searchResult .search-category {
     padding: 0 20px;
@@ -1201,6 +1258,16 @@ html::-webkit-scrollbar-thumb {
 /* ============ .section-searchResult  ============= */
 /* ============ RWD ============ */
 @media (max-width: 575px) {
+  .section-searchResult .empty-remark {
+    padding: 20px 10px;
+  }
+  .section-searchResult .empty-remark .content .txt {
+    font-size: 23px;
+    padding: 15px 0 5px 0;
+  }
+  .section-searchResult .empty-remark .content .tip {
+    font-size: 16px;
+  }
   .section-searchFund .searchResult-title.active {
     left: 20px; right: 20px; top: 0;
   }
@@ -1602,6 +1669,17 @@ html::-webkit-scrollbar-thumb {
 /* ========== section-compare =========== */
 /* ============= RWD ============== */
 @media (max-width: 575px) {
+  .section-compare .empty-remark {
+    text-align: center;
+    padding: 20px 10px;
+  }
+  .section-compare .empty-remark .content .txt {
+    font-size: 23px;
+    padding-bottom: 5px;
+  }
+  .section-compare .empty-remark .content .tip {
+    font-size: 16px;
+  }
   .section-compare .block-compare-items.active {
     top: 0px; 
   }
@@ -1761,7 +1839,7 @@ html::-webkit-scrollbar-thumb {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(0,0,0,.3);
-    width: 90%;
+    width: 100%;
     max-width: 550px;
     padding: 60px;
     box-sizing: border-box;
@@ -1830,7 +1908,7 @@ html::-webkit-scrollbar-thumb {
   }
   .section-login .form-login {
     max-width: 660px;
-    padding: 60px;
+    padding: 50px;
   }
 }
 @media (max-width: 767px) {
@@ -1838,12 +1916,12 @@ html::-webkit-scrollbar-thumb {
     background: url('https://upload.cc/i1/2022/04/04/WqvMxO.jpg') no-repeat,
                 linear-gradient(to bottom,#F5F4F9 10% ,#FDEBE7 40%);
     background-size: 50%;
-    padding-top: 30px;
+    padding-top: 50px;
     min-height: calc(100vh - 100px);
   }
   .section-login .form-login {
     max-width: 100%;
-    padding: 20px;
+    padding: 30px;
   }
 }
 

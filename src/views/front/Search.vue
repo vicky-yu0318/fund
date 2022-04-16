@@ -307,8 +307,17 @@
         </div>
       </div>
       <!-- 沒搜尋結果 -->
+      <div class="block-empty-search" v-if="finalData.size === 0">
+        <div class="empty-remark">
+          <i class="fa-solid fa-magnifying-glass-plus icon-search"></i>
+          <div class="content">
+            <p class="txt">目前無符合搜尋條件的基金</p>
+            <p class="tip">請至上方選取您要搜尋的基金條件。</p>
+          </div>
+        </div>
+      </div>
       <!-- 搜尋結果主分類 -->
-      <div class="search-category" v-if="finalData.length > 0">
+      <div class="search-category" v-if="finalData.size > 0">
         <ul class="row">
           <li
             :class="{ active: currentSearchCatagory === 'basic' }"
