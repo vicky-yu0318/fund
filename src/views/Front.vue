@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@import '../assets/stylesheets/fund.css';
+// @import '../assets/stylesheets/fund.css';
 </style>
 
 <script>

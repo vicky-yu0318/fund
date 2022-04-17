@@ -6,6 +6,7 @@
 <style lang="scss">
 // @import 'bootstrap';
 // @import './assets/stylesheets/all'
+@import './assets/stylesheets/fund.css';
 </style>
 <script>
 

@@ -73,6 +73,14 @@ const routes = [
   {
     path: '/external',
     component: () => import('@/views/External.vue')
+  },
+  {
+    path: '/apply',
+    component: () => import('@/views/Apply.vue')
+  },
+  {
+    path: '/note',
+    component: () => import('@/views/Note.vue')
   }
 ]
 
