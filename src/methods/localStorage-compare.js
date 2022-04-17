@@ -62,6 +62,9 @@ export default {
         if (JSON.stringify(compare) === JSON.stringify(item)) {
           // 只要有1個就不行
           addFav = false
+          this.compareGroup.splice(this.compareGroup.indexOf(compare), 1)
+          const message = { title: '商品已從比較清單中移除', icon: 'success' }
+          this.sweetAlert(message)
         }
       })
       if (addFav) {

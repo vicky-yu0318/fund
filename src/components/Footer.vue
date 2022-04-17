@@ -11,20 +11,20 @@
                 <div class="col">
                     <h3>相關企業 <div class="underline"> <span></span> </div> </h3>
                     <ul class="office-list">
-                        <li> <i class="fa-solid fa-building-columns"></i><a>安心人壽</a></li>
-                        <li> <i class="fa-solid fa-building-columns"></i><a>安心銀行</a></li>
-                        <li> <i class="fa-solid fa-building-columns"></i><a>安心產險</a></li>
-                        <li> <i class="fa-solid fa-building-columns"></i><a>安心投信</a></li>
-                        <li> <i class="fa-solid fa-building-columns"></i><a>安心投顧</a></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>安心人壽</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>安心銀行</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>安心產險</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>安心投信</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>安心投顧</router-link></li>
                     </ul>
                 </div>
                 <div class="col">
                     <h3>相關連結 <div class="underline"> <span></span> </div></h3>
                     <ul class="links">
-                        <li>:::&emsp;<a>無障礙網頁</a></li>
-                        <li><i class="fa-solid fa-circle-question"></i><a>常見問題</a></li>
-                        <li><i class="fa-solid fa-user"></i><a>員工專區</a></li>
-                        <li><i class="fa-solid fa-head-side-mask"></i><a>防疫紓困專區</a></li>
+                        <li>:::<router-link to="/external" class="externalLink"> <i class="fa-solid fa-building-columns"></i>無障礙網頁</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-circle-question"></i>常見問題</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-user"></i>員工專區</router-link></li>
+                        <li><router-link to="/external" class="externalLink"> <i class="fa-solid fa-head-side-mask"></i>防疫紓困專區</router-link></li>
                     </ul>
                 </div>
                 <div class="col">
@@ -37,8 +37,8 @@
                         </div>
                     </form>
                     <div class="social-icons">
-                        <a class="fab fa-facebook-f"></a>
-                        <a class="fa-brands fa-line"></a>
+                        <router-link to="/external" class="fab fa-facebook-f"></router-link >
+                        <router-link to="/external" class="fa-brands fa-line"></router-link >
                     </div>
                 </div>
             </div>

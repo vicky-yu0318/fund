@@ -69,6 +69,10 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     component: () => import('@/views/NotFound.vue')
+  },
+  {
+    path: '/external',
+    component: () => import('@/views/External.vue')
   }
 ]
 

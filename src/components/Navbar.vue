@@ -51,20 +51,34 @@ export default {
       return (element.className).indexOf(cls) > -1
     },
     switchList () {
-      if (!this.hasClass(this.$refs.refNav, 'activeList')) {
-        // 如果沒有+上
-        // this.isActiveList = true
-        this.$refs.refNav.classList.add('activeList')
+      if (!this.isActiveList) {
+        this.isActiveList = true
       } else {
-        // this.isActiveList = false
-        // 以hasClass來判斷收闔的，因此不能用狀態。
-        this.$refs.refNav.classList.remove('activeList')
+        this.isActiveList = false
+      }
+    //   if (!this.hasClass(this.$refs.refNav, 'activeList')) {
+    //     // 如果沒有+上
+    //     // this.isActiveList = true
+    //     this.$refs.refNav.classList.add('activeList')
+    //   } else {
+    //     // this.isActiveList = false
+    //     // 以hasClass來判斷收闔的，因此不能用狀態。
+    //     this.$refs.refNav.classList.remove('activeList')
+    //   }
+    },
+    isShowWindow () {
+      const currentbreakpoint = window.matchMedia('(max-width: 575px)')
+      if (currentbreakpoint.matches) {
+        // this.$refs.refNav.classList.remove('activeList')
+        this.isActiveList = false
       }
     },
     scrollActive () {
-      if (this.hasClass(this.$refs.refNav, 'activeList')) {
-        this.$refs.refNav.classList.remove('activeList')
-      }
+      this.isShowWindow()
+      // this.$refs.refNav.classList.remove('active')
+      // if (this.hasClass(this.$refs.refNav, 'activeList')) {
+      //   this.$refs.refNav.classList.remove('activeList')
+      // }
       this.fixTop()
     },
     fixTop () {
