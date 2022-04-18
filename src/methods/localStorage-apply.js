@@ -9,7 +9,7 @@ export default {
     },
     updateApply (apply) {
       this.saveApply(apply)
-      this.$router.push('/apply')
+      this.$router.push('/note')
     },
     sweetAlert (message) {
       this.$swal(message)

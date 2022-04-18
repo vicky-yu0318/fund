@@ -16,14 +16,14 @@ export default {
       return JSON.parse(localStorage.getItem('fundCompare'))
     },
     isShowWindow () {
-      this.showWindowFooter = true
-      this.showUpperBody = 'compare'
       const currentbreakpoint = window.matchMedia('(max-width: 575px)')
       if (currentbreakpoint.matches) { // If media query matches
         this.showUpperBody = ''
       }
     },
     updateCompare (fund, from) {
+      this.showWindowFooter = true
+      this.showUpperBody = 'compare'
       this.isShowWindow()
       // 狀況一: 有 => 沒有
       if (this.compareGroup.includes(fund)) {

@@ -75,12 +75,19 @@ const routes = [
     component: () => import('@/views/External.vue')
   },
   {
+    name: 'apply',
     path: '/apply',
     component: () => import('@/views/Apply.vue')
   },
   {
+    name: 'note',
     path: '/note',
     component: () => import('@/views/Note.vue')
+  },
+  {
+    name: 'order',
+    path: '/order',
+    component: () => import('@/views/Order.vue')
   }
 ]
 

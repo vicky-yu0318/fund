@@ -418,7 +418,7 @@
           <li>{{ $filters.toPercent(item.performance.one_year) }}</li>
           <li>{{ $filters.toPercent(item.performance.three_year) }}</li>
           <li>{{ $filters.toPercent(item.performance.establishToNow) }}</li>
-          <li><a href="javascript:;" class="btn-buy">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
         </ul>
       </div>
 
@@ -455,7 +455,7 @@
           <li>{{ item.rating }}</li>
           <li>{{ item.risk }}</li>
           <li>{{ item.scaleMillion }}</li>
-          <li><a href="javascript:;" class="btn-buy">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
         </ul>
       </div>
     </div>
@@ -548,7 +548,7 @@
           class="btn-compare-list"
           @click="showUpperBody = 'compare'"
           :class="{
-            active: showUpperBody === 'compare' || showUpperBody === ''
+            active: showUpperBody === 'compare'  || showUpperBody === ''
           }"
         >
           比較清單 <span> {{ compareGroup.length }} </span>

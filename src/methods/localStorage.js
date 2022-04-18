@@ -10,8 +10,6 @@ export default {
       return JSON.parse(localStorage.getItem('fundFavorite'))
     },
     isShowWindow () {
-      this.showWindowFooter = true
-      this.showUpperBody = 'favorite'
       const currentbreakpoint = window.matchMedia('(max-width: 575px)')
       if (currentbreakpoint.matches) { // If media query matches
         this.showUpperBody = ''
@@ -19,6 +17,8 @@ export default {
     },
     updateFavorite (fund, from) {
       this.isShowWindow()
+      this.showWindowFooter = true
+      this.showUpperBody = 'favorite'
       // 狀況一: 有 => 沒有
       if (this.myFavoriteGroup.includes(fund)) {
         this.myFavoriteGroup.splice(this.myFavoriteGroup.indexOf(fund), 1)

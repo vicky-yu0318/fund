@@ -1,5 +1,5 @@
 <template>
-  <Progress></Progress>
+  <Progress :currentProgress="currentProgress"></Progress>
   <section class="section-notes">
     <div class="container">
       <div class="scroll-bg">
@@ -56,14 +56,13 @@
       </div>
       <div class="confirm-read">
         <label>
-          <input type="checkbox" />
-          <span
-            >投資人特此聲明已於合理審閱期間內將全部約定條款審閱完畢，並已充分了解且同意遵守全部內容。</span
+          <input type="checkbox" v-model="checkRead" />
+          <span>投資人特此聲明已於合理審閱期間內將全部約定條款審閱完畢，並已充分了解且同意遵守全部內容。</span
           >
         </label>
       </div>
       <div class="block-btn">
-        <div class="btn">接受</div>
+        <div class="btn" @click="acceptNote">接受</div>
         <div class="btn btn-accept">不接受</div>
       </div>
     </div>
@@ -72,8 +71,28 @@
 <script>
 import Progress from '@/components/Progress.vue'
 export default {
+  data () {
+    return {
+      currentProgress: this.$route.name,
+      checkRead: ''
+    }
+  },
   components: {
     Progress
+  },
+  methods: {
+    acceptNote () {
+      if (!this.checkRead) {
+        // return
+        const message = { title: '請閱讀申購須知，充分了解且同意遵守全部內容，並打勾同意', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      this.$router.push('/apply')
+    },
+    sweetAlert (message) {
+      this.$swal(message)
+    }
   }
 }
 </script>
