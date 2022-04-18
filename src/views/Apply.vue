@@ -1,5 +1,5 @@
 <template>
-  <section class="section-bannerApply">
+  <section class="section-bannerApply" v-if="Object.keys(applyItem).length > 0">
     <div class="container">
       <div class="content">
         <p>每月一點點投資，你會看到積沙成塔的力量</p>
@@ -13,7 +13,7 @@
         <form action="" class="form-apply">
           <div class="apply-tr">
             <div class="apply-th">專案優惠</div>
-            <div class="apply-td">線上享6折</div>
+            <div class="apply-td">線上下單享6折</div>
           </div>
           <div class="apply-tr">
             <div class="apply-th apply-caption">基金資訊</div>
@@ -24,13 +24,15 @@
             <div class="apply-td">{{applyItem.code}} - {{applyItem.fund}}</div>
           </div>
           <div class="apply-tr">
-            <div class="apply-th">是否已取得公開說明書</div>
+            <div class="apply-th">是否已審閱公開說明書</div>
             <div class="apply-td">
-              <input type="radio" name="getInfo" class="radioInfo" /><span
+              <input type="radio" name="getInfo" class="radioInfo"
+               v-model="radioInfo" value="yes"/><span
                 class="isInfo"
                 >是</span
               >
-              <input type="radio" name="getInfo" class="radioInfo" /><span
+              <input type="radio" name="getInfo" class="radioInfo"
+                v-model="radioInfo" value="no"/><span
                 class="isInfo"
                 >否</span
               >
@@ -39,12 +41,21 @@
           <div class="apply-tr">
             <div class="apply-th">基金申購幣別</div>
             <div class="apply-td">
-              <!-- <template v-if="applyItem.currency !== '台幣'"> -->
-                <input type="radio" name="getInfo" class="radioInfo" v-model="usd" />
+              <!-- 僅台幣下單 -->
+              <template v-if="applyItem.currency === '台幣'">
+                <input type="radio" name="currency" value="nt"
+                 v-model="radioCurrency"/>
+                <div class="isInfo">直接扣<span>臺幣</span>申購</div>
+              </template>
+              <!-- 可台幣、美元下單 -->
+              <template v-if="applyItem.currency === '美元'">
+                <input type="radio" name="currency" value="nt"
+                 v-model="radioCurrency"/>
+                <div class="isInfo">直接扣<span>臺幣</span>申購</div>
+                <input type="radio" name="currency" class="radioCurrency" value="usd"
+                  v-model="radioCurrency"/>
                 <div class="isInfo">直接扣<span>美金</span>申購</div>
-              <!-- </template> -->
-              <input type="radio" name="getInfo" class="radioInfo" />
-              <div class="isInfo">直接扣<span>臺幣</span>申購</div>
+              </template>
             </div>
           </div>
           <div class="apply-tr">
@@ -54,35 +65,47 @@
           <div class="apply-tr">
             <div class="apply-th">日期</div>
             <div class="apply-td">
-              <input type="date" class="apply-date" />
+              <input type="date" class="apply-date" v-model="applyDate"/>
             </div>
           </div>
           <div class="apply-tr">
             <div class="apply-th">扣款帳號</div>
             <div class="apply-td">
-              <select name="" id="">
-                <option>請選擇</option>
-                <option>888222333624</option>
-                <option>777222333688</option>
+              <select name="" id="" v-model="selectAccount">
+                <option disabled>請選擇</option>
+                <option v-for="user in userData" :key="user"
+                :disabled="radioCurrency !== user.currency"
+                >{{ user.account }}</option>
               </select>
-              <span class="remark">可投資餘額： $5000</span>
+              <template v-for="user in userData" :key="user">
+                <span class="remark" v-if="selectAccount === user.account"
+                >可投資餘額： {{user.currency === 'usd' ? '美金' : '台幣'}}
+                {{ $filters.toCurrency(user.availableCash) }}</span>
+              </template>
             </div>
           </div>
           <div class="apply-tr">
             <div class="apply-th">申購金額</div>
             <div class="apply-td">
-              <img src="https://upload.cc/i1/2022/04/17/xFMocp.png" alt="" />
-              <!-- [img]https://upload.cc/i1/2022/04/17/SR7LAm.png[/img] -->
-              <input type="number" class="applyAmount" min="1000" />
-              <span class="remark"
-                >(最低申購限額為「美金2,000.00元」)
-                (最低申購限額為「臺幣50,000元」)</span
-              >
+              <!-- 選美金 -->
+              <template v-if="radioCurrency === 'usd'">
+                <img src="https://upload.cc/i1/2022/04/17/xFMocp.png"/>
+                <input type="number" class="applyAmount" min="2000"
+                v-model="applyUsd" @blur="confirmAmount('usd')"/>
+                <span class="remark">(最低申購限額為「美金2,000.00元」)</span>
+              </template>
+              <!-- 選台幣 -->
+              <template v-if="radioCurrency === 'nt'">
+                <img src="https://upload.cc/i1/2022/04/17/SR7LAm.png"/>
+                <input type="number" class="applyAmount" min="50000"
+                 v-model="applyNt" @blur="confirmAmount('nt')"/>
+                <span class="remark">(最低申購限額為「臺幣50,000元」)</span>
+              </template>
             </div>
           </div>
           <div class="block-btn">
-            <div class="btn btn-clear">清除內容</div>
-            <div class="btn">確認申購</div>
+            <div class="btn btn-clear" @click="deleteApply">清除內容</div>
+            <div class="btn" @click="confirmApply">確認申購</div>
           </div>
         </form>
         <div class="notice">
@@ -105,7 +128,26 @@ export default {
   data () {
     return {
       applyItem: this.getApply(),
-      usd: ''
+      userData: [
+        {
+          account: '666666666666 (台幣帳戶)',
+          availableCash: 120000,
+          currency: 'nt'
+        },
+        {
+          account: '999999999999 (美金帳戶)',
+          availableCash: 80000,
+          currency: 'usd'
+        }
+      ],
+      selectAccount: '請選擇',
+      radioCurrency: 'nt',
+      radioInfo: 'yes',
+      applyDate: '',
+      todyStamp: '',
+      applyUsd: '',
+      applyNt: '',
+      valid: false
     }
   },
   components: {
@@ -114,7 +156,109 @@ export default {
   mixins: [localStorageApply],
   mounted () {
     goTop()
-    console.log(this.applyItem)
+    this.todyStamp = new Date().getTime()
+    this.applyDate = this.$filters.toFormalDate(new Date().getTime())
+  },
+  methods: {
+    // toResultSection () {
+    //   const domTitleResult = this.$refs.titleResult
+    //   const titleOffsetTop = domTitleResult.offsetTop
+    //   window.scrollTo({
+    //     top: titleOffsetTop,
+    //     behavior: 'smooth'
+    //   })
+    // }
+    deleteApply () {
+      this.selectAccount = '請選擇'
+      this.applyNt = ''
+    },
+    confirmAmount (currency) {
+      this.applyUsd = Number(this.applyUsd)
+      this.applyNt = Number(this.applyNt)
+      if (currency === 'nt') {
+        this.userData.forEach((item) => {
+          if (item.currency === currency) {
+            if (this.applyNt > item.availableCash) {
+              const message = { title: '餘額不足', icon: 'info' }
+              this.sweetAlert(message)
+              // return
+              this.applyNt = ''
+            }
+          }
+        })
+        if (this.applyNt > 0 && this.applyNt < 50000) {
+          const message = { title: '單筆申購金額不得小於台幣5萬元整', icon: 'info' }
+          this.sweetAlert(message)
+          this.applyNt = ''
+        }
+      } else if (currency === 'usd') {
+        this.userData.forEach((item) => {
+          if (item.currency === currency) {
+            if (this.applyUsd > item.availableCash) {
+              const message = { title: '餘額不足', icon: 'info' }
+              this.sweetAlert(message)
+              this.applyUsd = ''
+            }
+          }
+        })
+        if (this.applyUsd > 0 && this.applyUsd < 2000) {
+          const message = { title: '單筆申購金額不得小於美金2仟元整', icon: 'info' }
+          this.sweetAlert(message)
+          this.applyUsd = ''
+        }
+      }
+    },
+    confirmApply () {
+      // https://www.itread01.com/content/1549295292.html
+      if (this.radioInfo === 'no') {
+        const message = { title: '請確認審閱公開說明書', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      if (!this.applyDate) {
+        const message = { title: '請選取下單日期', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      if (this.selectAccount.length < 5) {
+        const message = { title: '請選擇扣款帳號', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      if (!this.applyNt && !this.applyUsd) {
+        const message = { title: '請輸入申購金額', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
+      if (this.radioCurrency === 'nt') {
+        const isCorrectAcc = this.selectAccount.search('台幣') !== -1
+        if (!isCorrectAcc) {
+          const message = { title: '請重新選擇扣款帳號', icon: 'info' }
+          this.sweetAlert(message)
+          return
+        }
+      }
+      if (this.radioCurrency === 'usd') {
+        const isCorrectAcc = this.selectAccount.search('美金') !== -1
+        if (!isCorrectAcc) {
+          const message = { title: '請重新選擇扣款帳號', icon: 'info' }
+          this.sweetAlert(message)
+          return
+        }
+      }
+      const message = { title: '申購成功', icon: 'success' }
+      this.sweetAlert(message)
+      // setTimeout(() => {
+      //   this.$router.push('/')
+      // }, 1000)
+      // if ( typeof this.selectAccount.length )
+      // const selectStamp = this.$filters.toTimeStamp(this.applyDate)
+      // this.todyStamp = new Date().getTime()
+      // if (selectStamp < this.todyStamp) {
+      //   const message = { title: '申購日期須於今日以後10日內', icon: 'info' }
+      //   this.sweetAlert(message)
+      // }
+    }
   }
 
 }

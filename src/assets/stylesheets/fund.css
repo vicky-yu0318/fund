@@ -2492,7 +2492,8 @@ html::-webkit-scrollbar-thumb {
 .section-apply .apply-td .isInfo  span{
     color: red;
 }
-.section-apply .apply-td .radioInfo:last-of-type {
+.section-apply .apply-td .radioInfo:last-of-type,
+.section-apply .apply-td .radioCurrency {
     margin-left: 15px;
 }
 .section-apply .apply-td .apply-date:focus {

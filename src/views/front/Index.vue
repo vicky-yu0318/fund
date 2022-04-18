@@ -185,6 +185,14 @@ export default {
     goTop()
     // const slideLen =
     // console.log(this.$route)
+    // 跑飛入動畫用
+    // const windowHigh = window.innerHeight
+    // const toTopHight = domTitleResult.getBoundingClientRect().y
+    // console.log('物件距離視窗頂:', toTopHight, '視窗固定:', windowHigh)
+    // 如果物件距離視窗頂 < 視窗固定 代表我看到目標物了
+    // if (toTopHight < windowHigh / 1.25) {
+    //   console.log('看到目標物了')
+    // }
   }
 }
 </script>
