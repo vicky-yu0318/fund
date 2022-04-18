@@ -21,7 +21,7 @@
           </div>
           <div class="apply-tr">
             <div class="apply-th">基金名</div>
-            <div class="apply-td">5326 安聯收益成長月收美元</div>
+            <div class="apply-td">{{applyItem.code}} - {{applyItem.fund}}</div>
           </div>
           <div class="apply-tr">
             <div class="apply-th">是否已取得公開說明書</div>
@@ -39,8 +39,10 @@
           <div class="apply-tr">
             <div class="apply-th">基金申購幣別</div>
             <div class="apply-td">
-              <input type="radio" name="getInfo" class="radioInfo" />
-              <div class="isInfo">直接扣<span>美金</span>申購</div>
+              <!-- <template v-if="applyItem.currency !== '台幣'"> -->
+                <input type="radio" name="getInfo" class="radioInfo" v-model="usd" />
+                <div class="isInfo">直接扣<span>美金</span>申購</div>
+              <!-- </template> -->
               <input type="radio" name="getInfo" class="radioInfo" />
               <div class="isInfo">直接扣<span>臺幣</span>申購</div>
             </div>
@@ -96,9 +98,24 @@
 </template>
 <script>
 import Progress from '@/components/Progress.vue'
+import localStorageApply from '@/methods/localStorage-apply.js'
+import goTop from '@/methods/goTop.js'
+
 export default {
+  data () {
+    return {
+      applyItem: this.getApply(),
+      usd: ''
+    }
+  },
   components: {
     Progress
+  },
+  mixins: [localStorageApply],
+  mounted () {
+    goTop()
+    console.log(this.applyItem)
   }
+
 }
 </script>

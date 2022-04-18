@@ -2203,7 +2203,7 @@ html::-webkit-scrollbar-thumb {
         width: 100%;
     }
 }
-/* ========== 404 ========= */
+/* ========== 404  & external ========= */
 .section-error {
     height: 100vh;
     background: url('https://i.ibb.co/ysDdTSH/success-4067990-1920.jpg') no-repeat,
@@ -2220,18 +2220,22 @@ html::-webkit-scrollbar-thumb {
     background-color: rgba(255,255,255,.6);
     border-radius: 5px;
     padding: 20px 30px;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
     text-align: center;
-    position: relative;
-}
-.section-error .content .title {
     color: var(--main-color-active);
 }
-.section-error .content img {
-    position: absolute;
-    bottom: -50%;
-    right: -15%;
+.section-error .btn-back {
+    margin-top: 20px;
+    font-size: 20px;
+    border-radius: 30px;
+    background-color: var(--third-color);
+    color: #fff;
+    padding: 5px 15px;
+    display: inline-block;
+}
+.section-error .btn-back:hover {
+    background-color: var(--third-color-active);
 }
 /* ========== 404 ========= */
 /* ============= RWD ============== */

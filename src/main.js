@@ -38,6 +38,12 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import App from './App.vue'
 import router from './router'
 
+// 加入loading套件
+// import Loading from 'vue3-loading-overlay'
+// import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+
 // 定義驗證規則
 // defineRule('required', required)
 // defineRule('email', email)
@@ -60,6 +66,7 @@ const app = createApp(App)
 app.component('Form', Form)
 app.component('Field', Field)
 app.component('ErrorMessage', ErrorMessage)
+app.component('Loading', Loading)
 app.use(VueAxios, axios)
 
 // jquery啟用

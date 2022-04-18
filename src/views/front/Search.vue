@@ -375,7 +375,7 @@
           <template v-for="(detail, key) in item.asset" :key="detail">
             <li>{{ key }} - {{ detail[0] }}</li>
           </template>
-          <li><a href="javascript:;" class="btn-buy">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
         </ul>
       </div>
 
@@ -573,6 +573,8 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 import fundData from '@/json/fundData.json'
 import localStorage from '@/methods/localStorage.js'
 import localStorageCompare from '@/methods/localStorage-compare.js'
+import localStorageApply from '@/methods/localStorage-apply.js'
+
 // import emitter from '@/methods/eventBus'
 import Highlight from '@/components/Highlight.vue'
 import goTop from '@/methods/goTop.js'
@@ -658,7 +660,7 @@ export default {
     Navbar,
     Highlight
   },
-  mixins: [localStorage, localStorageCompare],
+  mixins: [localStorage, localStorageCompare, localStorageApply],
   watch: {
     conditions: {
       handler (n, o) {
@@ -1484,6 +1486,10 @@ export default {
     },
     toLogin () {
       this.$router.push('/login')
+    },
+    applyFund (apply) {
+      // console.log(apply)
+      // this.updateApply(apply)
     },
     sweetAlert (message) {
       this.$swal(message)
