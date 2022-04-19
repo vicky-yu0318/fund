@@ -42,18 +42,14 @@
   </section>
 </template>
 
-<style lang="scss">
-@import '../assets/stylesheets/fund.css';
-</style>
-
 <script>
 export default {
   data () {
     return {
       user: {
-        userid: 'F123456789',
-        username: 'aa888999',
-        password: 'aa123456789'
+        userid: 'F888888888',
+        username: 'a999',
+        password: 'a666666666'
       },
       showPassword: false
     }
@@ -61,9 +57,9 @@ export default {
   methods: {
     login () {
       const correctData = {
-        userid: 'F123456789',
-        username: 'aa888999',
-        password: 'aa123456789'
+        userid: 'F888888888',
+        username: 'a999',
+        password: 'a666666666'
       }
       if (this.user.userid === correctData.userid &&
         this.user.username === correctData.username &&

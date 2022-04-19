@@ -4,10 +4,6 @@
   <Footer></Footer>
 </template>
 
-<style lang="scss">
-// @import '../assets/stylesheets/fund.css';
-</style>
-
 <script>
 // import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'

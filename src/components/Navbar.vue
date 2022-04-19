@@ -38,7 +38,8 @@ export default {
   data () {
     return {
       isFixTop: false,
-      isActiveList: false
+      isActiveList: false,
+      loginData: this.getUser()
     }
   },
   props: {
@@ -47,38 +48,21 @@ export default {
     }
   },
   methods: {
-    hasClass (element, cls) {
-      return (element.className).indexOf(cls) > -1
-    },
     switchList () {
       if (!this.isActiveList) {
         this.isActiveList = true
       } else {
         this.isActiveList = false
       }
-    //   if (!this.hasClass(this.$refs.refNav, 'activeList')) {
-    //     // 如果沒有+上
-    //     // this.isActiveList = true
-    //     this.$refs.refNav.classList.add('activeList')
-    //   } else {
-    //     // this.isActiveList = false
-    //     // 以hasClass來判斷收闔的，因此不能用狀態。
-    //     this.$refs.refNav.classList.remove('activeList')
-    //   }
     },
-    isShowWindow () {
+    isShowNav () {
       const currentbreakpoint = window.matchMedia('(max-width: 575px)')
       if (currentbreakpoint.matches) {
-        // this.$refs.refNav.classList.remove('activeList')
         this.isActiveList = false
       }
     },
     scrollActive () {
-      this.isShowWindow()
-      // this.$refs.refNav.classList.remove('active')
-      // if (this.hasClass(this.$refs.refNav, 'activeList')) {
-      //   this.$refs.refNav.classList.remove('activeList')
-      // }
+      this.isShowNav()
       this.fixTop()
     },
     fixTop () {
@@ -90,7 +74,6 @@ export default {
       this.notFix()
     },
     notFix () {
-      // https://www.w3schools.com/howto/howto_js_media_queries.asp
       const currentbreakpoint = window.matchMedia('(max-width: 575px)')
       if (currentbreakpoint.matches) { // If media query matches
         this.isFixTop = false
@@ -100,9 +83,20 @@ export default {
       this.$swal(message)
     },
     logout () {
+      this.loginData = ''
+      this.saveLogin(this.loginData)
       const message = { title: '登出成功', icon: 'success' }
       this.sweetAlert(message)
       this.$router.push('/favorite')
+    },
+    // 存檔save:
+    saveLogin (user) {
+      const userString = JSON.stringify(user)
+      localStorage.setItem('loginUser', userString)
+    },
+    getUser () {
+      // 讀檔get:
+      this.loginData = JSON.parse(localStorage.getItem('loginUser'))
     }
   },
   mounted () {

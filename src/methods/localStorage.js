@@ -40,7 +40,6 @@ export default {
         this.myFavoriteGroup.push(fund)
       }
       this.saveFavorite(this.myFavoriteGroup)
-      //  this.emitter.emit('update-favorite')
     },
     deleteFavorite (fund) {
       this.myFavoriteGroup.splice(this.myFavoriteGroup.indexOf(fund), 1)
@@ -52,7 +51,6 @@ export default {
       this.$swal(message)
     }
   },
-  //  inject: ['emitter'],
   watch: {
     myFavoriteGroup: {
       handler () {

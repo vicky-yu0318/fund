@@ -1,12 +1,11 @@
 <template>
-<!-- https://kaychen1994.github.io/2020/08/30/vue-loading/ -->
   <Loading :active="isLoading"
            :is-full-page="fullPage">
-           <!--     樣式包進 loading 元件內     -->
+           <!--樣式包進 loading 元件內-->
            <div class="loadingio-spinner-magnify-ki0t54cccsf"><div class="ldio-gafo7wcq9r4">
           <div><div><div></div><div></div></div></div>
           </div></div>
-          <!--     樣式包進 loading 元件內     -->
+          <!--樣式包進 loading 元件內-->
   </Loading>
   <section class="section-error">
     <div class="container">

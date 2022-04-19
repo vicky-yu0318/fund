@@ -23,7 +23,7 @@ export default {
   },
   mounted () {
     // console.log(this.innertext) 富邦投顧 國泰投信
-    // console.log(this.innertext.indexOf('顧')) 有幾個item 救回傳幾次
+    // console.log(this.innertext.indexOf('顧')) 有幾個item 就回傳幾次
     // console.log(this.innertext.indexOf('顧')) 富邦投顧 => 3; 沒有則回傳-1
     this.filterHighlight(this.innertext, this.innersearch)
   },
@@ -31,9 +31,9 @@ export default {
     filterHighlight (text, search) {
       // 第一步: 處理list
       const textList = text.split('')
-      //   ['投', '顧']
+      // ['投', '顧']
       const list = []
-      //   把字拆開放物件
+      // 把字拆開放物件
       for (let i = 0; i < textList.length; i++) {
         const obj = {
           deep: false,
@@ -53,10 +53,10 @@ export default {
       // 第二步: 處理search的資料
       const searchList = search.split('')
       for (let k = 0; k < searchList.length; k++) {
-        // console.log(searchList) 我搜尋的資料['顧']
+        // console.log(searchList) 搜尋的資料['顧']
         list.forEach((item) => {
           if (item.val === searchList[k]) {
-            // 代表要高亮 判定只有3: {deep: true, val: '顧'}高亮
+            // 判定只有第3個字高亮 {deep: true, val: '顧'}
             item.deep = true
           }
         })

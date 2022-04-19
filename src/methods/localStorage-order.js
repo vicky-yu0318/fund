@@ -9,7 +9,6 @@ export default {
     },
     updateOrder (order) {
       this.saveOrder(order)
-      // console.log(order)
       this.$router.push('/order')
     },
     sweetAlert (message) {

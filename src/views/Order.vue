@@ -1,11 +1,11 @@
 <template>
   <section class="section-bannerOrder">
     <Loading :active="isLoading">
-           <!--     樣式包進 loading 元件內     -->
+           <!-- 樣式包進 loading 元件內-->
            <div class="loadingio-spinner-magnify-ki0t54cccsf"><div class="ldio-gafo7wcq9r4">
           <div><div><div></div><div></div></div></div>
           </div></div>
-          <!--     樣式包進 loading 元件內     -->
+          <!-- 樣式包進 loading 元件內 -->
     </Loading>
     <div class="container">
       <div class="content">
@@ -115,7 +115,7 @@ export default {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  border: 12px solid transparent;
+  border: 12px solid #aaa;
   background: transparent;
 }
 
@@ -123,7 +123,7 @@ export default {
   width: 17px;
   height: 51px;
   transform: rotate(-45deg);
-  background: transparent;
+  background: #aaa;
   border-radius: 0 0 8px 8px;
   position: absolute;
   top: 68px;

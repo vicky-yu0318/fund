@@ -1,6 +1,5 @@
 <script>
 // https://github.com/apertureless/vue-chartjs/issues/488
-// MonthlyChart.vue
 import { defineComponent } from 'vue'
 import { Line } from 'vue3-chart-v2'
 
@@ -27,7 +26,6 @@ export default defineComponent({
   //   }
   // },
   updated () {
-    // console.log(this.chartData)
     this.renderChart(this.chartData, this.chartOptions)
   },
   mounted () {

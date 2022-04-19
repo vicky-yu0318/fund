@@ -1,5 +1,4 @@
 <template>
-  <!-- <router-view v-if="loginData">00</router-view> -->
   <Navbar :currentPage="currentPage"></Navbar>
   <Breadcrumb :currentPage="currentPage"></Breadcrumb>
   <section v-if="loginData"
@@ -69,7 +68,7 @@
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
-                                    <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
+                                    <a href="" class="btn-buy" @click.prevent="updateApply(item)">申購</a>
                                 </div>
                         </div>
                     </template>
@@ -106,26 +105,15 @@
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
-                                    <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
+                                    <a href="" class="btn-buy" @click.prevent="updateApply(item)">申購</a>
                                 </div>
                         </div>
-                        <!-- <div class="btn-goLogin-dark">
-                            <p>若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
-                            <router-link to="/login"
-                            class="btn-goLogin"
-                            >前往網銀</router-link>
-                        </div> -->
                     </template>
                 </div>
             </div>
         </div>
     </section>
-
 </template>
-
-<style lang="scss">
-@import '../assets/stylesheets/fund.css';
-</style>
 
 <script>
 import Favorite from '@/methods/localStorage.js'
@@ -152,7 +140,6 @@ export default {
   mounted () {
     this.loginData = this.getUser()
     goTop()
-    this.compareGroup = this.getCompare() || []
     this.isCompareBtnActive()
   },
   methods: {

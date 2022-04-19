@@ -83,7 +83,6 @@ export default {
   methods: {
     acceptNote () {
       if (!this.checkRead) {
-        // return
         const message = { title: '請閱讀申購須知，充分了解且同意遵守全部內容，並打勾同意', icon: 'info' }
         this.sweetAlert(message)
         return

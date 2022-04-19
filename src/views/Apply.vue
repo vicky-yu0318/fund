@@ -1,11 +1,11 @@
 <template>
   <section class="section-bannerApply" v-if="Object.keys(applyItem).length > 0">
     <Loading :active="isLoading">
-           <!--     樣式包進 loading 元件內     -->
+           <!--樣式包進 loading 元件內-->
            <div class="loadingio-spinner-magnify-ki0t54cccsf"><div class="ldio-gafo7wcq9r4">
           <div><div><div></div><div></div></div></div>
           </div></div>
-          <!--     樣式包進 loading 元件內     -->
+          <!-- 樣式包進 loading 元件內-->
     </Loading>
     <div class="container">
       <div class="content">
@@ -153,7 +153,6 @@ export default {
       radioCurrency: 'nt',
       radioInfo: 'yes',
       applyDate: '',
-      todyStamp: '',
       applyUsd: '',
       applyNt: '',
       isLoading: false,
@@ -167,7 +166,6 @@ export default {
   mixins: [localStorageApply, localStorageOrder],
   mounted () {
     goTop()
-    // this.todyStamp = new Date().getTime()
     this.applyDate = this.$filters.toFormalDate(new Date().getTime())
   },
   methods: {
@@ -182,6 +180,7 @@ export default {
     deleteApply () {
       this.selectAccount = '請選擇'
       this.applyNt = ''
+      this.applyUsd = ''
     },
     confirmAmount (currency) {
       this.applyUsd = Number(this.applyUsd)
@@ -193,7 +192,6 @@ export default {
             if (this.applyNt > item.availableCash) {
               const message = { title: '餘額不足', icon: 'info' }
               this.sweetAlert(message)
-              // return
               this.applyNt = ''
             }
           }
@@ -222,6 +220,11 @@ export default {
       }
     },
     confirmApply () {
+      // var str = "123";
+      // var reg = RegExp(/3/);
+      // if(str.match(reg)){
+      // // 包含
+      // }
       // https://www.itread01.com/content/1549295292.html
       if (this.radioInfo === 'no') {
         const message = { title: '請確認審閱公開說明書', icon: 'info' }
@@ -277,13 +280,6 @@ export default {
         this.radioCurrency === 'nt' ? (this.availableCash - this.applyNt) : (this.availableCash - this.applyUsd)
       }
       this.updateOrder(this.orderData)
-      // if ( typeof this.selectAccount.length )
-      // const selectStamp = this.$filters.toTimeStamp(this.applyDate)
-      // this.todyStamp = new Date().getTime()
-      // if (selectStamp < this.todyStamp) {
-      //   const message = { title: '申購日期須於今日以後10日內', icon: 'info' }
-      //   this.sweetAlert(message)
-      // }
     }
   }
 }

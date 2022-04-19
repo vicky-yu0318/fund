@@ -7,7 +7,7 @@
                 <i class="fa-solid fa-heart"></i>
                 <h2 class="main-title">基金觀察名單</h2>
             </div>
-            <p v-if="myFavoriteGroup.length > 0">建議您登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅觀察2筆，且該清單無法與網路銀行同步。</p>
+            <p v-if="myFavoriteGroup.length > 0">建議您登入網路銀行，即可永久儲存觀察清單。 若未登入，最多僅能觀察2筆。</p>
             <div class="block-btn-more" v-if="myFavoriteGroup.length > 0">
                 <router-link to="/search" class="btn-more-fund">加入更多基金觀察</router-link>
                 <router-link to="/login" class="btn-goLogin">前往網銀</router-link>
@@ -138,7 +138,6 @@ export default {
     Navbar,
     Breadcrumb
   },
-  // 裡面有2個以上方法，無法像goTop() 直接運行，要mixins
   mixins: [Favorite, Compare, localStorageApply],
   mounted () {
     goTop()
@@ -151,19 +150,11 @@ export default {
         this.myFavoriteGroup.forEach((favorite) => {
           if (JSON.stringify(compare) === JSON.stringify(favorite)) {
             this.ActiveCompareGroup.push(favorite)
-            // favorite 和 compare是不同的物件(雖然內容一樣)
+            // favorite 和 compare 是不同的物件(雖然內容一樣)
           }
         })
       })
     }
-    // 不能直接在畫面寫原因，不會v-for畫面呈現後才跑function?
-    // sure (sure) {
-    //   this.compareGroup.forEach((compare) => {
-    //     if (JSON.stringify(compare) === JSON.stringify(sure)) {
-    //       return true
-    //     }
-    //   })
-    // }
   }
 }
 </script>

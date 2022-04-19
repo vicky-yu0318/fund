@@ -62,9 +62,9 @@
             <Swiper class="service-slider swiper"
               :pagination="{ clickable: true }"
               :breakpoints="swiperOptions.breakpoints"
-                :autoplay="{ autoplay: true,
-                             disableOnInteraction: false,
-                             stopOnLastSlide: false}"
+              :autoplay="{  autoplay: true,
+                            disableOnInteraction: false,
+                            stopOnLastSlide: false}"
               loop
               :centeredSlides="true"
               >
@@ -145,25 +145,18 @@ export default {
         {
           title: '開啟投資第一步',
           subtitle: '開始比研究更重要，超低門檻快速上手',
-          // https://upload.cc/i1/2022/04/14/UaXn2H.png
-          // https://upload.cc/i1/2022/04/07/HeLgPK.png
           imageSrc: 'https://i.ibb.co/d4kXz5F/002.png',
           content: '活動期間數位通路申購首選基金，享申購手續費6折優惠'
         },
         {
           title: '共同基金',
           subtitle: '攜手成長，安全有保障',
-          // https://i.ibb.co/hZD6mvg/pad-1.png
-          // https://upload.cc/i1/2022/04/04/diAtjQ.png
-          // https://i.ibb.co/Vjsfhnb/final.png
-          // https://i.ibb.co/bzM9NJ9/pad-2.png
           imageSrc: 'https://i.ibb.co/1XkppKN/final0.png',
           content: '共同基金因資金龐大，可有計劃的分散投資。擁有智能團隊專業的判斷，提高投資勝算。'
         }
       ],
       currentIndex: 0,
       slideLen: ''
-      //  slideLen: this.indexSlide.length一載入的時候讀不到，先後順序原理
     }
   },
   components: {
@@ -182,16 +175,6 @@ export default {
   },
   mounted () {
     goTop()
-    // const slideLen =
-    // console.log(this.$route)
-    // 跑飛入動畫用
-    // const windowHigh = window.innerHeight
-    // const toTopHight = domTitleResult.getBoundingClientRect().y
-    // console.log('物件距離視窗頂:', toTopHight, '視窗固定:', windowHigh)
-    // 如果物件距離視窗頂 < 視窗固定 代表我看到目標物了
-    // if (toTopHight < windowHigh / 1.25) {
-    //   console.log('看到目標物了')
-    // }
   }
 }
 </script>
