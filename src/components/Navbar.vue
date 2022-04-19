@@ -6,7 +6,9 @@
         <h1 class="sr-only">playfund</h1>
       </a>
       <nav class="navbar" :class="{ active: isFixTop, activeList: isActiveList}"
-        ref="refNav">
+        ref="refNav" v-if="currentPage === 'favorite'||currentPage === 'compare'
+        ||currentPage === '/' || currentPage === 'login' || currentPage === 'search' ||
+        currentPage === 'memberFavorite'">
         <div class="container">
           <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
           <router-link to="/compare">

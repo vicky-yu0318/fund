@@ -1,4 +1,5 @@
 <template>
+  <Navbar :currentPage="currentPage"></Navbar>
   <section class="section-bannerApply" v-if="Object.keys(applyItem).length > 0">
     <Loading :active="isLoading">
            <!--樣式包進 loading 元件內-->
@@ -128,6 +129,7 @@
 </template>
 <script>
 import Progress from '@/components/Progress.vue'
+import Navbar from '@/components/Navbar.vue'
 import localStorageApply from '@/methods/localStorage-apply.js'
 import localStorageOrder from '@/methods/localStorage-order.js'
 import goTop from '@/methods/goTop.js'
@@ -135,6 +137,7 @@ import goTop from '@/methods/goTop.js'
 export default {
   data () {
     return {
+      currentPage: this.$route.name,
       currentProgress: this.$route.name,
       applyItem: this.getApply(),
       userData: [
@@ -161,7 +164,8 @@ export default {
     }
   },
   components: {
-    Progress
+    Progress,
+    Navbar
   },
   mixins: [localStorageApply, localStorageOrder],
   mounted () {
@@ -169,14 +173,6 @@ export default {
     this.applyDate = this.$filters.toFormalDate(new Date().getTime())
   },
   methods: {
-    // toResultSection () {
-    //   const domTitleResult = this.$refs.titleResult
-    //   const titleOffsetTop = domTitleResult.offsetTop
-    //   window.scrollTo({
-    //     top: titleOffsetTop,
-    //     behavior: 'smooth'
-    //   })
-    // }
     deleteApply () {
       this.selectAccount = '請選擇'
       this.applyNt = ''

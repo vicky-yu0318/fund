@@ -485,7 +485,7 @@ html::-webkit-scrollbar-thumb {
 .section-home .home-slider .slide .content span {
     font-size: 30px;
     font-weight: 600;
-    color: var(--strong-color);
+    color: #ddd;
     text-shadow: 0 5px 10px  rgba(0,0,0,.1);
 }
 .section-home .home-slider .slide .content h3 {

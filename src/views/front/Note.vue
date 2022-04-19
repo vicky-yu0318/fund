@@ -1,4 +1,5 @@
 <template>
+  <Navbar :currentPage="currentPage"></Navbar>
   <Progress :currentProgress="currentProgress"></Progress>
   <section class="section-notes">
     <div class="container">
@@ -63,22 +64,30 @@
       </div>
       <div class="block-btn">
         <div class="btn" @click="acceptNote">接受</div>
-        <div class="btn btn-accept">不接受</div>
+        <router-link to="search" class="btn btn-accept">不接受</router-link>
       </div>
     </div>
   </section>
 </template>
 <script>
 import Progress from '@/components/Progress.vue'
+import Navbar from '@/components/Navbar.vue'
+import goTop from '@/methods/goTop.js'
+
 export default {
   data () {
     return {
+      currentPage: this.$route.name,
       currentProgress: this.$route.name,
       checkRead: ''
     }
   },
   components: {
-    Progress
+    Progress,
+    Navbar
+  },
+  mounted () {
+    goTop()
   },
   methods: {
     acceptNote () {

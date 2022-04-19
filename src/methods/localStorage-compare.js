@@ -13,7 +13,7 @@ export default {
     },
     getCompare () {
       // 讀檔get:
-      return JSON.parse(localStorage.getItem('fundCompare'))
+      return JSON.parse(localStorage.getItem('fundCompare')) || []
     },
     isShowWindow () {
       const currentbreakpoint = window.matchMedia('(max-width: 575px)')

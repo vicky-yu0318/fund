@@ -144,7 +144,7 @@ export default {
       indexSlide: [
         {
           title: '開啟投資第一步',
-          subtitle: '開始比研究更重要，超低門檻快速上手',
+          subtitle: '開始比研究更重要',
           imageSrc: 'https://i.ibb.co/d4kXz5F/002.png',
           content: '活動期間數位通路申購首選基金，享申購手續費6折優惠'
         },
@@ -178,8 +178,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-  .footer::before {
-    background-color: #ede4ee;
-  }
-</style>

@@ -22,15 +22,30 @@ const routes = [
         name: 'favorite'
       },
       {
+        name: 'apply',
+        path: '/apply',
+        component: () => import('@/views/front/Apply.vue')
+      },
+      {
+        name: 'note',
+        path: '/note',
+        component: () => import('@/views/front/Note.vue')
+      },
+      {
+        name: 'order',
+        path: '/order',
+        component: () => import('@/views/front/Order.vue')
+      },
+      {
+        path: '/memberFavorite',
+        name: 'memberFavorite',
+        component: () => import('@/views/front/MemberFavorite.vue')
+      },
+      {
         path: '',
         component: () => import('@/views/front/Index.vue')
       }
     ]
-  },
-  {
-    path: '/memberFavorite',
-    name: 'memberFavorite',
-    component: () => import('@/views/MemberFavorite.vue')
   },
   {
     path: '/login',
@@ -43,21 +58,6 @@ const routes = [
   {
     path: '/external',
     component: () => import('@/views/External.vue')
-  },
-  {
-    name: 'apply',
-    path: '/apply',
-    component: () => import('@/views/Apply.vue')
-  },
-  {
-    name: 'note',
-    path: '/note',
-    component: () => import('@/views/Note.vue')
-  },
-  {
-    name: 'order',
-    path: '/order',
-    component: () => import('@/views/Order.vue')
   }
 ]
 

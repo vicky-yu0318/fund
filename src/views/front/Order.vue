@@ -1,4 +1,5 @@
 <template>
+  <Navbar :currentPage="currentPage"></Navbar>
   <section class="section-bannerOrder">
     <Loading :active="isLoading">
            <!-- 樣式包進 loading 元件內-->
@@ -60,20 +61,27 @@
 </template>
 <script>
 import Progress from '@/components/Progress.vue'
+import Navbar from '@/components/Navbar.vue'
 import localStorageOrder from '@/methods/localStorage-order.js'
+import goTop from '@/methods/goTop.js'
 
 export default {
   data () {
     return {
+      currentPage: this.$route.name,
       currentProgress: this.$route.name,
       orderData: this.getOrder(),
       isLoading: false
     }
   },
   components: {
-    Progress
+    Progress,
+    Navbar
   },
   mixins: [localStorageOrder],
+  mounted () {
+    goTop()
+  },
   methods: {
     backHome () {
       setTimeout(() => {

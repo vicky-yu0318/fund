@@ -141,7 +141,6 @@ export default {
   mixins: [Favorite, Compare, localStorageApply],
   mounted () {
     goTop()
-    this.compareGroup = this.getCompare() || []
     this.isCompareBtnActive()
   },
   methods: {

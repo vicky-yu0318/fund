@@ -48,3 +48,10 @@
         </div>
     </footer>
 </template>
+<style scoped>
+  /* 除非在畫面寫，但就必須props判定在哪個路由 */
+  /* :style="{'background-color': ' #ede4ee'}" */
+  .footer::before {
+    background-color: #ede4ee;
+  }
+</style>
