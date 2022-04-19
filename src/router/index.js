@@ -7,23 +7,9 @@ const routes = [
     name: 'index',
     children: [
       {
-        path: '/pra',
-        component: () => import('@/views/front/Pra.vue'),
-        name: 'pra'
-      },
-      {
-        path: '/dynamic',
-        component: () => import('@/views/front/Dynamic.vue'),
-        name: 'dynamic'
-      },
-      {
         path: '/search',
         component: () => import('@/views/front/Search.vue'),
         name: 'search'
-      },
-      {
-        path: '/container',
-        component: () => import('@/views/front/Container.vue')
       },
       {
         path: '/compare',
@@ -36,10 +22,6 @@ const routes = [
         name: 'favorite'
       },
       {
-        path: '/mainchart',
-        component: () => import('@/views/front/mainchart.vue')
-      },
-      {
         path: '',
         component: () => import('@/views/front/Index.vue')
       }
@@ -48,19 +30,7 @@ const routes = [
   {
     path: '/memberFavorite',
     name: 'memberFavorite',
-    component: () => import('@/views/MemberFavorite.vue'),
-    children: [
-      {
-        path: 'products',
-        name: 'dashboardProducts',
-        component: () => import('@/views/admin/DashboardProducts')
-      },
-      {
-        path: 'orders',
-        name: 'dashboardOrders',
-        component: () => import('@/views/admin/DashboardOrders')
-      }
-    ]
+    component: () => import('@/views/MemberFavorite.vue')
   },
   {
     path: '/login',

@@ -21,9 +21,6 @@ export default {
     currentPage: {
       required: true
     }
-  },
-  mounted () {
-    // console.log(this.currentPage)
   }
 }
 </script>

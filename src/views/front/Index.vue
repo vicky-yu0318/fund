@@ -19,7 +19,6 @@
             </div>
 
             <div id="home-slide-next" class="fas fa-angle-right" @click="nextPage"
-            :class="{hover: showNextBtn}"
             ></div>
             <div id="home-slide-prev" class="fas fa-angle-left" @click="prePage"
               ></div>
