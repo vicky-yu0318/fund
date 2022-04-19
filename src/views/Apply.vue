@@ -72,7 +72,7 @@
           <div class="apply-tr">
             <div class="apply-th">日期</div>
             <div class="apply-td">
-              <input type="date" class="apply-date" v-model="applyDate"/>
+              <input type="date" class="apply-date" v-model="applyDate" disabled/>
             </div>
           </div>
           <div class="apply-tr">
@@ -129,6 +129,7 @@
 <script>
 import Progress from '@/components/Progress.vue'
 import localStorageApply from '@/methods/localStorage-apply.js'
+import localStorageOrder from '@/methods/localStorage-order.js'
 import goTop from '@/methods/goTop.js'
 
 export default {
@@ -155,13 +156,15 @@ export default {
       todyStamp: '',
       applyUsd: '',
       applyNt: '',
-      isLoading: false
+      isLoading: false,
+      availableCash: '',
+      orderData: {}
     }
   },
   components: {
     Progress
   },
-  mixins: [localStorageApply],
+  mixins: [localStorageApply, localStorageOrder],
   mounted () {
     goTop()
     // this.todyStamp = new Date().getTime()
@@ -186,6 +189,7 @@ export default {
       if (currency === 'nt') {
         this.userData.forEach((item) => {
           if (item.currency === currency) {
+            this.availableCash = Number(item.availableCash)
             if (this.applyNt > item.availableCash) {
               const message = { title: '餘額不足', icon: 'info' }
               this.sweetAlert(message)
@@ -202,6 +206,7 @@ export default {
       } else if (currency === 'usd') {
         this.userData.forEach((item) => {
           if (item.currency === currency) {
+            this.availableCash = Number(item.availableCash)
             if (this.applyUsd > item.availableCash) {
               const message = { title: '餘額不足', icon: 'info' }
               this.sweetAlert(message)
@@ -259,9 +264,19 @@ export default {
       setTimeout(() => {
         this.isLoading = true
       }, 1500)
-      setTimeout(() => {
-        this.$router.push('/')
-      }, 2500)
+      this.orderData = {
+        project: '線上下單享6折',
+        fund: this.applyItem.fund,
+        code: this.applyItem.code,
+        currency: this.radioCurrency === 'nt' ? '台幣' : '美金',
+        date: this.applyDate,
+        account: this.selectAccount,
+        amountUsd: this.applyUsd,
+        amountNt: this.applyNt,
+        availableCash:
+        this.radioCurrency === 'nt' ? (this.availableCash - this.applyNt) : (this.availableCash - this.applyUsd)
+      }
+      this.updateOrder(this.orderData)
       // if ( typeof this.selectAccount.length )
       // const selectStamp = this.$filters.toTimeStamp(this.applyDate)
       // this.todyStamp = new Date().getTime()

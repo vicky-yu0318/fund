@@ -2570,7 +2570,8 @@ html::-webkit-scrollbar-thumb {
 /* ============== section-notes ============== */
 .section-notes {
     background-color: rgb(155, 129, 174, .15);
-    min-height: calc(100vh - 190px);
+    padding-top: 25px;
+    min-height: calc(100vh - 235px);
 }
 .section-notes .scroll-bg {
     background-color: #fff;

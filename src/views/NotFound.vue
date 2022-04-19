@@ -12,7 +12,7 @@
     <div class="container">
       <div class="content">
         <p class="title">親，你要看的頁面好像不在呢</p>
-        <p>趕緊返回首頁選定基金掏金去 </p>
+        <p>趕緊返回首頁選定基金淘金去 </p>
         <router-link to="/" class="btn-back">返回首頁</router-link>
       </div>
     </div>
