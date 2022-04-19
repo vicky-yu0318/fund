@@ -205,7 +205,7 @@ html::-webkit-scrollbar-thumb {
     height: 70px;
     background-color: var(--main-color);
     position: relative;
-    z-index: 10;
+    z-index: 1000;
 }
 .header .container {
     position: relative;

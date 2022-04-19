@@ -25,7 +25,7 @@
                     <li v-for="item in compareGroup" :key="item">
                         <h3>{{ item.fund }}</h3>
                         <div class="btn-block">
-                            <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
+                            <a href="" class="btn-buy" @click.prevent="updateApply(item)">申購</a>
                         </div>
                         <div class="btn-delete  fas fa-times"
                         @click="updateCompare(item)"></div>
@@ -39,7 +39,7 @@
                     <li v-for="item in compareGroup" :key="item">
                         <h3>{{ item.fund }}</h3>
                         <div class="btn-block">
-                            <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
+                            <a href="" class="btn-buy" @click.prevent="updateApply(item)">申購</a>
                         </div>
                         <div class="btn-delete  fas fa-times"
                         @click="updateCompare(item)"></div>
@@ -54,7 +54,7 @@
                     <li v-for="item in compareGroup" :key="item">
                         <h3>{{ item.fund }}</h3>
                         <div class="btn-block">
-                            <a href="" class="btn-buy">申購</a>
+                            <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
                         </div>
                         <div class="btn-delete  fas fa-times"
                         @click="updateCompare(item)"></div>

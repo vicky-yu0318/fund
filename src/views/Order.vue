@@ -81,7 +81,7 @@ export default {
       }, 1000)
       setTimeout(() => {
         this.$router.push('/')
-      }, 3000)
+      }, 2500)
     }
   }
 }
