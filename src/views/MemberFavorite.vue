@@ -106,7 +106,7 @@
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
-                                    <a href="" class="btn-buy">申購</a>
+                                    <a href="" class="btn-buy" @click="updateApply(item)">申購</a>
                                 </div>
                         </div>
                         <!-- <div class="btn-goLogin-dark">
@@ -133,6 +133,7 @@ import Compare from '@/methods/localStorage-compare.js'
 import goTop from '@/methods/goTop.js'
 import Navbar from '@/components/Navbar.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import localStorageApply from '@/methods/localStorage-apply.js'
 
 export default {
   data () {
@@ -147,7 +148,7 @@ export default {
     Navbar,
     Breadcrumb
   },
-  mixins: [Favorite, Compare],
+  mixins: [Favorite, Compare, localStorageApply],
   mounted () {
     this.loginData = this.getUser()
     goTop()

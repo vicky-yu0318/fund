@@ -10,8 +10,8 @@
     <div class="container">
       <div class="content">
         <p>親，頁尾連結都是像我一樣的畫面喔 !</p>
-        <p>趕緊返回首頁選定基金淘金去 </p>
-        <router-link to="/" class="btn-back">回首頁</router-link>
+        <p>趕緊返回主頁選定基金淘金去 </p>
+        <router-link to="/search" class="btn-back">選定基金</router-link>
       </div>
     </div>
   </section>

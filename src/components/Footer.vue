@@ -6,7 +6,7 @@
                     <a href="" class="logo fa-solid fa-filter-circle-dollar">
                         Fund <h2 class="sr-only">playfund </h2>
                     </a>
-                    <p>Lorem. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia, quis.</p>
+                    <p class="idea">安心金控旗下各子公司共同分享的核心價值，亦即「誠信、創新、親切、專業」，並惕勵每位安心同仁時刻將四大核心價值實現在日常工作中。</p>
                 </div>
                 <div class="col">
                     <h3>相關企業 <div class="underline"> <span></span> </div> </h3>

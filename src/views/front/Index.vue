@@ -73,20 +73,20 @@
                       >
                         <img src="https://upload.cc/i1/2022/04/04/JyBMX0.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">定期不定額</h3>
+                            <h3 class="title">定期不定額，提高勝率</h3>
                             <p>投資策略採「自由設定」，全方位滿足不同市場行情需求，客觀判斷加減碼，避免因人為主觀判斷錯失投資機會。</p>
                             <div class="block-btn">
-                                <a href="" class="btn">了解更多</a>
+                                <a href="javascript:;" class="btn">了解更多</a>
                             </div>
                         </div>
                     </SwiperSlide>
                     <SwiperSlide class="slide swiper-slide">
                         <img src="https://upload.cc/i1/2022/04/04/HYvNwJ.jpg" alt="">
                         <div class="content">
-                            <h3 class="title">最佳智能團</h3>
+                            <h3 class="title">最佳智能團，安心不費力</h3>
                             <p>為不同投資類型投資人精準配置需求；智能團依據市場趨勢、基金績效嚴選每月首選基金，滿足各種投資需求</p>
                             <div class="block-btn">
-                                <a href="" class="btn">了解更多</a>
+                                <a href="javascript:;" class="btn">了解更多</a>
                             </div>
                         </div>
                     </SwiperSlide>
@@ -97,7 +97,7 @@
                             <p>在全球普遍預期通膨影響下，在台灣也可以感受到房價上漲所帶來壓力，不過投資人或許可以把買房的夢想，
                               放在全球不動產投資信託基金(REITs)，更能掌握成長趨勢</p>
                             <div class="block-btn">
-                                <a href="" class="btn">了解更多</a>
+                                <a href="javascript:;" class="btn">了解更多</a>
                             </div>
                         </div>
                     </SwiperSlide>
@@ -107,7 +107,7 @@
                             <h3 class="title">第一次買基金就上手</h3>
                             <p>基金是一項普及的投資標的，對於剛開始投資基金的人來說，除了要有第一筆資金外，也應該做好心理準備與認知，才能正式步上投資理財的道路。</p>
                             <div class="block-btn">
-                                <a href="" class="btn">了解更多</a>
+                                <a href="javascript:;" class="btn">了解更多</a>
                             </div>
                         </div>
                     </SwiperSlide>

@@ -61,7 +61,7 @@
                 <div class="isInfo">直接扣<span>臺幣</span>申購</div>
                 <input type="radio" name="currency" class="radioCurrency" value="usd"
                   v-model="radioCurrency"/>
-                <div class="isInfo">直接扣<span>美金</span>申購</div>
+                <div class="isInfo">直接扣<span>美元</span>申購</div>
               </template>
             </div>
           </div>
@@ -86,7 +86,7 @@
               </select>
               <template v-for="user in userData" :key="user">
                 <span class="remark" v-if="selectAccount === user.account"
-                >可投資餘額： {{user.currency === 'usd' ? '美金' : '台幣'}}
+                >可投資餘額： {{user.currency === 'usd' ? '美元' : '台幣'}}
                 {{ $filters.toCurrency(user.availableCash) }}</span>
               </template>
             </div>
@@ -94,12 +94,12 @@
           <div class="apply-tr">
             <div class="apply-th">申購金額</div>
             <div class="apply-td">
-              <!-- 選美金 -->
+              <!-- 選美元 -->
               <template v-if="radioCurrency === 'usd'">
                 <img src="https://upload.cc/i1/2022/04/17/xFMocp.png"/>
                 <input type="number" class="applyAmount" min="2000"
                 v-model="applyUsd" @blur="confirmAmount('usd')"/>
-                <span class="remark">(最低申購限額為「美金2,000.00元」)</span>
+                <span class="remark">(最低申購限額為「美元2,000.00元」)</span>
               </template>
               <!-- 選台幣 -->
               <template v-if="radioCurrency === 'nt'">
@@ -144,8 +144,8 @@ export default {
           currency: 'nt'
         },
         {
-          account: '999999999999 (美金帳戶)',
-          availableCash: 80000,
+          account: '999999999999 (美元帳戶)',
+          availableCash: 7000,
           currency: 'usd'
         }
       ],
@@ -215,7 +215,7 @@ export default {
           }
         })
         if (this.applyUsd > 0 && this.applyUsd < 2000) {
-          const message = { title: '單筆申購金額不得小於美金2仟元整', icon: 'info' }
+          const message = { title: '單筆申購金額不得小於美元2仟元整', icon: 'info' }
           this.sweetAlert(message)
           this.applyUsd = ''
         }
@@ -252,7 +252,7 @@ export default {
         }
       }
       if (this.radioCurrency === 'usd') {
-        const isCorrectAcc = this.selectAccount.search('美金') !== -1
+        const isCorrectAcc = this.selectAccount.search('美元') !== -1
         if (!isCorrectAcc) {
           const message = { title: '請重新選擇扣款帳號', icon: 'info' }
           this.sweetAlert(message)
@@ -268,7 +268,7 @@ export default {
         project: '線上下單享6折',
         fund: this.applyItem.fund,
         code: this.applyItem.code,
-        currency: this.radioCurrency === 'nt' ? '台幣' : '美金',
+        currency: this.radioCurrency === 'nt' ? '台幣' : '美元',
         date: this.applyDate,
         account: this.selectAccount,
         amountUsd: this.applyUsd,

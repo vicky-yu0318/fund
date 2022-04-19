@@ -1688,6 +1688,7 @@ html::-webkit-scrollbar-thumb {
     font-size: 20px;
     /* 不能下在tr  分別於th td下*/
     padding: 15px 0; 
+    color: var(--main-color-active);
 }
 .section-compare .accordion-body .compare-td {
     border-left: 1px solid var(--light-color);
@@ -2078,6 +2079,10 @@ html::-webkit-scrollbar-thumb {
     font-size: 30px;
     letter-spacing: 5px;
 }
+.footer .idea {
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
 .footer .col h3 {
     padding-bottom: 20px;
     width: fit-content;
@@ -2228,6 +2233,9 @@ html::-webkit-scrollbar-thumb {
     font-weight: 600;
     text-align: center;
     color: var(--main-color-active);
+}
+.section-error .content p {
+    letter-spacing: 3px;
 }
 .section-error .btn-back {
     margin-top: 20px;

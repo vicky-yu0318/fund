@@ -1119,7 +1119,7 @@ export default {
         if (this.currentAsset === asset) {
           const index = this.chooseAssetGroup.indexOf(asset)
           this.chooseAssetGroup.splice(index, 1)
-          console.log(this.chooseAssetGroup)
+          // console.log(this.chooseAssetGroup)
         }
       })
       // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)

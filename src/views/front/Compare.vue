@@ -341,6 +341,7 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 import goTop from '@/methods/goTop.js'
 import emitter from '@/methods/eventBus'
 import Compare from '@/methods/localStorage-compare.js'
+import localStorageApply from '@/methods/localStorage-apply.js'
 // 匯入圖表
 import { defineComponent } from 'vue'
 import LineChart from '@/components/chart/Line.vue'
@@ -381,7 +382,7 @@ export default defineComponent({
   //         }
   //       }
   //     }
-  mixins: [Compare],
+  mixins: [Compare, localStorageApply],
   //   compareGroup: [
   //     {
   //       fund: '富蘭克林基金',

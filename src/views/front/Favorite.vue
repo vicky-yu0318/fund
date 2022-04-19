@@ -124,6 +124,7 @@ import Compare from '@/methods/localStorage-compare.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import goTop from '@/methods/goTop.js'
 import Navbar from '@/components/Navbar.vue'
+import localStorageApply from '@/methods/localStorage-apply.js'
 
 export default {
   data () {
@@ -138,7 +139,7 @@ export default {
     Breadcrumb
   },
   // 裡面有2個以上方法，無法像goTop() 直接運行，要mixins
-  mixins: [Favorite, Compare],
+  mixins: [Favorite, Compare, localStorageApply],
   mounted () {
     goTop()
     this.compareGroup = this.getCompare() || []
