@@ -8,11 +8,9 @@
         <i class="fas fa-search"></i>
         <h2 class="main-title">基金搜尋</h2>
       </div>
-      <!-- <h2><i class="fas fa-search"></i>基金搜尋</h2> -->
       <div class="searchResult-title" :class="{ active: isFixTop }">
         <div>
-          <span>{{ finalData.size }}</span
-          >個結果
+          <span>{{ finalData.size }}</span>個結果
         </div>
         <a class="btn" @click="toResultSection">查看搜尋結果</a>
         <div class="btn" @click="resetAllConditons">重設所有條件</div>
@@ -32,19 +30,15 @@
               @input="searchFundValue"
               @keyup.enter="addFundCondition"
             />
-            <!-- keyup的觸發=> 於input 非button -->
-            <!-- 裡面要輸入任何資料 & 資料相似才會出現清單 -->
             <ul
               class="match-list"
-              v-if="matchList.length > 0 && isMatchList && keyword"
+              v-if="matchList.length > 0 && showMatchList && keyword"
             >
               <li
                 class="match-item"
-                @click="chooseFundCondition(item)"
+                @click="pitchOnFund(item)"
                 v-for="item in matchList" :key="item"
               >
-                <!-- <div class="code">{{ item.code }}-</div> -->
-                <!-- <div class="name">{{ item.fund }}</div> -->
                 <Highlight :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Highlight>
               </li>
             </ul>
@@ -54,38 +48,34 @@
             id="btn-searchFund"
             @click="addFundCondition"
           ></div>
-          <!-- addFundCondition於搜尋按鈕和input都有綁定 -->
         </div>
       </div>
       <div class="row">
         <div class="title">基金公司</div>
         <div class="content">
-          <!-- 顯示全部 -->
-          <!-- v-if="isCompanyMore" -->
+          <!-- 以下 為顯示全部版 -->
           <div class="keyword-wrap keyword-wrap-company" v-if="isCompanyMore" >
             <div class="input-field">
               <input
                 type="text"
                 placeholder="請輸入基金公司關鍵字"
                 v-model="companyKeyword"
-                @input="searchValue"
+                @input="searchCompanyValue"
+                @keyup.enter="addCompanyCondition"
               />
-               <!-- @keyup.enter="addCompanyCondition" -->
-              <ul class="match-list active"
+              <ul class="match-list"
                 v-if="matchCompanyList.length > 0 && companyKeyword && showCompanyList">
                 <li class="match-item match-item-company"
                   v-for="(item, i) in matchCompanyList" :key="item" :data-index="i"
                   @click="pitchOnCompany(item)"
                   >
-                  <!-- <div class="name">{{ item }}</div> -->
                   <Highlight :innertext="item" :innersearch="companyKeyword"></Highlight>
                 </li>
               </ul>
             </div>
             <div
               class="fas fa-search btn-searchFund"
-              @click="addCompanyCondition"
-          ></div>
+              @click="addCompanyCondition"></div>
           </div>
           <div class="btn-choose-group"
              v-if="isCompanyMore">
@@ -94,13 +84,13 @@
               v-for="item in companyCategory"
               :key="item"
               @click="updateCompanyCondition(item)"
-              :class="{ active: chooseCompanyItems.includes(item) }"
+              :class="{ active: chooseCompanyGroup.includes(item) }"
             >
               <i class="fas fa-star"></i> {{ item }}
             </div>
           </div>
-          <!-- 顯示全部 -->
-          <!-- 簡約版 -->
+          <!-- 以上 為顯示全部版 -->
+          <!-- 以下 為簡約版 -->
           <div class="btn-choose-group btn-choose-group-company" v-if="!isCompanyMore">
             <div
               class="btn-choose"
@@ -108,14 +98,13 @@
               :key="item"
               @click="updateCompanyCondition(item)"
               :class="{
-                active:
-                  chooseCompanyItems.includes(item) && fixConditions.has(item)
+                active: chooseCompanyGroup.includes(item) && fixConditions.has(item)
               }"
             >
               <i class="fas fa-star"></i> {{ item }}
             </div>
           </div>
-          <!-- 簡約版 -->
+          <!-- 以上 為簡約版 -->
         </div>
         <div class="btn-more" @click="isCompanyMore = !isCompanyMore">
           更多基金公司
@@ -135,7 +124,6 @@
           </div>
           <div class="btn-choose-group">
             <template v-for="item in assetCategory" :key="item">
-                <!-- conditions.asset[currentAsset].length > 0 -->
               <div
                 class="btn-choose"
                 v-if="currentAsset === item || !isAssetOption"
@@ -146,11 +134,11 @@
                 @click="addAssetCondition(item)"
               >
                 {{ item }}
-                <!-- || assetButtonActive -->
               </div>
             </template>
           </div>
           <div class="detail-check" v-if="showAssetDetail">
+            <!-- 區別每個"全部"按鈕 -->
             <!-- <template v-for="item in assetCategory" :key="item"> -->
               <label v-if="currentAsset === '大宗商品'">
                 <input
@@ -159,8 +147,6 @@
                   v-model="allcheck1"
                   @click="checkAllAsset"
                 />
-                {{ allcheck1 }}
-                <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
                 <span>全部</span>
               </label>
               <label v-if="currentAsset === '新興市場股票'">
@@ -170,7 +156,6 @@
                   v-model="allcheck2"
                   @click="checkAllAsset"
                 />
-                {{ allcheck2 }}
                 <span>全部 </span>
               </label>
               <label v-if="currentAsset === '高收益債'">
@@ -180,11 +165,10 @@
                   v-model="allcheck3"
                   @click="checkAllAsset"
                 />
-                {{ allcheck3 }}
                 <!-- :checked="checkDetailLen === currentAssetdetailLen && !isDetailStatus" -->
                 <span>全部</span>
               </label>
-            <!-- </template> -->
+            <!-- </template>  刪除某主類全細項，全主類全細項都會被刪除-->
             <!-- <label v-for="item in AssetDetailSet" :key="item">
               <input type="checkbox" :value="item" v-model="checkDetailGroup" />
               <span>{{ item }}</span>
@@ -254,7 +238,7 @@
               @click="updateCurrencyCondition(item)"
               :class="{
                 active:
-                  chooseCurrencyItems.includes(item) && fixConditions.has(item)
+                  chooseCurrencyGroup.includes(item) && fixConditions.has(item)
               }"
             >
               {{ item }}
@@ -287,7 +271,7 @@
             @mouseover="hoverRating(item)"
             @click="clickRating(item)"
           ></i>
-          <p class="rating-remark" v-if="isRatingRemark">
+          <p class="rating-remark" v-if="showRatingRemark">
             <span>{{ currentRating }}</span
             >顆星以上
           </p>
@@ -375,7 +359,7 @@
           <template v-for="(detail, key) in item.asset" :key="detail">
             <li>{{ key }} - {{ detail[0] }}</li>
           </template>
-          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click.prevent="updateApply(item)">申購</a></li>
         </ul>
       </div>
 
@@ -418,7 +402,7 @@
           <li>{{ $filters.toPercent(item.performance.one_year) }}</li>
           <li>{{ $filters.toPercent(item.performance.three_year) }}</li>
           <li>{{ $filters.toPercent(item.performance.establishToNow) }}</li>
-          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click.prevent="updateApply(item)">申購</a></li>
         </ul>
       </div>
 
@@ -455,7 +439,7 @@
           <li>{{ item.rating }}</li>
           <li>{{ item.risk }}</li>
           <li>{{ item.scaleMillion }}</li>
-          <li><a href="javascript:;" class="btn-buy" @click="updateApply(item)">申購</a></li>
+          <li><a href="javascript:;" class="btn-buy" @click.prevent="updateApply(item)">申購</a></li>
         </ul>
       </div>
     </div>
@@ -568,14 +552,10 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
-// 如果不是vue檔，不用componensts 直接放入data就可以使用
-// https://www.796t.com/post/MWI1eGs=.html
 import fundData from '@/json/fundData.json'
 import localStorage from '@/methods/localStorage.js'
 import localStorageCompare from '@/methods/localStorage-compare.js'
 import localStorageApply from '@/methods/localStorage-apply.js'
-
-// import emitter from '@/methods/eventBus'
 import Highlight from '@/components/Highlight.vue'
 import goTop from '@/methods/goTop.js'
 
@@ -592,9 +572,10 @@ export default {
       companyKeyword: '',
       matchList: [],
       matchCompanyList: [],
-      isMatchList: false,
+      showMatchList: false,
       showCompanyList: false,
       tempCondition: {},
+      tempCompanyCondition: {},
       conditions: {
         fund: [],
         company: [],
@@ -608,36 +589,24 @@ export default {
       assetCategory: [],
       aDetailCategory: {},
       currencyCategory: [],
-      chooseCompanyItems: [],
-      chooseCurrencyItems: [],
-      isCompanyMore: false,
-      tempCompanyCondition: {},
-      rating: '',
-      isRatingRemark: false,
-      currentRating: '',
-      isSearchFund: '',
+      chooseCompanyGroup: [],
+      chooseCurrencyGroup: [],
       chooseAssetGroup: [],
-      isAssetAll: true,
-      isAssetNew: true,
+      isCompanyMore: false,
+      rating: '',
+      showRatingRemark: false,
+      currentRating: '',
       isRating: false,
+      beforeStarSring: '',
+      isShowratingDesription: false,
       currentAsset: '',
       AssetDetailSet: '',
-      assetOptionItems: [],
       assetDetailCategories: {},
       showAssetDetail: false,
       isAssetOption: false,
       assetTempObj: {},
-      isfirstCheckDetail: '',
-      showAllDetail: [],
-      chooseSingleDetailGroup: '',
-      secondClickAssetGroup: [],
-      beforeStarSring: '',
-      isShowratingDesription: false,
       compareGroup: [],
-      showCompareBody: true,
-      showFavoriteBody: true,
       myFavoriteGroup: [],
-      compareStatus: '',
       isFixTop: false,
       currentSearchCatagory: 'basic',
       showUpperBody: '',
@@ -645,12 +614,6 @@ export default {
       checkDetailGroup1: [],
       checkDetailGroup2: [],
       checkDetailGroup3: [],
-      allChooseAsset: '',
-      tempDetail: [],
-      checkDetailLen: '',
-      currentAssetdetailLen: '',
-      isDetailStatus: '',
-      cancel: '',
       assetButtonActive: '',
       showCurrentDetail: []
     }
@@ -707,20 +670,9 @@ export default {
   },
   methods: {
     updateDetail () {
-      // 待改
-      this.fixConditions.delete(`${this.currentAsset}`)
-      // console.log('delete')
-      // 畫面-狀態- 點選單選 不是全部，就算選取全部的細項，全選也不能勾起
       // 資料- 刪除- 主類- fixConditions
-      // this.fixConditions.delete(this.currentAsset)做此會影響上方console.log
+      this.fixConditions.delete(`${this.currentAsset}`)
       // 資料- 刪除 / 新增- fixConditions
-      // X this.tempgroup1.forEach((temp) => {
-      //   this.fixConditions.delete(temp)
-      // })
-      // X this.checkDetailGroup3.forEach((detail) => {
-      //   this.fixConditions.add(detail)
-      //   this.tempgroup3.push(detail)
-      // })
       this.AssetDetailSet.forEach((del) => {
         this.fixConditions.delete(`${del}`)
       })
@@ -733,15 +685,11 @@ export default {
       this.checkDetailGroup3.forEach((detail) => {
         this.fixConditions.add(detail)
       })
-      // console.log(this.fixConditions)
-      // 資料- 刪除- Conditions 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
-      // console.log(this.conditions)
+      // 資料- 刪除- conditions 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
       delete this.conditions.asset[this.currentAsset]
-      // console.log(this.conditions)
-      // OK資料- 新增- Conditions
+      // 資料- 新增- conditions
       if (this.currentAsset === '大宗商品') {
         this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup1]
-        // console.log(this.conditions.asset[this.currentAsset])
       }
       if (this.currentAsset === '新興市場股票') {
         this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup2]
@@ -749,70 +697,45 @@ export default {
       if (this.currentAsset === '高收益債') {
         this.conditions.asset[this.currentAsset] = [...this.checkDetailGroup3]
       }
-      // console.log(this.conditions)
-      // 畫面- 用資料控制畫面 判定全部是否勾選
-      // if (this.conditions.asset[this.currentAsset]) {
-      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-      //   this.currentAssetdetailLen = this.AssetDetailSet.size
-      // }
-      // 判斷主資產是否加上class
-      this.AssetDetailSet.forEach((item) => {
-        if (this.fixConditions.has(item)) {
-          this.assetButtonActive = true
-        } else {
-          this.assetButtonActive = false
-        }
-      })
+      // 畫面- 判斷主類按鈕是否加上class
+      // this.AssetDetailSet.forEach((item) => {
+      //   if (this.fixConditions.has(item)) {
+      //     this.assetButtonActive = true
+      //   } else {
+      //     this.assetButtonActive = false
+      //   }
+      // })
     },
-    enterData () {
-      // https://morecoke.coderbridge.io/2021/03/28/js-input-%E4%BA%8B%E4%BB%B6/
-      this.matchList = this.funds.filter((fund) => {
-        return fund.code.match(this.keyword) || fund.fund.match(this.keyword)
-      })
-      if (this.matchList.length > 0) {
-        this.isMatchList = true
-      }
-    },
+    // enterData () {
+    // this.matchList = this.funds.filter((fund) => {
+    //     return fund.code.match(this.keyword) || fund.fund.match(this.keyword)
+    //   })
+    //   if (this.matchList.length > 0) {
+    //     this.showMatchList = true
+    //   }
+    // },
     searchFundValue (e) {
       if (this.keyword) {
-        // 若有輸入內容觸發 (出現類似(過濾)內容的陣列)
+        // 若有輸入內容觸發 (出現(過濾)陣列)
         this.matchList = []
         const arr = []
-        // 以下是拿funds資料 (fund/.cokek)
+        // 以下是拿funds資料 (fund/code)
         for (let i = 0; i < this.funds.length; i++) {
           if ((this.funds[i].fund.indexOf(this.keyword) > -1) || (this.funds[i].code.indexOf(this.keyword) > -1)) {
             arr.push(this.funds[i])
           }
         }
         this.matchList = arr
-        this.isMatchList = true
-        // console.log(this.matchList)
-        // {fund: '富蘭克林基金', company: '富邦投顧', code: '00400000', asset: {…}, currency: '台幣', …}
+        this.showMatchList = true
       } else {
         // 沒輸入資料 => 清空
         this.matchList = []
       }
     },
-    enterCompanyData () {
-      this.matchCompanyList = this.companyCategory.filter((cate) => {
-        return cate.match(this.companyKeyword)
-      })
-      // 打開list
-      if (this.matchCompanyList.length > 0) {
-        this.showCompanyList = true
-      }
-    },
-    searchValue (e) {
+    searchCompanyValue (e) {
       if (this.companyKeyword) {
-        // 若有輸入內容觸發 (出現類似(過濾)內容的陣列)
         this.matchCompanyList = []
         const arr = []
-        // 以下是拿funds資料
-        // for (let i = 0; i < this.funds.length; i++) {
-        //   if (this.funds[i].company.indexOf(this.companyKeyword) > -1) {
-        //     arr.push(this.funds[i])
-        //   }
-        // }
         // 以下是拿分類好的company資料
         for (let i = 0; i < this.companyCategory.length; i++) {
           if (this.companyCategory[i].indexOf(this.companyKeyword) > -1) {
@@ -821,46 +744,36 @@ export default {
         }
         this.matchCompanyList = arr
         this.showCompanyList = true
-        // console.log(this.matchCompanyList)
-        // {fund: '富蘭克林基金', company: '富邦投顧', code: '00400000', asset: {…}, currency: '台幣', …}
       } else {
-        // 沒輸入資料 => 清空
         this.matchCompanyList = []
       }
     },
-    chooseFundCondition (item) {
+    pitchOnFund (item) {
       this.keyword = item.code
-      this.isMatchList = false
+      this.showMatchList = false
       this.tempCondition = item
     },
-    chooseCompanyCondition (item) {
-      this.companyKeyword = item
-      this.showCompanyList = false
-    },
     pitchOnCompany (item) {
-      // const index = e.currentTarget.dataset.index
-      // console.log({ title: `Selected: ${this.matchCompanyList[index]}`, icon: 'none' })
-      // {title: 'Selected: 富邦投顧', icon: 'none'}
       this.companyKeyword = item
-      // console.log(this.companyKeyword)
       this.showCompanyList = false
     },
     addFundCondition () {
-      this.isSearchFund = ''
       if (this.keyword === '') {
         const message = { title: '請輸入基金名稱/代號', icon: 'info' }
         this.sweetAlert(message)
         return
       }
-      // 如果input裡面的值有符合資料庫的fund值
+      // 如果keyword裡面的值有符合資料庫的fund值
       this.funds.forEach((item) => {
         if (item.code === this.keyword || item.fund === this.keyword) {
-          // 如果條件內已有這基金，就不新增了 (不用透過includes set陣列已經達成)
+          // 如果條件內已有這基金，就不新增了 (不用透過includes set)
           // if (this.fixConditions.includes(item.fund)) {
           this.conditions.fund.push(this.tempCondition.fund)
           // console.log(this.conditions)
           this.keyword = ''
-          this.prepareFundCondition()
+          this.conditions.fund.forEach((item) => {
+            this.fixConditions.add(item)
+          })
         }
       })
     },
@@ -1182,7 +1095,7 @@ export default {
           // 刪除 最終條件
           this.conditions.rating = ''
           // 刪除 畫面 (不能直接於畫面做 單顆星星 動態active  因為他在fixCondition內)
-          this.isRatingRemark = false
+          this.showRatingRemark = false
           const domRatingStars = this.$refs.ratingStar
           domRatingStars.forEach((domRatingStar) => {
             domRatingStar.classList.remove('active')
@@ -1260,10 +1173,10 @@ export default {
     },
     updateCompanyCondition (item) {
       // ▲ 狀況一：原本就有在條件中 (-- 刪除)
-      if (this.chooseCompanyItems.includes(item)) {
+      if (this.chooseCompanyGroup.includes(item)) {
         // 畫面- active 轉換
-        const companyIndex = this.chooseCompanyItems.indexOf(item)
-        this.chooseCompanyItems.splice(companyIndex, 1)
+        const companyIndex = this.chooseCompanyGroup.indexOf(item)
+        this.chooseCompanyGroup.splice(companyIndex, 1)
         // 資料- fix陣列刪除
         // Array.from(this.fixConditions)
         // https://www.html.cn/qa/javascript/10339.html  set轉arry
@@ -1272,22 +1185,22 @@ export default {
         arry.splice(fixConditionIndex, 1)
         this.fixConditions = new Set(arry)
         // 資料- 刪除conditions
-        this.conditions.company = this.chooseCompanyItems
+        this.conditions.company = this.chooseCompanyGroup
       } else {
         // ▲ 狀況二： 新增
         // 畫面-
-        this.chooseCompanyItems.push(item)
+        this.chooseCompanyGroup.push(item)
         // 資料- 將陣列塞入conditions的company屬性值 (!!一整包最新的基金公司推到此屬性)
-        this.conditions.company = this.chooseCompanyItems
+        this.conditions.company = this.chooseCompanyGroup
         // 資料- 將公司名稱一個一個塞入fixConditions
         this.fixConditions.add(item)
       }
     },
     updateCurrencyCondition (item) {
       // 狀況一: 尚未按過
-      if (!this.chooseCurrencyItems.includes(item)) {
+      if (!this.chooseCurrencyGroup.includes(item)) {
         // 畫面- active
-        this.chooseCurrencyItems.push(item)
+        this.chooseCurrencyGroup.push(item)
         // 新增- fixConditions
         this.fixConditions.add(item)
         // 新增- conditions
@@ -1295,21 +1208,14 @@ export default {
       } else {
         // 狀況二: 先前按過
         // 畫面- active取消
-        const index = this.chooseCurrencyItems.indexOf(item)
-        this.chooseCurrencyItems.splice(index, 1)
+        const index = this.chooseCurrencyGroup.indexOf(item)
+        this.chooseCurrencyGroup.splice(index, 1)
         // 刪除- fixConditions
         this.fixConditions.delete(item)
         // 刪除- conditions
         const conditionIndex = this.conditions.currency.indexOf(item)
         this.conditions.currency.splice(conditionIndex, 1)
       }
-    },
-    prepareFundCondition () {
-      // 有找到才會給找到狀態
-      this.isSearchFund = true
-      this.conditions.fund.forEach((item) => {
-        this.fixConditions.add(item)
-      })
     },
     hoverRating (item) {
       if (!this.isRating) {
@@ -1360,7 +1266,7 @@ export default {
         //   domRatingStars[domRatingStar.__vnode.key - 1].classList.add('active')
         // }
       })
-      this.isRatingRemark = true
+      this.showRatingRemark = true
       // 因為此顯示範圍不在v-for內，需另外將變數值放於data，再取用
       this.currentRating = item
       // (1) 刪除 最終條件
@@ -1424,7 +1330,7 @@ export default {
     },
     resetAllConditons () {
       this.fixConditions = new Set()
-      this.isRatingRemark = false
+      this.showRatingRemark = false
       const domRatingStars = this.$refs.ratingStar
       domRatingStars.forEach((domRatingStar) => {
         domRatingStar.classList.remove('active')
@@ -1497,7 +1403,7 @@ export default {
     // (1) const setTemp = new Set() 如果初始化data資料宣告空值，這就直接賦予即可
     // (2) 因為沒有像finalData可放 watch，直接於mounted設定
     this.fixConditions = new Set()
-    this.chooseSingleDetailGroup = new Set()
+    // this.chooseSingleDetailGroup = new Set()
   }
 }
 // slice好文
