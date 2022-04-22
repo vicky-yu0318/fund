@@ -29,6 +29,7 @@
               v-model="keyword"
               @input="searchFundValue"
               @keyup.enter="addFundCondition"
+              @blur="matchList = false"
             />
             <ul
               class="match-list"
@@ -62,6 +63,7 @@
                 v-model="companyKeyword"
                 @input="searchCompanyValue"
                 @keyup.enter="addCompanyCondition"
+                @blur="matchCompanyList = false"
               />
               <ul class="match-list"
                 v-if="matchCompanyList.length > 0 && companyKeyword && showCompanyList">
