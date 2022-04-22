@@ -5,18 +5,21 @@
         Fund
         <h1 class="sr-only">playfund</h1>
       </a>
-      <nav class="navbar" :class="{ active: isFixTop, activeList: isActiveList}"
-        ref="refNav" v-if="currentPage === 'favorite'||currentPage === 'compare'
-        ||currentPage === '/' || currentPage === 'login' || currentPage === 'search' ||
-        currentPage === 'memberFavorite'">
-        <div class="container">
-          <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
-          <router-link to="/compare">
-            <i class="fa-solid fa-arrow-up-wide-short"></i> 基金比較表</router-link>
-          >
-          <router-link to="/favorite"> <i class="fas fa-heart"></i> 基金觀察清單</router-link>
-        </div>
-      </nav>
+      <template v-if="currentPage === 'favorite'||currentPage === 'compare'
+          ||currentPage === '/' || currentPage === 'login' || currentPage === 'search' ||
+          currentPage === 'memberFavorite'">
+        <nav class="navbar" :class="{ active: isFixTop, activeList: isActiveList}"
+          ref="refNav" >
+          <div class="container">
+            <router-link to="/search"> <i class="fas fa-search"></i> 基金搜尋</router-link>
+            <router-link to="/compare">
+              <i class="fa-solid fa-arrow-up-wide-short"></i> 基金比較表</router-link>
+            >
+            <router-link to="/favorite"> <i class="fas fa-heart"></i> 基金觀察清單</router-link>
+          </div>
+        </nav>
+        <div class="fas fa-bars btn-hamburger" @click="switchList"></div>
+      </template>
 
       <template v-if="currentPage === 'favorite'">
         <router-link to="/login" class="btn-login btn" >登入網銀</router-link>
@@ -25,7 +28,6 @@
         <div class="btn-login btn" @click="logout">登出</div>
       </template>
 
-      <div class="fas fa-bars btn-hamburger" @click="switchList"></div>
     </div>
     <div class="assistant" v-if="currentPage !== '/'">
       <div class="remark" > 安心基金智能客服，有問題可以隨時找我 </div>

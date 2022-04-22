@@ -959,39 +959,58 @@ html::-webkit-scrollbar-thumb {
     color: var(--light-color);
 }
 
-.section-searchFund .row .keyword-wrap {
+.section-searchFund .keyword-wrap, 
+.section-searchFund .keyword-wrap-company {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
-.section-searchFund .row .keyword-wrap input {
+.section-searchFund .keyword-wrap .input-field {
+    position: relative;
+}
+.section-searchFund .keyword-wrap input {
     padding: 13px;
     outline: none;
     border: 1px solid var(--light-color);
     border-radius: 5px;
     font-size: 20px;
 }
-.section-searchFund .row .keyword-wrap .input-field {
-    position: relative;
-}
-
-.section-searchFund .row .keyword-wrap input::placeholder {
+.section-searchFund .keyword-wrap input::placeholder,
+.section-searchFund .keyword-wrap-comp input::placeholder {
     color: var(--light-color);
 }
-.section-searchFund .row .keyword-wrap input:focus::placeholder {
+.section-searchFund .keyword-wrap input:focus::placeholder,
+.section-searchFund .keyword-wrap-company input:focus::placeholder {
     color: #000;
 }
-.section-searchFund .row .keyword-wrap input:focus {
+.section-searchFund .keyword-wrap input:focus,
+.section-searchFund .keyword-wrap-company input:focus{
     border-color: var(--side-color);
 }
-.section-searchFund .row .keyword-wrap .match-list {
-    padding-left: 0;
+.section-searchFund .keyword-wrap .match-list,
+.section-searchFund .keyword-wrap-company .match-list  {
     position: absolute;
-    /* right: 0; left: 0; */
+    right: 0; left: 0;
     border: 1px solid var(--side-color);
     z-index: 100;
     background-color: #fff;
 }
+/* ============== */
+.section-searchFund .keyword-wrap-company {
+    padding-bottom: 10px;
+}
+.section-searchFund .keyword-wrap-company .input-field {
+    position: relative;
+}
+.section-searchFund .keyword-wrap-company input {
+    padding: 13px;
+    outline: none;
+    border: 1px solid var(--light-color);
+    border-radius: 5px;
+    font-size: 20px;
+}
+/* =============== */
+
 .section-searchFund .match-item {
     display: flex;
     padding: 5px 10px;
@@ -1007,7 +1026,7 @@ html::-webkit-scrollbar-thumb {
 .section-searchFund .match-item .code span {
     color: var(--third-color);
 }
-.section-searchFund .row .keyword-wrap .btn-searchFund {
+.section-searchFund .btn-searchFund {
     color: #fff;
     font-size: 20px;
     background-color: var(--third-color);
@@ -1016,7 +1035,7 @@ html::-webkit-scrollbar-thumb {
     cursor: pointer;
     margin-left: 10px;
 }
-.section-searchFund .row .keyword-wrap .btn-searchFund:hover {
+.section-searchFund .btn-searchFund:hover {
     background-color: var(--third-color-active);
 }
 
@@ -1066,10 +1085,6 @@ html::-webkit-scrollbar-thumb {
     cursor: pointer;
     font-weight: 600;
     color: var(--side-color);
-}
-/* 個別調整 */
-.section-searchFund .row .keyword-wrap.keyword-wrap-company .match-list {
-   position: static;
 }
 .section-searchFund .asset-block .content .btn-choose-group {
     display: inline-block;
@@ -1148,23 +1163,21 @@ html::-webkit-scrollbar-thumb {
     padding: 5px 8px;
     margin-left: 5px;
   }
-  .section-searchFund .row .keyword-wrap input {
-    padding: 6px;
-    font-size: 18px;
+  /* ========== */
+ .section-searchFund .keyword-wrap-company .input-field {
+    width: 70%;
   }
-  .section-searchFund .row .keyword-wrap input::placeholder {
+  .section-searchFund .keyword-wrap-company input {
+    padding: 13px 6px;
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  /* ============= */
+  .section-searchFund .keyword-wrap input::placeholder,
+  .section-searchFund .keyword-wrap-comp input::placeholder {
     font-size: 17px;
   }
-  /* 基金公司搜尋 */
-  .keyword-wrap.keyword-wrap-company .input-field {
-    width: 68%;
-  }
-  .section-searchFund .keyword-wrap.keyword-wrap-company  input {
-    width: 100%;
-  }
-  .section-searchFund .row .keyword-wrap.keyword-wrap-company .btn-searchFund  {
-    margin-left: 25px;
-  } 
 }
 
 /* =========== section-searchResult =========== */
@@ -2283,6 +2296,7 @@ html::-webkit-scrollbar-thumb {
 /* ======= section-progressbar =========== */
 .section-progressbar {
     background-color: #eee;
+    padding: 60px 0 60px;
 }
 .section-progressbar .progressbar {
     display: flex;
@@ -2389,6 +2403,9 @@ html::-webkit-scrollbar-thumb {
     }
 }
 @media (max-width: 575px) {
+    .section-progressbar {
+        padding: 50px 0 15px;
+    }
     /* 文字 */
     .section-progressbar .progressbar li {
         font-size: 15px;

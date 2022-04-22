@@ -1,5 +1,5 @@
 <template>
-  <section class="section section section-progressbar" id="section-progressbar">
+  <section class="section-progressbar" id="section-progressbar">
     <div class="container">
       <ul class="progressbar">
         <li class="progressItem" :class="{active: currentProgress === 'note'}" ><span></span>閱讀規定</li>

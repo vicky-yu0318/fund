@@ -54,7 +54,7 @@
         <div class="title">基金公司</div>
         <div class="content">
           <!-- 以下 為顯示全部版 -->
-          <div class="keyword-wrap keyword-wrap-company" v-if="isCompanyMore" >
+          <div class="keyword-wrap-company" v-if="isCompanyMore" >
             <div class="input-field">
               <input
                 type="text"
@@ -129,7 +129,7 @@
                 v-if="currentAsset === item || !isAssetOption"
                 :class="{
                   disabled: showAssetDetail,
-                  active: chooseAssetGroup.includes(item)
+                  active: chooseAssetGroup.includes(item) && fixConditions.has(item)
                 }"
                 @click="addAssetCondition(item)"
               >
@@ -191,9 +191,6 @@
                 <span>{{ item }}</span>
               </label>
             </template>
-            {{ checkDetailGroup1 }}
-            {{ checkDetailGroup2 }}
-            {{ checkDetailGroup3 }}
           </div>
           <!-- <div class="category" v-if="isAssetDetail">
             <template v-for="item in assetCategory" :key="item">
@@ -287,7 +284,7 @@
       </div>
       <div class="search-condition">
         <div class="condition-item" v-for="item in fixConditions" :key="item">
-          {{ item }} <i class="fas fa-times" @click="deleteCondition(item)"></i>
+          {{ item }} <i class="fas fa-times" @click="deleteFixCondition(item)"></i>
         </div>
       </div>
       <!-- 沒搜尋結果 -->
@@ -658,15 +655,15 @@ export default {
         }
       },
       deep: true
-    },
-    finalData: {
-      handler () {
-        if (this.finalData.size === 0) {
-          this.finalData.clear()
-        }
-      },
-      deep: true
     }
+    // finalData: {
+    //   handler () {
+    //     if (this.finalData.size === 0) {
+    //       // this.finalData.clear()
+    //     }
+    //   },
+    //   deep: true
+    // }
   },
   methods: {
     updateDetail () {
@@ -763,28 +760,25 @@ export default {
         this.sweetAlert(message)
         return
       }
-      // 如果keyword裡面的值有符合資料庫的fund值
+      // 如果keyword裡面的值符合資料庫
       this.funds.forEach((item) => {
         if (item.code === this.keyword || item.fund === this.keyword) {
-          // 如果條件內已有這基金，就不新增了 (不用透過includes set)
-          // if (this.fixConditions.includes(item.fund)) {
-          this.conditions.fund.push(this.tempCondition.fund)
-          // console.log(this.conditions)
-          this.keyword = ''
-          this.conditions.fund.forEach((item) => {
-            this.fixConditions.add(item)
-          })
+          // 如果條件內已有這基金，就不新增condition
+          // 資料- 新增- conditions & fixConditions
+          if (!this.fixConditions.has(item.fund)) {
+            this.conditions.fund.push(this.tempCondition.fund)
+            this.keyword = ''
+            this.fixConditions.add(this.tempCondition.fund)
+          }
         }
       })
     },
     addCompanyCondition () {
-      // console.log(this.companyKeyword)
       if (this.companyKeyword === '') {
         const message = { title: '請輸入您要搜尋的基金公司名稱', icon: 'info' }
         this.sweetAlert(message)
         return
       }
-      // 如果之前有新增就不新增了
       if (this.fixConditions.has(this.companyKeyword)) {
         const message = { title: '先前已加入搜尋條件中', icon: 'info' }
         this.sweetAlert(message)
@@ -798,15 +792,13 @@ export default {
       this.companyKeyword = ''
     },
     addAssetCondition (item) {
-      // OK 畫面- 細項是否呈現
+      // 畫面- 細項是否呈現
       this.showAssetDetail = true
-      // OK 畫面- 資產主類別是否 選擇 (選擇才會讓其他的2個主類消失)
+      // 畫面- 資產主類別是否 已選擇 (選擇才會讓其他的2個主類消失)
       this.isAssetOption = true
-      // OK 判斷- 把現在按的主要資產類別 灌入狀態內(做細項參考)
+      // 判斷- 把現在按的主要資產類別 灌入狀態內(做細項參考)
       this.currentAsset = item
-      // 判斷- 一按主類別，預設選取 所有細項
-      // this.isChooseAllDetail = true
-      // 畫面- 先備好個別資產細項this.AssetDetailSet
+      // 畫面- 先備好個別資產細項
       this.showCurrentDetail = this.assetDetailCategories[this.currentAsset]
       // OK 畫面- 從8隻基金裡面「現在點選的主類別」細項 放在AssetDetailSet中，再顯示在畫面
       this.AssetDetailSet = new Set()
@@ -818,36 +810,34 @@ export default {
           })
         }
       })
-      // OK 畫面- 因為資產類別可複選，使用一個群組包覆，把按過的資產主項目放在群組
-      // (按過就變色，再按無效)
+      // 畫面- 主資產類別可複選，使用一個群組包覆，把按過的資產主項目放在群組
       if (!this.chooseAssetGroup.includes(item)) {
         this.chooseAssetGroup.push(item)
-        // OK 資料- 把主類塞入fix
+        // 資料- 新增- fixConditions
         this.fixConditions.add(item)
-        // console.log(this.fixConditions)
       }
-      // OK 資料- 把主類塞入最終條件式conditions{ asset: {新興市場: [1,2,2,] }
+      // 資料- 新增- conditions
       // assetDetailCategories 為預先整理好的格式 {新興市場: [1,2,2,]; 成熟市場: [1,2,3]}
       const keyAry = Object.keys(this.assetDetailCategories)
       keyAry.forEach((key) => {
         if (key === item) {
           // 只有首次新增 主要資產屬性 需要推細項進去
           if (this.assetTempObj[key] === undefined) {
-            this.assetTempObj[key] = this.assetDetailCategories[key]
+            this.assetTempObj[key] = [...this.assetDetailCategories[key]]
           }
         }
       })
       this.conditions.asset = this.assetTempObj
     },
     checkAllAsset () {
-      // 畫面- 區隔按全選還是 單選
-      // this.isDetailStatus = false
-      // 畫面- 清空所有細項 (觸發深層監聽) ps只能刪此總類的
+      // 畫面- 清空細項(觸發深層監聽) ps只能刪此主類細項
       if (this.currentAsset === '大宗商品') {
         this.checkDetailGroup1 = []
         if (!this.allcheck1) {
+          // true
           this.allCheckTrue()
         } else {
+          // false
           this.allCheckFalse()
         }
       }
@@ -867,153 +857,16 @@ export default {
           this.allCheckFalse()
         }
       }
-      // 判斷主資產是否加上class
-      this.AssetDetailSet.forEach((item) => {
-        if (this.fixConditions.has(item)) {
-          // console.log('fix有')
-          this.assetButtonActive = true
-        } else {
-          this.assetButtonActive = false
-          // console.log('fix沒有')
-        }
-      })
-      // this.checkAllAssetPrepareData()
-      // XXX this.checkDetailGroup = []
-      // const currentDetails = this.assetDetailCategories[this.currentAsset]
-      // this.checkDetailGroup.forEach((check) => {
-      //   currentDetails.forEach((detail) => {
-      //     if (check === detail) {
-      //       console.log('跑第一次')
-      //       const index = this.checkDetailGroup.indexOf(check)
-      //       console.log(index)
-      //       // 為了要跑回圈
-      //       this.fixChangetoAll = true
-      //       console.log('打回來')
-      //       this.checkDetailGroup.splice(index, 1)
-      //       console.log(this.checkDetailGroup)
-      //       this.checkAllAsset()
-      //     } else {
-      //       console.log('end')
-      //     }
-      //   })
-      // })
     },
-    checkAllAssetPrepareData () {
-      // 判斷情境- 預設是"全選" 再按一次，變成"不選"
-      // 先備好個別資產細項this.AssetDetailSet
-      // const currentDetail = this.assetDetailCategories[this.currentAsset]
-      // if (this.conditions.asset[this.currentAsset]) {
-      //   // 細項總數 === 現在加進資料的總數 代表check全選
-      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-      //   this.currentAssetdetailLen = this.AssetDetailSet.size
-      // }
-      // ▲ 狀況1: 全選 (單選改全選 or 全部取消狀況下全選)(資料尚未重跑)
-      // this.checkDetailLen !== this.currentAssetdetailLen || this.cancel
-      if (!this.allcheck1) {
-        this.allCheckTrue()
-        // // console.log(this.currentAsset) 主類的分類都被刪掉 []
-        // // (4) OK新增- fixConditions- 主要類別
-        // // this.fixConditions.add(`${this.currentAsset}`)
-        // // console.log('add')
-        // // 畫面- 主類變色
-        // // this.chooseAssetGroup.push(this.currentAsset)
-        // // (3) OK刪除- fixConditions- 全部單一細項
-        // this.fixConditions.forEach((fix) => {
-        //   currentDetail.forEach((detail) => {
-        //     if (fix === detail) {
-        //       this.fixConditions.delete(fix)
-        //     }
-        //   })
-        // })
-        // // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
-        // this.conditions.asset[this.currentAsset] = []
-        // // (2) OK新增- 最終條件-
-        // this.conditions.asset[this.currentAsset] = currentDetail
-        // this.cancel = false
-      } else {
-        this.allCheckFalse()
-        // console.log('全選取消')
-        // // ▲ 狀況2: 不選全部(取消全選)
-        // // 一樣group 數量0 不會觸發watch
-        // // OK畫面- 把原選擇的主類 顏色拿掉
-        // this.chooseAssetGroup.forEach((asset) => {
-        //   if (this.currentAsset === asset) {
-        //     const index = this.chooseAssetGroup.indexOf(asset)
-        //     this.chooseAssetGroup.splice(index, 1)
-        //   }
-        // })
-        // // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
-        // delete this.conditions.asset[this.currentAsset]
-        // // (2) OK資料- 刪除- fixConditions- 刪除主項
-        // this.fixConditions.forEach((fix) => {
-        //   if (fix === this.currentAsset) {
-        //     this.fixConditions.delete(fix)
-        //   }
-        // })
-        // 取消全選 = checkDetailLen沒資料
-        // this.cancel = true
-      }
-      // 用資料控制畫面 判定全部是否勾選
-      // if (this.conditions.asset[this.currentAsset]) {
-      //   this.checkDetailLen = this.conditions.asset[this.currentAsset].length
-      //   this.currentAssetdetailLen = this.AssetDetailSet.size
-      // }
-      // 畫面- 區隔按全選還是 單選
-      // this.isDetailStatus = true
-    },
-    // XXcheckSingleAssetDetail (item) {
-    //   // console.log(this.chooseSingleDetailGroup)
-    //   // (0) 在畫面上刪除"他是有按全選" 的按鈕樣式
-    //   // console.log(this.showAllDetail)
-    //   // const index = this.showAllDetail.indexOf(this.currentAsset)
-    //   // this.showAllDetail.splice(index, 1)
-    //   // this.isChooseAllDetail = false
-    //   // ▲ 狀況一：勾
-    //   if (!this.chooseSingleDetailGroup.has(item)) {
-    //     // (0) 按過單選後，之後再進來主類非首次
-    //     // this.secondClickAssetGroup.push(this.currentAsset)
-    //     // console.log('按過單選', this.secondClickAssetGroup)
-    //     // (0) 畫面- 新增
-    //     this.chooseSingleDetailGroup.add(item)
-    //     // (1) 資料- 刪除- fixCondtions主類 (this.currentAsset和fix裡的item被系統判定本質不同)
-    //     this.fixConditions.delete(`${this.currentAsset}`)
-    //     // (2) 資料- 新增- fixCondtions
-    //     this.fixConditions.add(item)
-    //     // (3) 資料- 刪除- 最終條件式 全選 (加條件，只有首次 由"全選" 改 "單選"  才要清空conditions)
-    //     // (4) 新增- 最終條件式
-    //     // ▲ 狀況 1.1：勾 - 由全選 => 單選  目標:conditions清空， 改「非全選」狀態
-    //     if (this.isAllStatus) {
-    //       const detailLen = this.assetDetailCategories[this.currentAsset].length
-    //       const currentLen = this.conditions.asset[this.currentAsset].length
-    //       // 等於代表現在是"全選" = 代表首次由全選 轉為 單選
-    //       if (detailLen === currentLen) {
-    //         this.conditions.asset[this.currentAsset] = []
-    //         this.conditions.asset[this.currentAsset].push(item)
-    //         this.isAllStatus = false
-    //       } else {
-    //         // ▲ 狀況 1.2：勾 - 已單選 => 選第2.3個單選  不用清空conditions
-    //         this.conditions.asset[this.currentAsset].push(item)
-    //       }
-    //     } else {
-    //       // ▲ 狀況二：不勾
-    //       // (0) 畫面- 刪除
-    //       this.chooseSingleDetailGroup.delete(item)
-    //       // (1) 刪除- fixCondtions
-    //       this.fixConditions.delete(item)
-    //       // (2) 刪除- 最終條件式
-    //       const conditionIndex = this.conditions.asset[this.currentAsset].indexOf(item)
-    //       this.conditions.asset[this.currentAsset].splice(conditionIndex, 1)
-    //     }
-    //   }
-    // }
     allCheckTrue () {
-      // 畫面- 主類
+      // 畫面- 主類按鈕
       if (!this.chooseAssetGroup.includes(this.currentAsset)) {
         this.chooseAssetGroup.push(this.currentAsset)
       }
       const currentDetail = this.assetDetailCategories[this.currentAsset]
+      // 資料- 新增- fixConditions- 主類
       this.fixConditions.add(`${this.currentAsset}`)
-      // (3) OK刪除- fixConditions- 全部單一細項
+      // 資料- 刪除- fixConditions- 目前 細項
       this.fixConditions.forEach((fix) => {
         currentDetail.forEach((detail) => {
           if (fix === detail) {
@@ -1021,33 +874,32 @@ export default {
           }
         })
       })
-      // (1) OK刪除- 最終條件- 目前按的資產主類(EX: 大宗商品) 全細項
+      // 資料- 刪除- conditions- 目前 細項(1-3個)
       this.conditions.asset[this.currentAsset] = []
-      // (2) OK新增- 最終條件-
+      // 資料- 新增- conditions- 主類(全)
       this.conditions.asset[this.currentAsset] = currentDetail
     },
     allCheckFalse () {
-      // OK畫面- 把原選擇的主類 顏色拿掉
+      // 畫面- 主類按鈕
       this.chooseAssetGroup.forEach((asset) => {
         if (this.currentAsset === asset) {
           const index = this.chooseAssetGroup.indexOf(asset)
           this.chooseAssetGroup.splice(index, 1)
-          // console.log(this.chooseAssetGroup)
         }
       })
-      // (1) OK資料- 刪除- 最終條件- 目前按的資產主類(EX: 大宗商品)  全細項刪除(刪物件)
+      // 資料- 刪除- conditions- 目前 全細項(刪物件)
       delete this.conditions.asset[this.currentAsset]
-      // (2) OK資料- 刪除- fixConditions- 刪除主項
+      // 資料- 刪除- fixConditions- 刪除主項
       this.fixConditions.forEach((fix) => {
         if (fix === this.currentAsset) {
           this.fixConditions.delete(fix)
         }
       })
     },
-    deleteCondition (item) {
-      // 共用 刪除 fixConditions
+    deleteFixCondition (item) {
+      // 共用- 刪除 fixConditions
       this.fixConditions.delete(item)
-      // https://ithelp.ithome.com.tw/articles/10191607
+      // 共用- 刪除 conditions
       if (this.conditions.company.includes(item)) {
         const index = this.conditions.company.indexOf(item)
         this.conditions.company.splice(index, 1)
@@ -1063,38 +915,35 @@ export default {
       if (this.conditions.asset) {
         const obj = this.conditions.asset
         const keyAry = Object.keys(obj)
-        // ['大宗商品', '新興市場股票', '高收益債']
-        // OK 情況一: 條件式裡有現在按刪除 的"主類"，刪除
+        // keyAry = ['大宗商品', '新興市場股票', '高收益債']
+        // 情況一: 條件式裡有現在按刪除 的"主類"，刪除
         if (keyAry.includes(item)) {
           keyAry.forEach((key) => {
             if (key === item) {
               // 刪除條件的屬性
               delete obj[key]
-              this.conditions.asset = obj
+              // this.conditions.asset = obj
             }
           })
         }
         // 情況二： 條件式裡有現在按刪除 的"細項"，刪除
-        // console.log(this.conditions)
-        // conditions 的keyAry => [新興市場, 成熟市場]
         // 如果我按的 item(天然資源股票) 從條件式裡 刪除
         keyAry.forEach((key) => {
           const valueAry = this.conditions.asset[key]
-          if (valueAry.includes(item)) {
+          if (valueAry !== undefined && valueAry.includes(item)) {
             const index = valueAry.indexOf(item)
             valueAry.splice(index, 1)
-            // console.log(valueAry) 剩下[貴金屬股票] 灌回去條件式
-            this.conditions.asset[key] = valueAry
-            // console.log(this.conditions)
+            // this.conditions.asset[key] = valueAry
+            // 剩下[貴金屬股票] 灌回去條件式this.conditions.asset[key] = valueAry
           }
         })
       }
       if (this.conditions.rating) {
         const starString = `${this.conditions.rating}顆星評等`
         if (item === starString) {
-          // 刪除 最終條件
+          // 刪除 conditions
           this.conditions.rating = ''
-          // 刪除 畫面 (不能直接於畫面做 單顆星星 動態active  因為他在fixCondition內)
+          // 刪除 畫面 (不能綁畫面)
           this.showRatingRemark = false
           const domRatingStars = this.$refs.ratingStar
           domRatingStars.forEach((domRatingStar) => {
@@ -1110,15 +959,8 @@ export default {
       })
       this.companyCategory = [...company]
       this.pointCompanyCategory = this.companyCategory.slice(0, 5)
-      // http://www.victsao.com/blog/81-javascript/166-javascript-arr-slice
-      // 取前5個(陣列片段)
-      // 參考: 解決重複
-      // if (!this.conditions.asset[this.currentAsset].includes(item)) {
-      //     this.conditions.asset[this.currentAsset].push(item)
-      //   }
     },
     categoriesAsset () {
-      // 改用別種方式取代set
       this.funds.forEach((item) => {
         const keyAry = Object.keys(item.asset)
         keyAry.forEach((key) => {
@@ -1130,39 +972,25 @@ export default {
       this.categoriesAssetDetail()
     },
     categoriesAssetDetail () {
-      // this.funds.forEach((bb) => {
-      //   console.log(bb.asset)
-      // })
-      // (1) 創資料整理用  物件 assetDetailCategories
-      // 希望格式: {新興市場: [1,2,2,]; 成熟市場: [1,2,3]}
+      // 預期格式: {新興市場: [1,2,2,]; 成熟市場: [1,2,3]}
       const obj = {}
       this.funds.forEach((item) => {
-        // console.log(item.asset)
-        // console.log(Object.keys(item.asset))
         const keyArry = Object.keys(item.asset)
         keyArry.forEach((key) => {
-          // console.log(item.asset[key]) 可看到屬性值
           // 狀況一: 在物件裡第一次新增 屬性
           if (obj[key] === undefined) {
             obj[key] = JSON.parse(JSON.stringify(item.asset[key]))
           } else {
-            // 狀況二: 在物件裡有此屬性了
-            // 細分 (把重複屬性值拿掉)
-            // forEach 裡item (陣列)有傳參考(傳陣列)特性，需要深拷
-            // console.log(obj[key].includes(item.asset[key][0]))
+            // 狀況二: 在物件裡有此屬性了(把重複屬性值拿掉)
+            // funds forEach 裡item (陣列)有傳參特性，需要深拷
             if (!obj[key].includes(item.asset[key][0])) {
               const newAry = JSON.parse(JSON.stringify(item.asset[key]))
               obj[key].push(...newAry)
             }
           }
           this.assetDetailCategories = obj
-          // console.log(this.assetDetailCategories)
         })
       })
-      // 確認傳參考消失
-      // this.funds.forEach((bb) => {
-      //   console.log(bb.asset)
-      // })
     },
     categoriesCurrency () {
       this.funds.forEach((item) => {
@@ -1172,110 +1000,90 @@ export default {
       })
     },
     updateCompanyCondition (item) {
-      // ▲ 狀況一：原本就有在條件中 (-- 刪除)
+      // ▲ 狀況一：原本就有在條件中 (刪除)
       if (this.chooseCompanyGroup.includes(item)) {
         // 畫面- active 轉換
         const companyIndex = this.chooseCompanyGroup.indexOf(item)
         this.chooseCompanyGroup.splice(companyIndex, 1)
-        // 資料- fix陣列刪除
-        // Array.from(this.fixConditions)
-        // https://www.html.cn/qa/javascript/10339.html  set轉arry
-        const arry = [...this.fixConditions]
-        const fixConditionIndex = arry.indexOf(item)
-        arry.splice(fixConditionIndex, 1)
-        this.fixConditions = new Set(arry)
-        // 資料- 刪除conditions
+        // 資料- 刪除- fixConditions
+        this.fixConditions.delete(item)
+        // 資料- 刪除- conditions
         this.conditions.company = this.chooseCompanyGroup
       } else {
         // ▲ 狀況二： 新增
         // 畫面-
         this.chooseCompanyGroup.push(item)
-        // 資料- 將陣列塞入conditions的company屬性值 (!!一整包最新的基金公司推到此屬性)
+        // 資料- 將陣列塞入conditions的company屬性值
         this.conditions.company = this.chooseCompanyGroup
-        // 資料- 將公司名稱一個一個塞入fixConditions
+        // 資料- fixConditions
         this.fixConditions.add(item)
       }
     },
     updateCurrencyCondition (item) {
-      // 狀況一: 尚未按過
+      // ▲ 狀況一: 尚未按過
       if (!this.chooseCurrencyGroup.includes(item)) {
         // 畫面- active
         this.chooseCurrencyGroup.push(item)
-        // 新增- fixConditions
+        // 資料- 新增- fixConditions
         this.fixConditions.add(item)
-        // 新增- conditions
+        // 資料- 新增- conditions
         this.conditions.currency.push(item)
       } else {
-        // 狀況二: 先前按過
+        // ▲ 狀況二: 先前按過
         // 畫面- active取消
         const index = this.chooseCurrencyGroup.indexOf(item)
         this.chooseCurrencyGroup.splice(index, 1)
-        // 刪除- fixConditions
+        // 資料- 刪除- fixConditions
         this.fixConditions.delete(item)
-        // 刪除- conditions
+        // 資料- 刪除- conditions
         const conditionIndex = this.conditions.currency.indexOf(item)
         this.conditions.currency.splice(conditionIndex, 1)
       }
     },
     hoverRating (item) {
       if (!this.isRating) {
-        const ratingStars = document.querySelectorAll('.rating-star')
+        const ratingStars = this.$refs.ratingStar
         ratingStars.forEach((ratingStar, i) => {
           if (item > i) {
             const dom = ratingStars[i]
-            // console.log(ratingStars[-1])
             if (dom !== undefined) {
               dom.classList.add('active')
             }
           }
-          // 在這才加入滑鼠移開的事件監聽，以避免寫在行內(click事件時77需移除)無法移除
-          // ("個別" 於 "dom" 加監聽)
+          // 加入滑鼠移開的事件監聽，以避免寫在行內，會造成之後click事件無法移除(已按，移開卻有mouseout效果)
           ratingStar.addEventListener('mouseout', this.leaveRating)
         })
       }
     },
     leaveRating (item) {
-      const ratingStars = document.querySelectorAll('.rating-star')
+      const ratingStars = this.$refs.ratingStar
       ratingStars.forEach((ratingStar) => {
         ratingStar.classList.remove('active')
       })
     },
     clickRating (item) {
-      // console.log(item)
-      // (3) 刪除 原始 fixConditions 星星評等
-      // console.log(this.beforeStarSring)
+      // 資料- 刪除- fixConditions原始  星星評等
       if (this.beforeStarSring) {
         this.fixConditions.delete(this.beforeStarSring)
       }
-      // this.fixConditions.delete(starSring)
-      // (1) 使用refs取代document.querySelectorAll
-      // (2) 因為這的程式較不單純，因此沒用data 去改變狀態，而是在此使用classList.remove(add)去改變
-      // (3) 以此範例我就無法寫v-for於畫面去跑forEach了
-      // 如果按下click 就給全域一個狀態，不要讓他觸發hover
+      // 畫面-
       this.isRating = true
+      this.showRatingRemark = true
       const domRatingStars = this.$refs.ratingStar
       domRatingStars.forEach((domRatingStar, index) => {
         domRatingStar.removeEventListener('mouseout', this.leaveRating)
-        // 再按一次星星時，會把所有加active的星星拿掉active
         domRatingStar.classList.remove('active')
         if (item > index) {
-          // console.log(domRatingStar)
           domRatingStar.classList.add('active')
         }
-        // if (item >= domRatingStar.__vnode.key) {
-        //   domRatingStars[domRatingStar.__vnode.key - 1].classList.add('active')
-        // }
       })
-      this.showRatingRemark = true
-      // 因為此顯示範圍不在v-for內，需另外將變數值放於data，再取用
       this.currentRating = item
-      // (1) 刪除 最終條件
+      // 資料- 刪除 原始 conditions
       this.conditions.rating = ''
-      // (2) 新增 最終條件
-      const starSring = `${this.currentRating}顆星評等`
+      // 資料- 新增 conditions
       this.conditions.rating = String(this.currentRating)
-      // console.log(typeof (this.conditions.rating))
-      // (4) 新增 fixConditions
+      // 資料- 新增 fixConditions
+      const starSring = `${this.currentRating}顆星評等`
       this.fixConditions.add(starSring)
       this.beforeStarSring = starSring
     },
@@ -1287,24 +1095,17 @@ export default {
     filter () {
       this.finalData = new Set()
       this.finalData.clear()
-      // console.log(this.finalData) 重設=>沒清空。。
       // 每次觸發先清空 (本身是set 就不要用[]清空 否則報錯)
       this.funds.forEach((item) => {
         if (this.conditions.fund.includes(item.fund)) {
           this.finalData.add(item)
         }
-        // 情況 (1)>0 (空值) (2)小於基金群的都要顯示
-        // console.log(this.conditions.rating > 0)
-        // console.log(this.conditions.rating <= item.rating)
         if (
           this.conditions.rating > 0 &&
           this.conditions.rating <= item.rating
         ) {
           this.finalData.add(item)
-          // console.log(this.finalData)
         }
-        // console.log(this.conditions.company) 剛開始是undefined 非陣列
-        // 除非於初始化給空陣列 或 if(this.conditions.company )
         if (this.conditions.company.includes(item.company)) {
           this.finalData.add(item)
         }
@@ -1312,13 +1113,13 @@ export default {
           this.finalData.add(item)
         }
         if (this.conditions.asset) {
-          // (1) 整資料- 把所有條件式 資產明細 放入新創陣列 ['貴金屬股票', '拉丁美洲股票']
+          // 資料- 所有 細項放入新創陣列 ['貴金屬股票', '拉丁美洲股票']
           const detailAry = []
           const keyAry = Object.keys(this.conditions.asset)
           keyAry.forEach((key) => {
             detailAry.push(...this.conditions.asset[key])
           })
-          // (2) 與item內的asset key 內的值比對
+          // 與item內的asset key 內的值比對
           for (const fundkey in item.asset) {
             const fundDetail = item.asset[fundkey][0]
             if (detailAry.includes(fundDetail)) {
@@ -1329,7 +1130,7 @@ export default {
       })
     },
     resetAllConditons () {
-      this.fixConditions = new Set()
+      // 畫面
       this.showRatingRemark = false
       const domRatingStars = this.$refs.ratingStar
       domRatingStars.forEach((domRatingStar) => {
@@ -1337,6 +1138,8 @@ export default {
       })
       // 畫面- 退回主類 選項
       this.backAsset()
+      // 資料
+      this.fixConditions = new Set()
       this.conditions = {
         fund: [],
         company: [],
@@ -1359,36 +1162,14 @@ export default {
         behavior: 'smooth'
       })
     },
-    quantityControl () {
-      if (this.compareGroup.length > 3) {
-        const message = { title: '比較基金不得超過3隻', icon: 'error' }
-        this.sweeAlert(message)
-        this.compareGroup.pop()
-        console.log(this.compareGroup)
-      }
-    },
-    deleteCompare (item) {
-      const index = this.compareGroup.indexOf(item)
-      this.compareGroup.splice(index, 1)
-    },
-    deletemyFavorite (item) {
-      const index = this.myFavoriteGroup.indexOf(item)
-      this.myFavoriteGroup.splice(index, 1)
-    },
-    toComparePage () {
-      // emitter.emit('getSearchData', this.compareGroup)
-      this.$router.push('/compare')
-    },
-    toFavoritePage () {
-      this.$router.push('/favorite')
-    },
-    toLogin () {
-      this.$router.push('/login')
-    },
-    applyFund (apply) {
-      // console.log(apply)
-      // this.updateApply(apply)
-    },
+    // quantityControl () {
+    //   if (this.compareGroup.length > 3) {
+    //     const message = { title: '比較基金不得超過3隻', icon: 'error' }
+    //     this.sweeAlert(message)
+    //     this.compareGroup.pop()
+    //   }
+    // },
+
     sweetAlert (message) {
       this.$swal(message)
     }
@@ -1399,14 +1180,9 @@ export default {
     this.categoriesCompany()
     this.categoriesAsset()
     this.categoriesCurrency()
-    this.filter()
-    // (1) const setTemp = new Set() 如果初始化data資料宣告空值，這就直接賦予即可
-    // (2) 因為沒有像finalData可放 watch，直接於mounted設定
     this.fixConditions = new Set()
-    // this.chooseSingleDetailGroup = new Set()
+    this.finalData = new Set()
+    // 不出始化，finalData就是空值，就不會有空資料畫面
   }
 }
-// slice好文
-// https://medium.com/@bebebobohaha/slice-splice-split-%E5%82%BB%E5%82%BB%E5%88%86%E4%B8%8D%E6%B8%85-46d9c8992729
-// https://blog.csdn.net/weixin_40013817/article/details/103069487 一個觸發，兩件事情；多個觸發
 </script>
