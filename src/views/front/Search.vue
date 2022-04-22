@@ -29,8 +29,8 @@
               v-model="keyword"
               @input="searchFundValue"
               @keyup.enter="addFundCondition"
-              @blur="matchList = false"
             />
+             <!-- @blur="matchList = false" -->
             <ul
               class="match-list"
               v-if="matchList.length > 0 && showMatchList && keyword"
@@ -61,13 +61,14 @@
                 type="text"
                 placeholder="請輸入基金公司關鍵字"
                 v-model="companyKeyword"
+                ref="refMatchFund"
                 @input="searchCompanyValue"
                 @keyup.enter="addCompanyCondition"
-                @blur="matchCompanyList = false"
               />
+               <!-- @blur="matchCompanyList = false" -->
               <ul class="match-list"
                 v-if="matchCompanyList.length > 0 && companyKeyword && showCompanyList">
-                <li class="match-item match-item-company"
+                <li class="match-item match-item-company" ref="refMatchCompany"
                   v-for="(item, i) in matchCompanyList" :key="item" :data-index="i"
                   @click="pitchOnCompany(item)"
                   >
