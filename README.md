@@ -30,6 +30,18 @@
 ### 首頁
 ![Image](https://upload.cc/i1/2022/04/23/svULjc.png)
 
+### 篩選條件
+![Image](https://upload.cc/i1/2022/04/23/DvwJop.png)
+
+### 加入觀察 / 比較清單
+![Image](https://upload.cc/i1/2022/04/23/mu1Gp6.png)
+
+### 比較圖表
+![Image](https://upload.cc/i1/2022/04/23/VQIskp.png)
+
+
+
+
 
 其餘更多細節部分，歡迎至網站觀看 
 (https://vicky-yu0318.github.io/fund/#/)
