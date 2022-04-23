@@ -28,7 +28,7 @@
 - VueSweetalert
 
 ### 首頁
-![Image](https://upload.cc/i1/2022/04/23/mk8BS1.png)
+![Image](https://upload.cc/i1/2022/04/23/svULjc.png)
 
 
 其餘更多細節部分，歡迎至網站觀看 

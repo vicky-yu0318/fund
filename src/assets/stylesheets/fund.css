@@ -762,14 +762,14 @@ html::-webkit-scrollbar-thumb {
 }
 @media (max-width: 575px) {
     .section-topic {
-        margin-top: -45%;
+        margin-top: -30%;
         padding-top: 18%;
     }
     .section-topic::before {
         content: '';
         display: block;
         background-color: #fff;
-        height: 150px;
+        height: 180px;
     }
     .section-topic .item-group .item {
       padding: 10px;   
