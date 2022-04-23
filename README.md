@@ -1,5 +1,10 @@
 # FUND 安心基金
 
+## 設計概念
+
+**色系搭配：**
+<img src="https://upload.cc/i1/2022/04/23/tI6pz4.png" width="350" />
+
 ## 專案說明
 * 網站主要使用 Vue.js 及 Vue Cli 架設而成
 * 加入 ESLint Airbnb 撰寫風格
@@ -21,6 +26,10 @@
 - Vue loading-overlay
 - mitt
 - VueSweetalert
+
+### 首頁
+![Image](https://upload.cc/i1/2022/04/23/mk8BS1.png)
+
 
 其餘更多細節部分，歡迎至網站觀看 
 (https://vicky-yu0318.github.io/fund/#/)

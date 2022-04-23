@@ -24,13 +24,14 @@ h2 {
     /* 紫色#9B81AE */
     /* 銀色#CEB9AC */
     /* 亮銀#EDE4DF */
-    /* 考慮灰aliceblue */
+    /* 灰aliceblue */
     --main-color: #25322B;
     --main-color-active: #4d5853;
     --side-color: #9B81AE;
     --side-color-active: #D0B7CC;
     --side-color-bg: #E8C6E9;
-    --third-color: goldenrod;
+    --third-color: rgb(218, 165, 32);
+    /* goldenrod */
     --third-color-active: rgb(224, 192, 7);
     --light-color: #ccc;
     --transparent-white: rgba(255,255,255,.3);
@@ -241,8 +242,6 @@ html::-webkit-scrollbar-thumb {
     position: fixed;
     right: 0; left: 0;
     top: 0;
-    /* fixed就會依據視窗給予寬，所以不想跟他一樣，就設定max-width */
-    /* max-width: 1200px; */
     margin: auto;
     z-index: 1000;
     background-color: var(--main-color);
@@ -359,7 +358,6 @@ html::-webkit-scrollbar-thumb {
     position: absolute;
     top: 100%;
     clip-path: polygon(0 0, 100% 0%, 100% 0, 0% 0%);
-    /* display: none; 不能用此，因會沒有動畫感*/
     transition: .2s linear;
   }
   /* 把原頁面取消 */
@@ -428,11 +426,9 @@ html::-webkit-scrollbar-thumb {
 .section-home {
     padding-top: 150px;
     padding-bottom: 0;
-    /* 不能用背景顏色，請用漸變取代 */
     background: linear-gradient(to bottom, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .6) 80%),
     url('https://upload.cc/i1/2022/04/04/lCMj2U.jpg') center top no-repeat;
     background-size: cover;
-    /* background-position: bottom; */
     min-height: calc(100vh - 130px);
     position: relative;
     overflow: hidden;
@@ -562,7 +558,6 @@ html::-webkit-scrollbar-thumb {
     color: #fff;
     border-color: var(--main-color);
 }
-/* 碰section-topic 也會出現=> 寫js => mouseover不好用*/ 
 .section-home #home-slide-next.hover,
 .section-home #home-slide-prev.hover {
     background-color: var(--main-color);
@@ -669,15 +664,12 @@ html::-webkit-scrollbar-thumb {
 .section-topic {
     /* transform: translateY(-400px); 會佔位*/
     /* top: -400px; 會佔位*/ 
-    /* margin-top: -350px; rwd就不用調整*/
     margin-top: -18%;
-    /* padding-top: 500px; */
     padding-top: 30%;
     background: url('https://upload.cc/i1/2022/04/07/Nw2pE8.png') no-repeat center top  ,
                 transparent;
     position: relative;
     background-size: 100%;
-    /* size當初切好的 */
     z-index: 2;
 }
 .section-topic .item-group {
@@ -1294,7 +1286,6 @@ html::-webkit-scrollbar-thumb {
 }
 /* 基本資料類別 */
 .section-searchResult .content.basic-content  li {
-    /* width: calc(20% - 1.5px); */
     width: 20%;
 }
 /* 報酬率類別 */
@@ -1605,10 +1596,6 @@ html::-webkit-scrollbar-thumb {
     background-color: var(--main-color);
     color: #fff;
 }
-/* .block-accordion {
-    overflow: hidden;
-} */
-  
 .block-accordion .accordion-header {
     color: var(--main-color);
     font-size: 22px;
@@ -1621,7 +1608,6 @@ html::-webkit-scrollbar-thumb {
     cursor: pointer;
     box-shadow: 0 5px 10px rgba(0,0,0,.08);
     position: relative;
-    /* z-index: 10; */
 }
 /* active header*/
 .block-accordion.active .accordion-header {
@@ -1676,10 +1662,6 @@ html::-webkit-scrollbar-thumb {
     0% {
         opacity: 0;
     }
-    /* 100% {
-        translateY scaleY都不適合
-        transform: translateY(0);
-    } */
 }
 .section-compare .accordion-body .compare-table {
     text-align: center;
@@ -1706,7 +1688,6 @@ html::-webkit-scrollbar-thumb {
 .section-compare .accordion-body .compare-td {
     border-left: 1px solid var(--light-color);
     font-size: 18px;
-    /* padding: 15px 0; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2057,7 +2038,6 @@ html::-webkit-scrollbar-thumb {
     z-index: -1;
 }
 .footer {
-    /* background: linear-gradient(to right, #333d38 , #25322B); */
     background: linear-gradient(to right, #544a5c, #4a3d53 );
     color: #fff;
     padding: 50px 0 30px;
@@ -2136,9 +2116,6 @@ html::-webkit-scrollbar-thumb {
 .footer .col li i {
     padding-right: 10px;
 }
-/* .footer .col li a {
-    cursor: pointer;
-} */
 .footer .col li a:hover {
     color: var(--strong-color);
 }
@@ -2355,7 +2332,6 @@ html::-webkit-scrollbar-thumb {
     color: var(--side-color);
     display: block;
     font-size: 70px;
-    /* text-align: center; */
     margin: auto;
     margin-bottom: 30px;
 }
