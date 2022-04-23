@@ -1,9 +1,11 @@
 # FUND 安心基金
-Demo：[https://vicky-yu0318.github.io/fund/#/](https://vicky-yu0318.github.io/fund/#/))
+Demo：[https://vicky-yu0318.github.io/fund/#/](https://vicky-yu0318.github.io/fund/#/)
 
 
 ## 設計概念
-*創作理念：** 打造平易近人的基金搜尋申購平台， 擺脫人們對於投資感到困難嚴肅的刻板印象， 讓投資也可以很輕鬆!
+**主要風格：** 簡潔、輕鬆、愉悅<br>
+
+**創作理念：** 打造平易近人的基金搜尋申購平台， 擺脫人們對於投資感到困難嚴肅的刻板印象， 讓投資也可以很輕鬆!<br>
 
 **主要風格：** 輕鬆、簡單、質感<br>
 
@@ -57,7 +59,7 @@ Demo：[https://vicky-yu0318.github.io/fund/#/](https://vicky-yu0318.github.io/f
 <br>
 
 ### 基金觀察清單
-![Image](https://upload.cc/i1/2022/04/23/gZfQCE.png)
+![Image](https://upload.cc/i1/2022/04/23/NsZdGl.png)
 
 <br>
 
