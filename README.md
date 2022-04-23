@@ -25,35 +25,40 @@
 - Swiper
 - Vue loading-overlay
 - mitt
-- VueSweetalert
-<br>
+- VueSweetalertg
 
 ### 首頁
 ![Image](https://upload.cc/i1/2022/04/23/svULjc.png)
+
 <br>
 
 
 ### 篩選條件
 ![Image](https://upload.cc/i1/2022/04/23/DvwJop.png)
+
 <br>
 
 
 ### 加入觀察 / 比較清單
 ![Image](https://upload.cc/i1/2022/04/23/0T4KqS.png)
+
 <br>
 
 
 ### 比較圖表
-![Image](https://upload.cc/i1/2022/04/23/VQIskp.png)
+![Image](https://upload.cc/i1/2022/04/23/hgnrz6.png)
+
 <br>
 
 ### 觀察基金清單
-![Image](https://upload.cc/i1/2022/04/23/hDQ537.png)
+![Image](https://upload.cc/i1/2022/04/23/gZfQCE.png)
+
 <br>
 
 
 ### 申購確認
 ![Image](https://upload.cc/i1/2022/04/23/ZkFI0E.png)
+
 <br>
 
 
