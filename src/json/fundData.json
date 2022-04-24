@@ -37,14 +37,14 @@
     "asset": { "新興市場股票": ["拉丁美洲股票"] },
     "currency": "美元",
     "rating": "3",
-    "established": 946656000000,
+    "established": 956556000000,
     "risk": "穩健型",
-    "scaleMillion": 2000,
+    "scaleMillion": 1800,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+       "three_month_year": -0.45,
+        "one_year": -0.25,
+        "three_year": 0.15,
+        "establishToNow": -0.18
     },
     "average_rate_of_return": {
         "April": 0.12,
@@ -54,7 +54,7 @@
         "August": -0.3,
         "September": -0.25,
         "October": 0.15,
-        "November": 0.12,
+        "November": 0.15,
         "December": 0.35,
         "January": 0.12,
         "February": -0.03,
@@ -68,14 +68,14 @@
     "asset": { "高收益債": ["亞洲高收益債"] },
     "currency": "美元",
     "rating": "1",
-    "established": 1577836800000,
+    "established": 1523466800000,
     "risk": "非常積極型",
     "scaleMillion": 950,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+       "three_month_year": 0.13,
+        "one_year": -0.08,
+        "three_year": 0.09,
+        "establishToNow": 0.3
     },
     "average_rate_of_return": {
         "April": 0.12,
@@ -93,20 +93,20 @@
     }
 },
 {
-    "fund": "債券基金",
+    "fund": "玉山亞洲高收益債券基金-NB月配息",
     "company": "玉山投信",
     "code": "00303300",
     "asset": { "高收益債": ["全球/美/歐高收益債"] },
     "currency": "台幣",
     "rating": "1",
-    "established": 1577836800000,
+    "established": 1231171200000,
     "risk": "非常積極型",
-    "scaleMillion": 950,
+    "scaleMillion": 1400,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+       "three_month_year": -0.2,
+        "one_year": 0.25,
+        "three_year": 0.15,
+        "establishToNow": 0.18
     },
     "average_rate_of_return": {
         "April": 0.12,
@@ -124,19 +124,19 @@
     }
 },
 {
-    "fund": "高收益",
-    "company": "國泰投顧",
+    "fund": "富邦黃金及礦業股票型基金",
+    "company": "富邦投顧",
     "code": "00300044",
     "asset": { "大宗商品": ["貴金屬股票"] },
     "currency": "台幣",
-    "rating": "1",
-    "established": 1577836800000,
-    "risk": "非常積極型",
-    "scaleMillion": 950,
+    "rating": "3",
+    "established": 1310566981000,
+    "risk": "積極型",
+    "scaleMillion": 700,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
+       "three_month_year": 0.85,
+        "one_year": 0.5,
+        "three_year": 0.23,
         "establishToNow": 0.2
     },
     "average_rate_of_return": {
@@ -155,20 +155,20 @@
     }
 },
 {
-    "fund": "短年期高",
+    "fund": "國泰全球農業商機基金",
     "company": "國泰投信",
     "code": "00300555",
     "asset": { "大宗商品": ["農產品"] },
     "currency": "美元",
-    "rating": "1",
-    "established": 1577836800000,
-    "risk": "非常積極型",
-    "scaleMillion": 950,
+    "rating": "3",
+    "established": 1366836800000,
+    "risk": "穩健型",
+    "scaleMillion": 1600,
    "performance": {
-       "three_month_year": 0.3,
+       "three_month_year": 0.75,
         "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+        "three_year": 0.12,
+        "establishToNow": 0.03
     },
     "average_rate_of_return": {
         "April": 0.07,
@@ -186,20 +186,20 @@
     }
 },
 {
-    "fund": "美國",
+    "fund": "保德信拉丁美洲基金",
     "company": "中信投顧",
     "code": "00300666",
     "asset": { "新興市場股票": ["拉丁美洲股票"] },
     "currency": "美元",
     "rating": "1",
-    "established": 1577836800000,
+    "established": 1234836800000,
     "risk": "非常積極型",
-    "scaleMillion": 950,
+    "scaleMillion": 1300,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+       "three_month_year": -0.8,
+        "one_year": 0.35,
+        "three_year": 0.4,
+        "establishToNow": 0.25
     },
     "average_rate_of_return": {
         "April": -0.17,
@@ -217,20 +217,20 @@
     }
 },
 {
-    "fund": "安聯",
+    "fund": "野村巴西基金",
     "company": "中信投信",
     "code": "00300777",
     "asset": { "新興市場股票": ["新興單一國家股票"] },
     "currency": "美元",
-    "rating": "1",
-    "established": 1577836800000,
-    "risk": "非常積極型",
-    "scaleMillion": 950,
+    "rating": "2",
+    "established": 1545886800000,
+    "risk": "積極型",
+    "scaleMillion": 750,
     "performance": {
-       "three_month_year": 0.3,
-        "one_year": 0.12,
-        "three_year": 0.5,
-        "establishToNow": 0.2
+       "three_month_year": 0.1,
+        "one_year": 0.23,
+        "three_year": -0.5,
+        "establishToNow": -0.7
     },
     "average_rate_of_return": {
         "April": -0.15,

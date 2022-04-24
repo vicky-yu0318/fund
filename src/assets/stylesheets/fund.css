@@ -925,6 +925,7 @@ html::-webkit-scrollbar-thumb {
     cursor: pointer;
     font-size: 18px;
     line-height: 2;
+    z-index: 10;
     /* display: none; */
 }
 .section-searchFund .title .title-description::before {
@@ -1158,6 +1159,15 @@ html::-webkit-scrollbar-thumb {
   /* ========== */
  .section-searchFund .keyword-wrap-company .input-field {
     width: 70%;
+  }
+  .section-searchFund .keyword-wrap .input-field {
+    width: 70%;
+  }
+  .section-searchFund .keyword-wrap input {
+    padding: 13px 6px;
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .section-searchFund .keyword-wrap-company input {
     padding: 13px 6px;

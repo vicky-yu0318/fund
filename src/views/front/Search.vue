@@ -21,34 +21,36 @@
       </div>
       <div class="row">
         <div class="title">關鍵字</div>
-        <div class="keyword-wrap">
-          <div class="input-field">
-            <input
-              type="text"
-              placeholder="請輸入名稱/代碼"
-              v-model="keyword"
-              @input="searchFundValue"
-              @keyup.enter="addFundCondition"
-            />
-             <!-- @blur="matchList = false" -->
-            <ul
-              class="match-list"
-              v-if="matchList.length > 0 && showMatchList && keyword"
-            >
-              <li
-                class="match-item"
-                @click="pitchOnFund(item)"
-                v-for="item in matchList" :key="item"
+        <div class="content">
+          <div class="keyword-wrap">
+            <div class="input-field">
+              <input
+                type="text"
+                placeholder="請輸入名稱/代碼"
+                v-model="keyword"
+                @input="searchFundValue"
+                @keyup.enter="addFundCondition"
+              />
+               <!-- @blur="matchList = false" -->
+              <ul
+                class="match-list"
+                v-if="matchList.length > 0 && showMatchList && keyword"
               >
-                <Highlight :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Highlight>
-              </li>
-            </ul>
+                <li
+                  class="match-item"
+                  @click="pitchOnFund(item)"
+                  v-for="item in matchList" :key="item"
+                >
+                  <Highlight :innertext="`${item.code}-${item.fund}`" :innersearch="keyword"></Highlight>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="fas fa-search btn-searchFund"
+              id="btn-searchFund"
+              @click="addFundCondition"
+            ></div>
           </div>
-          <div
-            class="fas fa-search btn-searchFund"
-            id="btn-searchFund"
-            @click="addFundCondition"
-          ></div>
         </div>
       </div>
       <div class="row">
