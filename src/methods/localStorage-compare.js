@@ -22,9 +22,9 @@ export default {
       }
     },
     updateCompare (fund, from) {
-      this.isShowWindow()
       this.showWindowFooter = true
       this.showUpperBody = 'compare'
+      this.isShowWindow()
       // 狀況一: 有 => 沒有
       if (this.compareGroup.includes(fund)) {
         this.compareGroup.splice(this.compareGroup.indexOf(fund), 1)

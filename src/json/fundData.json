@@ -13,7 +13,7 @@
        "three_month_year": 0.3,
         "one_year": 0.12,
         "three_year": 0.5,
-        "establishToNow": 0.2
+        "establishToNow": -0.2
     },
     "average_rate_of_return": {
         "April": 0.15,
@@ -137,7 +137,7 @@
        "three_month_year": 0.85,
         "one_year": 0.5,
         "three_year": 0.23,
-        "establishToNow": 0.2
+        "establishToNow": -0.24
     },
     "average_rate_of_return": {
         "April": 0.03,
@@ -168,7 +168,7 @@
        "three_month_year": 0.75,
         "one_year": 0.12,
         "three_year": 0.12,
-        "establishToNow": 0.03
+        "establishToNow": -0.03
     },
     "average_rate_of_return": {
         "April": 0.07,

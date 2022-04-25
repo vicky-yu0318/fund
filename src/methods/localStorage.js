@@ -16,9 +16,9 @@ export default {
       }
     },
     updateFavorite (fund, from) {
-      this.isShowWindow()
       this.showWindowFooter = true
       this.showUpperBody = 'favorite'
+      this.isShowWindow()
       // 狀況一: 有 => 沒有
       if (this.myFavoriteGroup.includes(fund)) {
         this.myFavoriteGroup.splice(this.myFavoriteGroup.indexOf(fund), 1)
