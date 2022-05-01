@@ -770,6 +770,8 @@ html::-webkit-scrollbar-thumb {
         display: block;
         background-color: #fff;
         height: 50px;
+        position: absolute;
+        right: 0; left: 0;
     }
     .section-topic .item-group .item {
       padding: 10px;   

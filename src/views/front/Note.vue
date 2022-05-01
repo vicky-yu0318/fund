@@ -4,7 +4,7 @@
   <section class="section-notes">
     <div class="container">
       <div class="scroll-bg">
-        <div class="scroll-div">
+        <div class="scroll-div" ref="domInnerscroll">
           <div class="scroll-object">
             <h3 class="title">
               申購須知-「特定金錢信託投資國內外基金」電子服務相關規定
@@ -46,7 +46,7 @@
                   四、
                   「定存轉基金」專案之標的於約定投資期間內，本行將不受理任何投資金額及投資扣款日之變更，另除投資人終止「定存轉基金」專案之信託投資約定外，本行不受理任何指定投資標的之終止扣款申請。
                 </li>
-                <li>
+                <li ref="refEndList">
                   五、
                   投資人申請終止「定存轉基金」專案中之信託投資約定後，該專案編號下所連結之信託憑證將一併全數終止。「定存轉基金」專案中之信託投資約定終止後，則本行自終止日起不再進行指定標的之扣款投資，惟已轉存之各筆未到期定期性存款將存續，不自動辦理中途解約。
                 </li>
@@ -79,7 +79,8 @@ export default {
     return {
       currentPage: this.$route.name,
       currentProgress: this.$route.name,
-      checkRead: ''
+      checkRead: '',
+      isRead: false
     }
   },
   components: {
@@ -88,9 +89,15 @@ export default {
   },
   mounted () {
     goTop()
+    this.innerScroll()
   },
   methods: {
     acceptNote () {
+      if (!this.isRead) {
+        const message = { title: '請閱讀申購須知，將滾軸拉至最下方並打勾同意', icon: 'info' }
+        this.sweetAlert(message)
+        return
+      }
       if (!this.checkRead) {
         const message = { title: '請閱讀申購須知，充分了解且同意遵守全部內容，並打勾同意', icon: 'info' }
         this.sweetAlert(message)
@@ -100,6 +107,25 @@ export default {
     },
     sweetAlert (message) {
       this.$swal(message)
+    },
+    innerScroll () {
+      const domInnerscroll = this.$refs.domInnerscroll
+      domInnerscroll.addEventListener('scroll', this.innerScroll)
+      // 視窗 總高
+      const innerWindowScroll = domInnerscroll.scrollTop
+      const innerWindowTop = domInnerscroll.offsetTop
+      // 父層閱讀區 距離視窗頂
+      const domEndList = this.$refs.refEndList
+      const innerObjectTop = domEndList.offsetTop
+      // 物件 距離視窗頂 固
+      // 實際距離內部視窗頂的距離 固
+      const top = innerObjectTop - innerWindowTop
+      const objectHight = domEndList.offsetHeight
+      const actualTop = top - objectHight
+      // 如果物件距離視窗頂 < 視窗固定 代表卷軸滑到目標物
+      if (innerWindowScroll > actualTop / 1.3) {
+        this.isRead = true
+      }
     }
   }
 }
