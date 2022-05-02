@@ -61,10 +61,10 @@
                                  :class="{ mark: item.performance.three_month_year < 0 }">
                                  {{ $filters.toPercent(item.performance.three_month_year) }} </div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.one_year < 0 }">
                                 {{  $filters.toPercent(item.performance.one_year) }}</div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.three_year < 0 }">
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
@@ -98,10 +98,10 @@
                                  :class="{ mark: item.performance.three_month_year < 0 }">
                                  {{ $filters.toPercent(item.performance.three_month_year) }} </div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.one_year < 0 }">
                                 {{  $filters.toPercent(item.performance.one_year) }}</div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.three_year < 0 }">
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">

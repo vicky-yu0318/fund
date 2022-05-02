@@ -59,10 +59,10 @@
                                  :class="{ mark: item.performance.three_month_year < 0 }">
                                  {{ $filters.toPercent(item.performance.three_month_year) }} </div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.one_year < 0 }">
                                 {{  $filters.toPercent(item.performance.one_year) }}</div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.three_year < 0 }">
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
@@ -71,8 +71,8 @@
                         </div>
                     </template>
 
-                    <!-- 3個以上觀察基金 樣板 -->
-                    <template v-if="myFavoriteGroup.length > 2">
+                    <!-- 3個觀察基金 樣板 -->
+                    <template v-if="myFavoriteGroup.length === 3">
                         <div class="favorite-tr dark"
                             v-for="item in myFavoriteGroup" :key="item">
                                 <div class="favorite-td btns-td">
@@ -96,17 +96,60 @@
                                  :class="{ mark: item.performance.three_month_year < 0 }">
                                  {{ $filters.toPercent(item.performance.three_month_year) }} </div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.one_year < 0 }">
                                 {{  $filters.toPercent(item.performance.one_year) }}</div>
                                 <div class="favorite-td"
-                                :class="{ mark: item.performance.three_month_year < 0 }">
+                                :class="{ mark: item.performance.three_year < 0 }">
                                 {{  $filters.toPercent(item.performance.three_year) }}</div>
                                 <div class="favorite-td">{{ item.risk }}</div>
                                 <div class="favorite-td">
                                     <a href="" class="btn-buy"  @click.prevent="updateApply(item)">申購</a>
                                 </div>
                         </div>
-                        <div class="btn-goLogin-dark">
+                        <div class="btn-goLogin-dark three_favorite">
+                            <p>若未登入，最多僅觀察2筆，無法管理名單，且該清單無法與網路銀行同步。</p>
+                            <router-link to="/login"
+                            class="btn-goLogin"
+                            >前往網銀</router-link>
+                        </div>
+                    </template>
+
+                    <!-- 4個以上觀察基金 樣板 -->
+                    <template v-if="myFavoriteGroup.length > 3">
+                        <div class="favorite-tr dark"
+                            v-for="item in myFavoriteGroup" :key="item">
+                                <div class="favorite-td btns-td">
+                                    <button class="btn-compare" id="btn-compare"
+                                    v-if="item"
+                                    @click="confirmEqual(item)"
+                                    :class="{active: compareGroup.includes(item) ||
+                                    ActiveCompareGroup.includes(item)
+                                    }"
+                                    >
+                                        <i class="fas fa-plus"></i>比較
+                                    </button>
+                                    <button class="btn-heart disabled" id="btn-heart"
+                                     @click="deleteFavorite(item)">
+                                        <i class="fas fa-heart"></i>刪除
+                                    </button>
+                                </div>
+                                <div class="favorite-td name-td"> {{ item.fund }} </div>
+                                <div class="favorite-td"> {{ item.currency }} </div>
+                                <div class="favorite-td"
+                                 :class="{ mark: item.performance.three_month_year < 0 }">
+                                 {{ $filters.toPercent(item.performance.three_month_year) }} </div>
+                                <div class="favorite-td"
+                                :class="{ mark: item.performance.one_year < 0 }">
+                                {{  $filters.toPercent(item.performance.one_year) }}</div>
+                                <div class="favorite-td"
+                                :class="{ mark: item.performance.three_year < 0 }">
+                                {{  $filters.toPercent(item.performance.three_year) }}</div>
+                                <div class="favorite-td">{{ item.risk }}</div>
+                                <div class="favorite-td">
+                                    <a href="" class="btn-buy"  @click.prevent="updateApply(item)">申購</a>
+                                </div>
+                        </div>
+                        <div class="btn-goLogin-dark four_favorite">
                             <p>若未登入，最多僅觀察2筆，無法管理名單，且該清單無法與網路銀行同步。</p>
                             <router-link to="/login"
                             class="btn-goLogin"
