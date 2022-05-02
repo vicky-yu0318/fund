@@ -1708,6 +1708,9 @@ html::-webkit-scrollbar-thumb {
 .section-compare .accordion-body .compare-td.mark {
     color: red;
 }
+.section-favorite .favorite-td.mark {
+    color: red;
+}
 /* 1項資料 */
 .section-compare .accordion-body .compare-td_one_item {
     width: calc(80% - 1px);

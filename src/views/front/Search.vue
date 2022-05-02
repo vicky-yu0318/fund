@@ -637,7 +637,8 @@ export default {
       handler () {
         this.allcheck1 = false
         // 非按全選再執行
-        if (this.checkDetailGroup1.length !== 0) {
+        // console.log(this.fixConditions.has(this.currentAsset))
+        if (this.checkDetailGroup1.length !== 0 || !this.fixConditions.has(this.currentAsset)) {
           this.updateDetail()
         }
       },
@@ -646,7 +647,7 @@ export default {
     checkDetailGroup2: {
       handler () {
         this.allcheck2 = false
-        if (this.checkDetailGroup2.length !== 0) {
+        if (this.checkDetailGroup2.length !== 0 || !this.fixConditions.has(this.currentAsset)) {
           this.updateDetail()
         }
       },
@@ -655,7 +656,7 @@ export default {
     checkDetailGroup3: {
       handler () {
         this.allcheck3 = false
-        if (this.checkDetailGroup3.length !== 0) {
+        if (this.checkDetailGroup3.length !== 0 || !this.fixConditions.has(this.currentAsset)) {
           this.updateDetail()
         }
       },
