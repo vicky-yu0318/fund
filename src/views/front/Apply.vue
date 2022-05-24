@@ -97,14 +97,14 @@
             <div class="apply-td">
               <!-- 選美元 -->
               <template v-if="radioCurrency === 'usd'">
-                <img src="https://upload.cc/i1/2022/04/17/xFMocp.png"/>
+                <img src="@/assets/images/united-states.png"/>
                 <input type="number" class="applyAmount" min="2000"
                 v-model="applyUsd" @blur="confirmAmount('usd')"/>
                 <span class="remark">(最低申購限額為「美元2,000.00元」)</span>
               </template>
               <!-- 選台幣 -->
               <template v-if="radioCurrency === 'nt'">
-                <img src="https://upload.cc/i1/2022/04/17/SR7LAm.png"/>
+                <img src="@/assets/images/taiwan.png"/>
                 <input type="number" class="applyAmount" min="50000"
                  v-model="applyNt" @blur="confirmAmount('nt')"/>
                 <span class="remark">(最低申購限額為「臺幣50,000元」)</span>

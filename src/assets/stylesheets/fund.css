@@ -427,7 +427,7 @@ html::-webkit-scrollbar-thumb {
     padding-top: 150px;
     padding-bottom: 0;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .6) 80%),
-    url('https://upload.cc/i1/2022/04/04/lCMj2U.jpg') center top no-repeat;
+    url('https://i.postimg.cc/43LJ4PC3/bg.jpg') center top no-repeat;
     background-size: cover;
     min-height: calc(100vh - 130px);
     position: relative;
@@ -666,7 +666,7 @@ html::-webkit-scrollbar-thumb {
     /* top: -400px; 會佔位*/ 
     margin-top: -18%;
     padding-top: 30%;
-    background: url('https://upload.cc/i1/2022/04/07/Nw2pE8.png') no-repeat center top  ,
+    background: url('https://i.postimg.cc/Qxf9KQZR/cloudd.png') no-repeat center top  ,
                 transparent;
     position: relative;
     background-size: 100%;
@@ -1959,8 +1959,8 @@ html::-webkit-scrollbar-thumb {
 /* ========= section-login ========== */
 .section-login {
     /* background-color: #FDFBEF; */
-    background: url('https://upload.cc/i1/2022/04/04/WqvMxO.jpg') no-repeat,
-                url('https://upload.cc/i1/2022/04/04/eIYW7N.png') no-repeat,
+    background: url('https://i.postimg.cc/N0Yy2pP7/morgan-housel-X-fbh4-Utwk4-unsplash.jpg') no-repeat,
+                url('https://i.postimg.cc/6q7TxSyw/Money.png') no-repeat,
                 linear-gradient(to bottom,#F5F4F9 50% ,#FDEBE7 60%);
     background-size: 50%, 30%;
     background-position: left top,  right bottom;
@@ -2443,7 +2443,7 @@ html::-webkit-scrollbar-thumb {
 }
 /* ============ section-bannerApply ========= */
 .section-bannerApply {
-    background: url('https://upload.cc/i1/2022/04/17/v86Tti.png') no-repeat,
+    background: url('https://i.postimg.cc/tJQPDWq9/banner.png') no-repeat,
                 linear-gradient(to top, rgb(228, 233, 238, .8) 65%, rgb(136, 128, 107, .6) 80%,  rgb(124, 125, 119, .8) 90%);
     background-position: center;
     min-height: 35vh;
