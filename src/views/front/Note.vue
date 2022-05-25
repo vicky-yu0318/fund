@@ -1,5 +1,17 @@
 <template>
   <Navbar :currentPage="currentPage"></Navbar>
+  <!-- <section class="section-bannerApply">
+    <Loading :active="isLoading">
+          <div class="loadingio-spinner-magnify-ki0t54cccsf"><div class="ldio-gafo7wcq9r4">
+          <div><div><div></div><div></div></div></div>
+          </div></div>
+    </Loading>
+    <div class="container">
+      <div class="content">
+        <p>投資需遵守紀律，持之以恆獲得豐厚的報酬果實</p>
+      </div>
+    </div>
+  </section> -->
   <Progress :currentProgress="currentProgress"></Progress>
   <section class="section-notes">
     <div class="container">
@@ -123,7 +135,7 @@ export default {
       const objectHight = domEndList.offsetHeight
       const actualTop = top - objectHight
       // 如果物件距離視窗頂 < 視窗固定 代表卷軸滑到目標物
-      if (innerWindowScroll > actualTop / 1.3) {
+      if (innerWindowScroll > actualTop / 1.5) {
         this.isRead = true
       }
     }

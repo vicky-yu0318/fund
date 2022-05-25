@@ -65,8 +65,8 @@
                 v-model="companyKeyword"
                 ref="refMatchFund"
                 @input="searchCompanyValue"
-                @keyup.enter="addCompanyCondition"
               />
+               <!-- @keyup.enter="addCompanyCondition" -->
                <!-- @blur="matchCompanyList = false" -->
               <ul class="match-list"
                 v-if="matchCompanyList.length > 0 && companyKeyword && showCompanyList">
