@@ -427,7 +427,8 @@ html::-webkit-scrollbar-thumb {
     padding-top: 150px;
     padding-bottom: 0;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .6) 80%),
-    url('https://i.postimg.cc/43LJ4PC3/bg.jpg') center top no-repeat;
+    url('https://i.postimg.cc/qRxgzXYd/bg.jpg') center top no-repeat;
+    /* https://i.postimg.cc/43LJ4PC3/bg.jpg */
     background-size: cover;
     min-height: calc(100vh - 130px);
     position: relative;
@@ -1959,8 +1960,8 @@ html::-webkit-scrollbar-thumb {
 /* ========= section-login ========== */
 .section-login {
     /* background-color: #FDFBEF; */
-    background: url('https://i.postimg.cc/CK7ZsHnz/login01.jpg') no-repeat,
-                url('https://i.postimg.cc/0jb7G1C3/Money.png') no-repeat,
+    background: url('https://i.postimg.cc/NfJDK1qT/login01-1.jpg') no-repeat,
+                url('https://i.postimg.cc/YCxpNqR1/Money.png') no-repeat,
                 linear-gradient(to bottom,#F5F4F9 50% ,#FDEBE7 60%);
     background-size: 50%, 30%;
     background-position: left top,  right bottom;
@@ -2443,7 +2444,7 @@ html::-webkit-scrollbar-thumb {
 }
 /* ============ section-bannerApply ========= */
 .section-bannerApply {
-    background: url('https://i.postimg.cc/nLbqnDpw/banner.png') no-repeat,
+    background: url('https://i.postimg.cc/Xvm7q1xh/banner.png') no-repeat,
                 linear-gradient(to top, rgb(228, 233, 238, .8) 65%, rgb(136, 128, 107, .6) 80%,  rgb(124, 125, 119, .8) 90%);
     background-position: center;
     min-height: 35vh;
@@ -2691,7 +2692,7 @@ html::-webkit-scrollbar-thumb {
 }
 /* ============ section-bannerOrder ========= */
 .section-bannerOrder {
-    background: url('https://i.ibb.co/k97v11g/success.png') no-repeat,
+    background: url('https://i.postimg.cc/mZVJS1WZ/success.png') no-repeat,
                 linear-gradient(to top, #C5AF97 10%, #DFC2A3 35%,  #E8D1B2 55%);
     background-position: left bottom;
     background-size: 30%;

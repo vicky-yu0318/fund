@@ -144,13 +144,13 @@ export default {
         {
           title: '開啟投資第一步',
           subtitle: '開始比研究更重要',
-          imageSrc: 'https://i.postimg.cc/XJbgJf9T/phone.png',
+          imageSrc: 'https://i.postimg.cc/cH0LytJk/phone.png',
           content: '活動期間數位通路申購首選基金，享申購手續費6折優惠'
         },
         {
           title: '共同基金',
           subtitle: '攜手成長，安全有保障',
-          imageSrc: 'https://i.postimg.cc/0yZvZnyC/final0.png',
+          imageSrc: 'https://i.postimg.cc/rpgvsDJP/final0.png',
           content: '共同基金因資金龐大，可有計劃的分散投資。擁有智能團隊專業的判斷，提高投資勝算。'
         }
       ],
